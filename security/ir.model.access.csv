@@ -1,0 +1,17 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_funeral_city,funeral.city,model_funeral_city,base.group_user,1,1,1,1
+access_funeral_agent,funeral.agent,model_funeral_agent,base.group_user,1,1,1,1
+access_funeral_region,funeral.region,model_funeral_region,base.group_user,1,1,1,1
+access_funeral_gender,funeral.gender,model_funeral_gender,base.group_user,1,1,1,1
+access_funeral_agent_category,funeral.agent.category,model_funeral_agent_category,base.group_user,1,1,1,1
+access_funeral_branch,funeral.branch,model_funeral_branch,base.group_user,1,1,1,1
+access_funeral_policy_status,funeral.policy.status,model_funeral_policy_status,base.group_user,1,1,1,1
+access_funeral_control_right,funeral.control.right,model_funeral_control_right,base.group_user,1,1,1,1
+access_funeral_period_to_pay,funeral.period.to_pay,model_funeral_period_to_pay,base.group_user,1,1,1,1
+access_funeral_product,funeral.product,model_funeral_product,base.group_user,1,1,1,1
+access_funeral_product_rate,funeral.product.rate,model_funeral_product_rate,base.group_user,1,1,1,1
+access_funeral_commission_rate,funeral.commission.rate,model_funeral_commission_rate,base.group_user,1,1,1,1
+access_funeral_admin_policy,funeral.admin.policy,model_funeral_admin_policy,base.group_user,1,1,1,1
+access_funeral_target,funeral.target,model_funeral_target,base.group_user,1,1,1,1
+access_funeral_agent_commission_rate,funeral.agent.commission.rate,model_funeral_agent_commission_rate,base.group_user,1,1,1,1
+access_funeral_dashboard,funeral.dashboard,model_funeral_dashboard,base.group_user,1,1,1,1

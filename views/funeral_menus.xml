@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem id="menu_funeral_root"
+                  name="Funeral Assurance"
+                  web_icon="funeral_assurance,static/description/icon.png"
+                  sequence="10"/>
+
+        <!-- Dashboard Action is now defined in dashboard_view.xml -->
+
+        <menuitem id="menu_funeral_dashboard"
+                  name="Dashboard"
+                  parent="menu_funeral_root"
+                  action="action_funeral_dashboard_window"
+                  sequence="1"/>
+
+        <!-- Operations Category -->
+        <menuitem id="menu_funeral_operations"
+                  name="Operations"
+                  parent="menu_funeral_root"
+                  sequence="20"/>
+                  
+        <!-- Dummy Operations Submenu so it shows up -->
+        <menuitem id="menu_funeral_operations_dummy"
+                  name="Daily Operations"
+                  parent="menu_funeral_operations"
+                  action="action_funeral_dashboard_window"
+                  sequence="10"/>
+
+        <!-- Reports Category -->
+        <menuitem id="menu_funeral_reports"
+                  name="Reports"
+                  parent="menu_funeral_root"
+                  sequence="50"/>
+
+        <!-- Dummy Reports Submenu so it shows up -->
+        <menuitem id="menu_funeral_reports_dummy"
+                  name="Sales Reports"
+                  parent="menu_funeral_reports"
+                  action="action_funeral_dashboard_window"
+                  sequence="10"/>
+
+        <!-- Configurations Category -->
+        <menuitem id="menu_funeral_configurations"
+                  name="Configurations"
+                  parent="menu_funeral_root"
+                  sequence="100"/>
+        
+        <!-- Move Static Data to Configurations -->
+        <menuitem id="menu_funeral_static_data"
+                  name="Static Data"
+                  parent="menu_funeral_configurations"
+                  sequence="10"/>
+
+        <!-- Create generic views for dynamic generation or just list menus -->
+    </data>
+</odoo>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_funeral_dashboard_form" model="ir.ui.view">
+        <field name="name">funeral.dashboard.form</field>
+        <field name="model">funeral.dashboard</field>
+        <field name="arch" type="xml">
+            <form create="false" edit="false" delete="false">
+                <sheet>
+                    <div class="oe_title mb-4">
+                        <h1>Funeral Assurance Dashboard</h1>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <div class="card text-center bg-primary text-white p-3">
+                                <h3><field name="agent_count"/></h3>
+                                <span>Total Agents</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="card text-center bg-success text-white p-3">
+                                <h3><field name="city_count"/></h3>
+                                <span>Total Cities</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="card text-center bg-info text-white p-3">
+                                <h3><field name="region_count"/></h3>
+                                <span>Total Regions</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="card text-center bg-warning text-white p-3">
+                                <h3><field name="branch_count"/></h3>
+                                <span>Total Branches</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="card text-center bg-danger text-white p-3">
+                                <h3><field name="product_count"/></h3>
+                                <span>Total Products</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="card text-center bg-secondary text-white p-3">
+                                <h3><field name="policy_count"/></h3>
+                                <span>Admin Policies</span>
+                            </div>
+                        </div>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="funeral_dashboard_record" model="funeral.dashboard">
+        <field name="name">Dashboard</field>
+    </record>
+
+    <record id="action_funeral_dashboard_window" model="ir.actions.act_window">
+        <field name="name">Dashboard</field>
+        <field name="res_model">funeral.dashboard</field>
+        <field name="view_mode">form</field>
+        <field name="res_id" ref="funeral_assurance.funeral_dashboard_record"/>
+        <field name="target">current</field>
+    </record>
+</odoo>

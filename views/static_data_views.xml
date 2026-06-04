@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Regions -->
+        <record id="view_funeral_region_form" model="ir.ui.view">
+            <field name="name">funeral.region.form</field>
+            <field name="model">funeral.region</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="capture_date"/>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="description"/>
+                                <field name="active"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="action_funeral_region" model="ir.actions.act_window">
+            <field name="name">Regions</field>
+            <field name="res_model">funeral.region</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_funeral_region" name="Regions" parent="menu_funeral_static_data" action="action_funeral_region" sequence="30"/>
+
+        <!-- Branches -->
+        <record id="view_funeral_branch_form" model="ir.ui.view">
+            <field name="name">funeral.branch.form</field>
+            <field name="model">funeral.branch</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="capture_date"/>
+                                <field name="name"/>
+                                <field name="branch_code"/>
+                                <field name="physical_address"/>
+                                <field name="city_id"/>
+                            </group>
+                            <group>
+                                <field name="region_id"/>
+                                <field name="contact_number"/>
+                                <field name="email_address"/>
+                                <field name="branch_manager"/>
+                                <field name="active"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="action_funeral_branch" model="ir.actions.act_window">
+            <field name="name">Branches</field>
+            <field name="res_model">funeral.branch</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_funeral_branch" name="Branches" parent="menu_funeral_static_data" action="action_funeral_branch" sequence="40"/>
+
+        <!-- Gender -->
+        <record id="view_funeral_gender_form" model="ir.ui.view">
+            <field name="name">funeral.gender.form</field>
+            <field name="model">funeral.gender</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="capture_date"/>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="description"/>
+                                <field name="active"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="action_funeral_gender" model="ir.actions.act_window">
+            <field name="name">Gender</field>
+            <field name="res_model">funeral.gender</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_funeral_gender" name="Gender" parent="menu_funeral_static_data" action="action_funeral_gender" sequence="50"/>
+
+        <!-- Agent Category -->
+        <record id="view_funeral_agent_category_form" model="ir.ui.view">
+            <field name="name">funeral.agent.category.form</field>
+            <field name="model">funeral.agent.category</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="capture_date"/>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="commission_structure"/>
+                                <field name="description"/>
+                                <field name="active"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="action_funeral_agent_category" model="ir.actions.act_window">
+            <field name="name">Agent Categories</field>
+            <field name="res_model">funeral.agent.category</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_funeral_agent_category" name="Agent Categories" parent="menu_funeral_static_data" action="action_funeral_agent_category" sequence="60"/>
+
+        <!-- Products -->
+        <record id="view_funeral_product_form" model="ir.ui.view">
+            <field name="name">funeral.product.form</field>
+            <field name="model">funeral.product</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="capture_date"/>
+                                <field name="name"/>
+                                <field name="product_description"/>
+                                <field name="coverage_details"/>
+                                <field name="premium_structure"/>
+                            </group>
+                            <group>
+                                <field name="eligibility_criteria"/>
+                                <field name="effective_date"/>
+                                <field name="expiry_date"/>
+                                <field name="active"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="action_funeral_product" model="ir.actions.act_window">
+            <field name="name">Products</field>
+            <field name="res_model">funeral.product</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_funeral_product" name="Products" parent="menu_funeral_static_data" action="action_funeral_product" sequence="70"/>
+
+        <!-- Product Rates -->
+        <record id="view_funeral_product_rate_form" model="ir.ui.view">
+            <field name="name">funeral.product.rate.form</field>
+            <field name="model">funeral.product.rate</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="capture_date"/>
+                                <field name="product_id"/>
+                                <field name="age_range"/>
+                                <field name="premium_amount"/>
+                            </group>
+                            <group>
+                                <field name="coverage_amount"/>
+                                <field name="effective_date"/>
+                                <field name="expiry_date"/>
+                                <field name="active"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="action_funeral_product_rate" model="ir.actions.act_window">
+            <field name="name">Product Rates</field>
+            <field name="res_model">funeral.product.rate</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_funeral_product_rate" name="Product Rates" parent="menu_funeral_static_data" action="action_funeral_product_rate" sequence="80"/>
+
+        <!-- Commission Rates -->
+        <record id="view_funeral_commission_rate_form" model="ir.ui.view">
+            <field name="name">funeral.commission.rate.form</field>
+            <field name="model">funeral.commission.rate</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="capture_date"/>
+                                <field name="agent_category_id"/>
+                                <field name="product_id"/>
+                                <field name="commission_percentage"/>
+                            </group>
+                            <group>
+                                <field name="effective_date"/>
+                                <field name="expiry_date"/>
+                                <field name="active"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="action_funeral_commission_rate" model="ir.actions.act_window">
+            <field name="name">Commission Rates</field>
+            <field name="res_model">funeral.commission.rate</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_funeral_commission_rate" name="Commission Rates" parent="menu_funeral_static_data" action="action_funeral_commission_rate" sequence="90"/>
+
+        <!-- Policy Statuses -->
+        <record id="view_funeral_policy_status_form" model="ir.ui.view">
+            <field name="name">funeral.policy.status.form</field>
+            <field name="model">funeral.policy.status</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="capture_date"/>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="description"/>
+                                <field name="active"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="action_funeral_policy_status" model="ir.actions.act_window">
+            <field name="name">Policy Statuses</field>
+            <field name="res_model">funeral.policy.status</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_funeral_policy_status" name="Policy Statuses" parent="menu_funeral_static_data" action="action_funeral_policy_status" sequence="100"/>
+
+        <!-- Control Rights -->
+        <record id="view_funeral_control_right_form" model="ir.ui.view">
+            <field name="name">funeral.control.right.form</field>
+            <field name="model">funeral.control.right</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="capture_date"/>
+                                <field name="name"/>
+                                <field name="access_rights"/>
+                            </group>
+                            <group>
+                                <field name="module_name"/>
+                                <field name="active"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="action_funeral_control_right" model="ir.actions.act_window">
+            <field name="name">Control Rights</field>
+            <field name="res_model">funeral.control.right</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_funeral_control_right" name="Control Rights" parent="menu_funeral_static_data" action="action_funeral_control_right" sequence="110"/>
+
+        <!-- Admin Policies -->
+        <record id="view_funeral_admin_policy_form" model="ir.ui.view">
+            <field name="name">funeral.admin.policy.form</field>
+            <field name="model">funeral.admin.policy</field>
+            <field name="arch" type="xml">
+                <form string="Admin Policy">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="capture_date"/>
+                                <field name="date_edited"/>
+                                <field name="date_posted_to_history"/>
+                                <field name="department_name"/>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="policy_description"/>
+                                <field name="document_upload"/>
+                                <field name="effective_date"/>
+                                <field name="expiry_date"/>
+                                <field name="active"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="action_funeral_admin_policy" model="ir.actions.act_window">
+            <field name="name">Admin Policies</field>
+            <field name="res_model">funeral.admin.policy</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_funeral_admin_policy" name="Admin Policies" parent="menu_funeral_static_data" action="action_funeral_admin_policy" sequence="120"/>
+
+        <!-- Targets -->
+        <record id="view_funeral_target_form" model="ir.ui.view">
+            <field name="name">funeral.target.form</field>
+            <field name="model">funeral.target</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="agent_id"/>
+                                <field name="category_id"/>
+                                <field name="written_daily_target"/>
+                                <field name="written_weekly_target"/>
+                                <field name="written_monthly_target"/>
+                                <field name="written_annual_target"/>
+                                <field name="collection_daily_target"/>
+                            </group>
+                            <group>
+                                <field name="collection_weekly_target"/>
+                                <field name="collection_monthly_target"/>
+                                <field name="collection_annual_target"/>
+                                <field name="conversion_daily_target"/>
+                                <field name="conversion_weekly_target"/>
+                                <field name="conversion_monthly_target"/>
+                                <field name="conversion_annual_target"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="action_funeral_target" model="ir.actions.act_window">
+            <field name="name">Targets</field>
+            <field name="res_model">funeral.target</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_funeral_target" name="Targets" parent="menu_funeral_static_data" action="action_funeral_target" sequence="130"/>
+
+        <!-- Agent Commission Rates -->
+        <record id="view_funeral_agent_commission_rate_form" model="ir.ui.view">
+            <field name="name">funeral.agent.commission.rate.form</field>
+            <field name="model">funeral.agent.commission.rate</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="capture_date"/>
+                                <field name="agent_id"/>
+                            </group>
+                            <group>
+                                <field name="agent_category_id"/>
+                                <field name="commissions_rates"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="action_funeral_agent_commission_rate" model="ir.actions.act_window">
+            <field name="name">Agent Commission Rates</field>
+            <field name="res_model">funeral.agent.commission.rate</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_funeral_agent_commission_rate" name="Agent Commission Rates" parent="menu_funeral_static_data" action="action_funeral_agent_commission_rate" sequence="140"/>
+
+        <!-- Period to Pay -->
+        <record id="view_funeral_period_to_pay_form" model="ir.ui.view">
+            <field name="name">funeral.period.to.pay.form</field>
+            <field name="model">funeral.period.to.pay</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="capture_date"/>
+                                <field name="agent_category_id"/>
+                            </group>
+                            <group>
+                                <field name="period_to_pay"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="action_funeral_period_to_pay" model="ir.actions.act_window">
+            <field name="name">Period to Pay</field>
+            <field name="res_model">funeral.period.to.pay</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_funeral_period_to_pay" name="Period to Pay" parent="menu_funeral_static_data" action="action_funeral_period_to_pay" sequence="150"/>
+    </data>
+</odoo>
