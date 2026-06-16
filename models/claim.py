@@ -82,6 +82,13 @@ class FuneralClaim(models.Model):
     def action_print_funeral_services(self):
         return self.env.ref('funeral_assurance.action_report_funeral_services_claim').report_action(self)
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get('name', _('New')) == _('New'):
+                vals['name'] = self.env['ir.sequence'].next_by_code('funeral.claim') or _('New')
+        return super(FuneralClaim, self).create(vals_list)
+
 class FuneralClaimService(models.Model):
     _name = 'funeral.claim.service'
     _description = 'Claim Service Cost'
@@ -89,9 +96,3 @@ class FuneralClaimService(models.Model):
     claim_id = fields.Many2one('funeral.claim', string='Claim', ondelete='cascade')
     name = fields.Char(string='Service/Item Description', required=True)
     amount = fields.Float(string='Amount (USD)')
-
-    @api.model
-    def create(self, vals):
-        if vals.get('name', _('New')) == _('New'):
-            vals['name'] = self.env['ir.sequence'].next_by_code('funeral.claim') or _('New')
-        return super(FuneralClaim, self).create(vals)
