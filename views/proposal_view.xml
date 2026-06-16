@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Form View -->
+        <record id="view_funeral_proposal_form" model="ir.ui.view">
+            <field name="name">funeral.proposal.form</field>
+            <field name="model">funeral.proposal</field>
+            <field name="arch" type="xml">
+                <form string="Proposal">
+                    <header>
+                        <button name="action_print_proposal" string="Print Proposal Form" type="object" class="btn-primary"/>
+                        <field name="state" widget="statusbar" statusbar_visible="pending,accepted,rejected,ntu"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="proposal_date"/>
+                            </group>
+                            <group></group>
+                        </group>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <group string="Personal Details">
+                                    <field name="title"/>
+                                    <field name="first_name"/>
+                                    <field name="last_name"/>
+                                    <field name="national_id"/>
+                                    <field name="is_override_id"/>
+                                    <field name="dob"/>
+                                    <field name="gender_id"/>
+                                    <field name="marital_status"/>
+                                    <field name="next_of_kin"/>
+                                </group>
+                            </div>
+                            <div class="col-md-4">
+                                <group string="Contact Details">
+                                    <field name="home_phone"/>
+                                    <field name="business_phone"/>
+                                    <field name="email"/>
+                                    <field name="residential_address"/>
+                                    <field name="business_address"/>
+                                </group>
+                            </div>
+                            <div class="col-md-4">
+                                <group string="Employment Details">
+                                    <field name="employer"/>
+                                    <field name="occupation"/>
+                                    <field name="ec_number"/>
+                                    <field name="gross_salary"/>
+                                    <field name="net_salary"/>
+                                </group>
+                            </div>
+                        </div>
+                        
+                        <notebook>
+                            <page string="Policy &amp; Underwriting Details">
+                                <group>
+                                    <group string="Policy Cover Details">
+                                        <field name="product_id"/>
+                                        <field name="plan_type"/>
+                                        <field name="sum_assured"/>
+                                        <field name="premium_amount"/>
+                                        <field name="policy_term"/>
+                                        <field name="waiting_period"/>
+                                    </group>
+                                    <group string="Agent &amp; Payment Setup">
+                                        <field name="agent_id"/>
+                                        <field name="branch_id"/>
+                                        <field name="mode_of_payment"/>
+                                        <field name="frequency"/>
+                                        <field name="first_payment_date"/>
+                                        <field name="groceries"/>
+                                    </group>
+                                </group>
+
+                                <group string="Underwriting &amp; Declaration">
+                                    <field name="underwriting_decision"/>
+                                </group>
+                            </page>
+                            <page string="Beneficiaries / Dependants">
+                                <field name="dependant_ids">
+                                    <list editable="bottom">
+                                        <field name="last_name"/>
+                                        <field name="first_name"/>
+                                        <field name="relationship"/>
+                                        <field name="dob"/>
+                                        <field name="national_id"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <page string="Extended Families">
+                                <field name="extended_family_ids">
+                                    <list editable="bottom">
+                                        <field name="last_name"/>
+                                        <field name="first_name"/>
+                                        <field name="relationship"/>
+                                        <field name="dob"/>
+                                        <field name="national_id"/>
+                                        <field name="extended_premium_amount"/>
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree View -->
+        <record id="view_funeral_proposal_tree" model="ir.ui.view">
+            <field name="name">funeral.proposal.tree</field>
+            <field name="model">funeral.proposal</field>
+            <field name="arch" type="xml">
+                <list string="Proposals">
+                    <field name="name"/>
+                    <field name="full_name"/>
+                    <field name="national_id"/>
+                    <field name="home_phone"/>
+                    <field name="plan_type"/>
+                    <field name="premium_amount"/>
+                    <field name="state" widget="badge" decoration-info="state == 'pending'" decoration-success="state == 'accepted'" decoration-danger="state == 'rejected'" decoration-muted="state == 'ntu'"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Search View -->
+        <record id="view_funeral_proposal_search" model="ir.ui.view">
+            <field name="name">funeral.proposal.search</field>
+            <field name="model">funeral.proposal</field>
+            <field name="arch" type="xml">
+                <search string="Search Proposals">
+                    <field name="name"/>
+                    <field name="full_name"/>
+                    <field name="national_id"/>
+                    <field name="home_phone"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_funeral_proposal" model="ir.actions.act_window">
+            <field name="name">Proposals</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+            <field name="search_view_id" ref="view_funeral_proposal_search"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create your first Proposal
+                </p>
+            </field>
+        </record>
+
+        <!-- Menu Item -->
+        <menuitem id="menu_funeral_proposal"
+                  name="Proposals"
+                  parent="menu_funeral_operations"
+                  action="action_funeral_proposal"
+                  sequence="2"/>
+    </data>
+</odoo>

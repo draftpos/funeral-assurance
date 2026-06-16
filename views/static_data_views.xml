@@ -146,6 +146,18 @@
                 </form>
             </field>
         </record>
+        <record id="view_funeral_product_list" model="ir.ui.view">
+            <field name="name">funeral.product.list</field>
+            <field name="model">funeral.product</field>
+            <field name="arch" type="xml">
+                <list string="Products">
+                    <field name="name"/>
+                    <field name="product_description"/>
+                    <field name="eligibility_criteria"/>
+                    <field name="active" widget="boolean_toggle"/>
+                </list>
+            </field>
+        </record>
         <record id="action_funeral_product" model="ir.actions.act_window">
             <field name="name">Products</field>
             <field name="res_model">funeral.product</field>
@@ -176,6 +188,19 @@
                         </group>
                     </sheet>
                 </form>
+            </field>
+        </record>
+        <record id="view_funeral_product_rate_list" model="ir.ui.view">
+            <field name="name">funeral.product.rate.list</field>
+            <field name="model">funeral.product.rate</field>
+            <field name="arch" type="xml">
+                <list string="Product Rates">
+                    <field name="product_id"/>
+                    <field name="age_range"/>
+                    <field name="premium_amount"/>
+                    <field name="coverage_amount"/>
+                    <field name="active" widget="boolean_toggle"/>
+                </list>
             </field>
         </record>
         <record id="action_funeral_product_rate" model="ir.actions.act_window">
@@ -404,5 +429,44 @@
             <field name="view_mode">list,form</field>
         </record>
         <menuitem id="menu_funeral_period_to_pay" name="Period to Pay" parent="menu_funeral_static_data" action="action_funeral_period_to_pay" sequence="150"/>
+        <!-- Optional Benefits -->
+        <record id="view_funeral_optional_benefit_form" model="ir.ui.view">
+            <field name="name">funeral.optional.benefit.form</field>
+            <field name="model">funeral.optional.benefit</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="capture_date"/>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="description"/>
+                                <field name="premium_amount"/>
+                                <field name="active"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_funeral_optional_benefit_list" model="ir.ui.view">
+            <field name="name">funeral.optional.benefit.list</field>
+            <field name="model">funeral.optional.benefit</field>
+            <field name="arch" type="xml">
+                <list string="Optional Benefits">
+                    <field name="name"/>
+                    <field name="premium_amount"/>
+                    <field name="active" widget="boolean_toggle"/>
+                </list>
+            </field>
+        </record>
+        <record id="action_funeral_optional_benefit" model="ir.actions.act_window">
+            <field name="name">Optional Benefits</field>
+            <field name="res_model">funeral.optional.benefit</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_funeral_optional_benefit" name="Optional Benefits" parent="menu_funeral_static_data" action="action_funeral_optional_benefit" sequence="160"/>
     </data>
 </odoo>

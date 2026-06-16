@@ -69,3 +69,13 @@ class FuneralPeriodToPay(models.Model):
     capture_date = fields.Date(string='Date Captured', default=fields.Date.context_today)
     agent_category_id = fields.Many2one('funeral.agent.category', string='Agents Category')
     period_to_pay = fields.Char(string='Period to pay')
+
+class FuneralOptionalBenefit(models.Model):
+    _name = 'funeral.optional.benefit'
+    _description = 'Optional Benefit'
+
+    capture_date = fields.Date(string='Date Captured', default=fields.Date.context_today)
+    name = fields.Char(string='Benefit Name', required=True)
+    description = fields.Text(string='Description')
+    premium_amount = fields.Float(string='Premium Amount', required=True)
+    active = fields.Boolean(string='Status (Active/Inactive)', default=True)

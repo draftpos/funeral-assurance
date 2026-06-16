@@ -15,3 +15,12 @@ access_funeral_admin_policy,funeral.admin.policy,model_funeral_admin_policy,base
 access_funeral_target,funeral.target,model_funeral_target,base.group_user,1,1,1,1
 access_funeral_agent_commission_rate,funeral.agent.commission.rate,model_funeral_agent_commission_rate,base.group_user,1,1,1,1
 access_funeral_dashboard,funeral.dashboard,model_funeral_dashboard,base.group_user,1,1,1,1
+access_funeral_proposal,funeral.proposal,model_funeral_proposal,base.group_user,1,1,1,1
+access_funeral_policy,funeral.policy,model_funeral_policy,base.group_user,1,1,1,1
+access_funeral_dependant,funeral.dependant,model_funeral_dependant,base.group_user,1,1,1,1
+access_funeral_extended_family,funeral.extended.family,model_funeral_extended_family,base.group_user,1,1,1,1
+access_funeral_payment,funeral.payment,model_funeral_payment,base.group_user,1,1,1,1
+access_funeral_claim,funeral.claim,model_funeral_claim,base.group_user,1,1,1,1
+access_funeral_claim_service,funeral.claim.service,model_funeral_claim_service,base.group_user,1,1,1,1
+access_funeral_commission,funeral.commission,model_funeral_commission,base.group_user,1,1,1,1
+access_funeral_optional_benefit,funeral.optional.benefit,model_funeral_optional_benefit,base.group_user,1,1,1,1

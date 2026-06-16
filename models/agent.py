@@ -16,6 +16,10 @@ class FuneralAgent(models.Model):
     region_id = fields.Many2one('funeral.region', string='Region')
     branch_id = fields.Many2one('funeral.branch', string='Branch')
     agent_category_id = fields.Many2one('funeral.agent.category', string='Agent Category')
+    agent_type = fields.Selection([
+        ('general', 'General Agent'),
+        ('executive', 'Executive Agent')
+    ], string='Agent Type', default='general')
     engagement_date = fields.Date(string='Date of Engagement')
     active = fields.Boolean(string='Status (Active/Inactive)', default=True)
 

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Policy Form View -->
+        <record id="view_funeral_policy_form" model="ir.ui.view">
+            <field name="name">funeral.policy.form</field>
+            <field name="model">funeral.policy</field>
+            <field name="arch" type="xml">
+                <form string="Policy">
+                    <header>
+                        <button name="action_print_policy" string="Print Policy Schedule" type="object" class="btn-primary"/>
+                        <field name="state" widget="statusbar" statusbar_visible="active,lapsed,revived,cancelled"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group string="Basic Details">
+                                <field name="proposal_id"/>
+                                <field name="product_id"/>
+                                <field name="plan_type"/>
+                                <field name="sum_assured"/>
+                                <field name="cancellation_reason" invisible="state != 'cancelled'"/>
+                                <field name="premium"/>
+                                <field name="total_premium"/>
+                                <field name="policy_term"/>
+                                <field name="waiting_period"/>
+                            </group>
+                            <group string="Payment &amp; Agent Details">
+                                <field name="mode_of_payment"/>
+                                <field name="frequency_of_payments"/>
+                                <field name="payment_method"/>
+                                <field name="agent_id"/>
+                                <field name="agent_code"/>
+                                <field name="branch_id"/>
+                                <field name="region_id"/>
+                                <field name="commencement_date"/>
+                                <field name="months_paid_to_agent"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Dependants">
+                                <field name="dependant_ids">
+                                    <list editable="bottom">
+                                        <field name="first_name"/>
+                                        <field name="last_name"/>
+                                        <field name="relationship"/>
+                                        <field name="dob"/>
+                                        <field name="national_id"/>
+                                        <field name="gender_id"/>
+                                        <field name="coverage_status"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <page string="Extended Family">
+                                <field name="extended_family_ids">
+                                    <list editable="bottom">
+                                        <field name="first_name"/>
+                                        <field name="last_name"/>
+                                        <field name="relationship"/>
+                                        <field name="dob"/>
+                                        <field name="national_id"/>
+                                        <field name="gender_id"/>
+                                        <field name="extended_premium_amount"/>
+                                        <field name="coverage_status"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <page string="Optional Benefits">
+                                <field name="optional_benefit_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                            </page>
+                            <page string="Documents">
+                                <group>
+                                    <field name="policy_document_name" invisible="1"/>
+                                    <field name="policy_document" filename="policy_document_name"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Policy Tree View -->
+        <record id="view_funeral_policy_tree" model="ir.ui.view">
+            <field name="name">funeral.policy.tree</field>
+            <field name="model">funeral.policy</field>
+            <field name="arch" type="xml">
+                <list string="Policies">
+                    <field name="name"/>
+                    <field name="proposal_id"/>
+                    <field name="product_id"/>
+                    <field name="total_premium"/>
+                    <field name="agent_id"/>
+                    <field name="state" widget="badge"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Policy Search View -->
+        <record id="view_funeral_policy_search" model="ir.ui.view">
+            <field name="name">funeral.policy.search</field>
+            <field name="model">funeral.policy</field>
+            <field name="arch" type="xml">
+                <search string="Search Policies">
+                    <field name="name"/>
+                    <field name="proposal_id"/>
+                    <field name="product_id"/>
+                    <field name="agent_id"/>
+                    <filter string="Active Policies" name="filter_active" domain="[('state', '=', 'active')]"/>
+                    <filter string="Lapsed Policies" name="filter_lapsed" domain="[('state', '=', 'lapsed')]"/>
+                    <filter string="Cancelled Policies" name="filter_cancelled" domain="[('state', '=', 'cancelled')]"/>
+                    <separator/>
+                    <filter string="Group By Product" name="group_by_product" context="{'group_by': 'product_id'}"/>
+                    <filter string="Group By Agent" name="group_by_agent" context="{'group_by': 'agent_id'}"/>
+                    <filter string="Group By Status" name="group_by_state" context="{'group_by': 'state'}"/>
+                    <filter string="Group By Branch" name="group_by_branch" context="{'group_by': 'branch_id'}"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- Policy Action -->
+        <record id="action_funeral_policy" model="ir.actions.act_window">
+            <field name="name">Policies</field>
+            <field name="res_model">funeral.policy</field>
+            <field name="view_mode">list,form</field>
+            <field name="search_view_id" ref="view_funeral_policy_search"/>
+            <field name="context">{'search_default_filter_active': 1}</field>
+        </record>
+
+        <!-- Menu Item -->
+        <menuitem id="menu_funeral_policy"
+                  name="Policies"
+                  parent="menu_funeral_operations"
+                  action="action_funeral_policy"
+                  sequence="3"/>
+    </data>
+</odoo>

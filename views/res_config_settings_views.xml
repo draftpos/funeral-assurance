@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="res_config_settings_view_form" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.funeral</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="10"/>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form" position="inside">
+                    <app data-string="Funeral Assurance" string="Funeral Assurance" name="funeral_assurance">
+                        <block title="Policy Settings">
+                            <setting string="Lapse Months" help="Number of months of non-payment before a policy is considered lapsed or NTU.">
+                                <field name="funeral_lapse_months"/>
+                            </setting>
+                        </block>
+                    </app>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="action_funeral_configuration" model="ir.actions.act_window">
+            <field name="name">Settings</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.config.settings</field>
+            <field name="view_mode">form</field>
+            <field name="target">current</field>
+            <field name="context">{'module' : 'funeral_assurance', 'bin_size': False}</field>
+        </record>
+
+        <menuitem id="menu_funeral_settings"
+                  name="Settings"
+                  parent="menu_funeral_configurations"
+                  action="action_funeral_configuration"
+                  sequence="0"/>
+    </data>
+</odoo>

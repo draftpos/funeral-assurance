@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Claim Form View -->
+        <record id="view_funeral_claim_form" model="ir.ui.view">
+            <field name="name">funeral.claim.form</field>
+            <field name="model">funeral.claim</field>
+            <field name="arch" type="xml">
+                <form string="Claim">
+                    <header>
+                        <button name="action_print_sum_assured" string="Print Sum Assured Claim" type="object" class="btn-primary"/>
+                        <button name="action_print_funeral_services" string="Print Funeral Services Claim" type="object" class="btn-primary"/>
+                        <field name="state" widget="statusbar" statusbar_visible="pending,approved,paid,rejected"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1><field name="name"/></h1>
+                        </div>
+                        <group>
+                            <group string="Claim Overview">
+                                <field name="claim_category"/>
+                                <field name="policy_id" invisible="claim_category == 'private'"/>
+                                <field name="claim_type"/>
+                                <field name="claim_amount"/>
+                                <field name="date_submitted"/>
+                                <field name="state"/>
+                            </group>
+                            <group string="Claimant Details">
+                                <field name="claimant_name"/>
+                                <field name="claimant_relationship"/>
+                                <field name="claimant_contact"/>
+                                <field name="claimed_by"/>
+                                <field name="authorised_by"/>
+                            </group>
+                        </group>
+                        
+                        <notebook>
+                            <page string="Deceased Details">
+                                <group>
+                                    <group>
+                                        <field name="deceased_name"/>
+                                        <field name="deceased_dob"/>
+                                        <field name="date_of_death"/>
+                                        <field name="cause_of_death"/>
+                                    </group>
+                                    <group>
+                                        <field name="employer"/>
+                                        <field name="place_of_burial"/>
+                                        <field name="certificate_of_death_no"/>
+                                        <field name="sum_assured_payable_by"/>
+                                    </group>
+                                </group>
+                            </page>
+                            
+                            <page string="Funeral Services Claim Order" invisible="claim_type == 'cash'">
+                                <group>
+                                    <group>
+                                        <field name="driver_name"/>
+                                        <field name="funeral_service_provider"/>
+                                    </group>
+                                    <group>
+                                        <field name="provider_contact"/>
+                                        <field name="provider_invoice_ref"/>
+                                    </group>
+                                </group>
+                                <field name="service_cost_ids">
+                                    <list editable="bottom">
+                                        <field name="name"/>
+                                        <field name="amount"/>
+                                    </list>
+                                </field>
+                                <group class="oe_subtotal_footer oe_right">
+                                    <field name="total_service_cost" class="oe_subtotal_footer_separator"/>
+                                </group>
+                            </page>
+                            
+                            <page string="Documents &amp; Payments">
+                                <group>
+                                    <group string="Required Documents">
+                                        <field name="doc_death_certificate"/>
+                                        <field name="doc_medical_report"/>
+                                        <field name="doc_burial_order"/>
+                                        <field name="doc_id_copies"/>
+                                    </group>
+                                    <group string="Payment Information">
+                                        <field name="payment_details"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Claim Tree View -->
+        <record id="view_funeral_claim_tree" model="ir.ui.view">
+            <field name="name">funeral.claim.tree</field>
+            <field name="model">funeral.claim</field>
+            <field name="arch" type="xml">
+                <list string="Claims">
+                    <field name="name"/>
+                    <field name="claim_category"/>
+                    <field name="policy_id"/>
+                    <field name="deceased_name"/>
+                    <field name="claim_amount"/>
+                    <field name="state" widget="badge"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Claim Action -->
+        <record id="action_funeral_claim" model="ir.actions.act_window">
+            <field name="name">Claims</field>
+            <field name="res_model">funeral.claim</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <!-- Menu Item -->
+        <menuitem id="menu_funeral_claim"
+                  name="Claims"
+                  parent="menu_funeral_operations"
+                  action="action_funeral_claim"
+                  sequence="5"/>
+    </data>
+</odoo>

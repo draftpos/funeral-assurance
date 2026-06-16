@@ -5,3 +5,9 @@ from . import product
 from . import admin_policy
 from . import target
 from . import dashboard
+from . import proposal
+from . import policy
+from . import payment
+from . import claim
+from . import commission
+from . import res_config_settings

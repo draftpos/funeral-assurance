@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_proposal_form" model="ir.actions.report">
+        <field name="name">Proposal Application Form</field>
+        <field name="model">funeral.proposal</field>
+        <field name="report_type">qweb-html</field>
+        <field name="report_name">funeral_assurance.report_proposal_form_template</field>
+        <field name="report_file">funeral_assurance.report_proposal_form_template</field>
+        <field name="print_report_name">'Proposal Application - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="model_funeral_proposal"/>
+        <field name="binding_type">report</field>
+        <field name="binding_view_types">form</field>
+    </record>
+
+    <template id="report_proposal_form_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page" style="font-size: 13px;">
+                        
+                        <div class="row mb-3 mt-4">
+                            <div class="col-6">
+                                <strong>MR/MRS/MISS:</strong> <span t-field="o.title" style="border-bottom: 1px dotted black; padding-left: 10px; padding-right: 50px;"/>
+                            </div>
+                            <div class="col-6">
+                                <strong>SURNAME:</strong> <span t-field="o.last_name" style="border-bottom: 1px dotted black; padding-left: 10px; padding-right: 50px;"/>
+                                <strong>NAME:</strong> <span t-field="o.first_name" style="border-bottom: 1px dotted black; padding-left: 10px; padding-right: 50px;"/>
+                            </div>
+                        </div>
+
+                        <div class="row mb-2">
+                            <div class="col-12">
+                                <strong>PHYSICAL ADDRESS:</strong> <span t-field="o.residential_address" style="border-bottom: 1px dotted black; padding-left: 10px; width: 80%; display: inline-block;"/>
+                            </div>
+                        </div>
+
+                        <div class="row mb-2">
+                            <div class="col-8">
+                                <strong>BUSINESS ADDRESS:</strong> <span t-field="o.business_address" style="border-bottom: 1px dotted black; padding-left: 10px; width: 70%; display: inline-block;"/>
+                            </div>
+                            <div class="col-4">
+                                <strong>TEL &amp; CELL:</strong> <span t-field="o.home_phone" style="border-bottom: 1px dotted black; padding-left: 10px; width: 60%; display: inline-block;"/>
+                            </div>
+                        </div>
+
+                        <div class="row mb-2">
+                            <div class="col-6">
+                                <strong>EMPLOYER:</strong> <span t-field="o.employer" style="border-bottom: 1px dotted black; padding-left: 10px; width: 70%; display: inline-block;"/>
+                            </div>
+                            <div class="col-6">
+                                <strong>OCCUPATION:</strong> <span t-field="o.occupation" style="border-bottom: 1px dotted black; padding-left: 10px; width: 70%; display: inline-block;"/>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-4">
+                                <strong>GROSS SALARY:</strong> <span t-field="o.gross_salary" style="border-bottom: 1px dotted black; padding-left: 10px; width: 50%; display: inline-block;"/>
+                            </div>
+                            <div class="col-4">
+                                <strong>NET SALARY:</strong> <span t-field="o.net_salary" style="border-bottom: 1px dotted black; padding-left: 10px; width: 50%; display: inline-block;"/>
+                            </div>
+                            <div class="col-4">
+                                <strong>I.D No:</strong> <span t-field="o.national_id" style="border-bottom: 1px dotted black; padding-left: 10px; width: 60%; display: inline-block;"/>
+                            </div>
+                        </div>
+
+                        <table class="table table-bordered table-sm mb-4">
+                            <tr>
+                                <td><strong>PRODUCT NAME:</strong> <br/> <span t-field="o.product_id.name"/></td>
+                                <td><strong>PLAN TYPE:</strong> <br/> <span t-field="o.plan_type"/></td>
+                                <td><strong>SUM ASSURED:</strong> <br/> <span t-field="o.sum_assured"/></td>
+                                <td colspan="2">
+                                    <strong>MEMBERSHIP NUMBER</strong> <br/>
+                                    <div style="border: 1px solid black; padding: 5px; text-align: center; letter-spacing: 5px; font-weight: bold;">
+                                        <span t-field="o.name"/>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2">
+                                    <strong>MODE OF PAYMENT</strong><br/>
+                                    CASH [ <t t-if="o.mode_of_payment == 'cash'">X</t> ] 
+                                    S/O [ <t t-if="o.mode_of_payment == 'stop_order'">X</t> ]
+                                </td>
+                                <td>
+                                    <strong>FREQUENCY</strong><br/>
+                                    Monthly [ <t t-if="o.frequency == 'monthly'">X</t> ]<br/>
+                                    Quarterly [ <t t-if="o.frequency == 'quarterly'">X</t> ]<br/>
+                                    Yearly [ <t t-if="o.frequency == 'yearly'">X</t> ]
+                                </td>
+                                <td><strong>PREMIUM:</strong><br/><span t-field="o.premium_amount"/></td>
+                                <td><strong>POLICY TERM:</strong><br/><span t-field="o.policy_term"/></td>
+                                <td><strong>WAITING PERIOD:</strong><br/>
+                                    Y [ <t t-if="o.waiting_period">X</t> ] 
+                                    N [ <t t-if="not o.waiting_period">X</t> ]
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>AGENT:</strong><br/><span t-field="o.agent_id.name"/></td>
+                                <td><strong>AGENT'S CODE:</strong><br/><span t-field="o.agent_id.code"/></td>
+                                <td><strong>BRANCH:</strong><br/><span t-field="o.branch_id.name"/></td>
+                                <td><strong>Groceries:</strong><br/>
+                                    Y [ <t t-if="o.groceries">X</t> ] 
+                                    N [ <t t-if="not o.groceries">X</t> ]
+                                </td>
+                            </tr>
+                        </table>
+
+                        <h6 class="mt-4"><strong>BENEFICIARIES</strong> Policy holder, spouse, children to provide birth certificate copies on joining or upon death.</h6>
+                        <table class="table table-bordered table-sm mb-4">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>SURNAME</th>
+                                    <th>FIRST NAME</th>
+                                    <th>RELATIONSHIP</th>
+                                    <th>D.O.B</th>
+                                    <th>ID NUMBER</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="o.dependant_ids" t-as="dep">
+                                    <tr>
+                                        <td><span t-esc="dep_index + 1"/></td>
+                                        <td><span t-field="dep.last_name"/></td>
+                                        <td><span t-field="dep.first_name"/></td>
+                                        <td><span t-field="dep.relationship"/></td>
+                                        <td><span t-field="dep.dob"/></td>
+                                        <td><span t-field="dep.national_id"/></td>
+                                    </tr>
+                                </t>
+                                <t t-if="len(o.dependant_ids) &lt; 6">
+                                    <t t-foreach="range(6 - len(o.dependant_ids))" t-as="empty_row">
+                                        <tr>
+                                            <td><span t-esc="len(o.dependant_ids) + empty_row + 1"/></td>
+                                            <td></td><td></td><td></td><td></td><td></td>
+                                        </tr>
+                                    </t>
+                                </t>
+                            </tbody>
+                        </table>
+
+                        <div style="page-break-before: always;"></div>
+                        <!-- Back page content (Image 5) -->
+                        <table class="table table-bordered table-sm mb-4">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>SURNAME</th>
+                                    <th>FIRST NAME</th>
+                                    <th>RELATIONSHIP</th>
+                                    <th>D.O.B</th>
+                                    <th>ID NUMBER</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="o.extended_family_ids" t-as="ext">
+                                    <tr>
+                                        <td><span t-esc="ext_index + 7"/></td>
+                                        <td><span t-field="ext.last_name"/></td>
+                                        <td><span t-field="ext.first_name"/></td>
+                                        <td><span t-field="ext.relationship"/></td>
+                                        <td><span t-field="ext.dob"/></td>
+                                        <td><span t-field="ext.national_id"/></td>
+                                    </tr>
+                                </t>
+                                <t t-if="len(o.extended_family_ids) &lt; 14">
+                                    <t t-foreach="range(14 - len(o.extended_family_ids))" t-as="empty_row">
+                                        <tr>
+                                            <td><span t-esc="len(o.extended_family_ids) + empty_row + 7"/></td>
+                                            <td></td><td></td><td></td><td></td><td></td>
+                                        </tr>
+                                    </t>
+                                </t>
+                            </tbody>
+                        </table>
+
+                        <div class="mt-5" style="border: 1px solid black; padding: 15px;">
+                            <h5><strong>Declaration by proposer</strong></h5>
+                            <p style="font-size: 12px; line-height: 1.5;">
+                                I certify that the information supplied hereon is correct to the best of my knowledge. I have understood all the terms and conditions that have been explained to me and which are to be availed to me on the company's policy document.
+                            </p>
+                            
+                            <div class="row mt-4">
+                                <div class="col-6">
+                                    <strong>Proposer's Signature:</strong> <span style="border-bottom: 1px dotted black; padding-left: 150px;"></span>
+                                </div>
+                                <div class="col-6">
+                                    <strong>Date:</strong> <span t-field="o.proposal_date" style="border-bottom: 1px dotted black; padding-left: 100px;"/>
+                                </div>
+                            </div>
+                            
+                            <div class="row mt-4 mb-3">
+                                <div class="col-6">
+                                    <strong>Signature of Agent:</strong> <span style="border-bottom: 1px dotted black; padding-left: 150px;"></span>
+                                </div>
+                                <div class="col-6">
+                                    <strong>Date:</strong> <span style="border-bottom: 1px dotted black; padding-left: 100px;"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4" style="border: 1px solid black; padding: 15px;">
+                            <h5><strong>For office use only</strong></h5>
+                            
+                            <div class="row mt-3">
+                                <div class="col-6" style="border-right: 1px solid black;">
+                                    <strong>Underwriting decision</strong><br/><br/>
+                                    <p>Accepted Loaded / Adjusted [ <t t-if="o.underwriting_decision == 'accepted'">X</t> ]</p>
+                                    <p>Declined [ <t t-if="o.underwriting_decision == 'declined'">X</t> ]</p>
+                                </div>
+                                <div class="col-6 pl-4">
+                                    <strong>Underwriter</strong><br/><br/>
+                                    <p>Initials: <span style="border-bottom: 1px dotted black; padding-left: 150px;"></span></p>
+                                    <p>Signature: <span style="border-bottom: 1px dotted black; padding-left: 140px;"></span></p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

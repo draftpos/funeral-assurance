@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_sum_assured_claim" model="ir.actions.report">
+        <field name="name">Sum Assured Claim Order</field>
+        <field name="model">funeral.claim</field>
+        <field name="report_type">qweb-html</field>
+        <field name="report_name">funeral_assurance.report_sum_assured_claim_template</field>
+        <field name="report_file">funeral_assurance.report_sum_assured_claim_template</field>
+        <field name="print_report_name">'Sum Assured Claim - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="model_funeral_claim"/>
+        <field name="binding_type">report</field>
+        <field name="binding_view_types">form</field>
+    </record>
+
+    <template id="report_sum_assured_claim_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page" style="font-size: 14px;">
+                        <div class="text-right mb-4">
+                            <h2 style="color: #007bff; text-align: right;">CLAIM No: <span t-field="o.name"/></h2>
+                        </div>
+                        
+                        <h3 class="text-center bg-primary text-white p-2" style="background-color: #00aaff !important; -webkit-print-color-adjust: exact;">
+                            SUM ASSURED CLAIM ORDER
+                        </h3>
+                        
+                        <table class="table table-borderless table-sm mt-4">
+                            <tr>
+                                <td style="width: 25%;"><strong>DATE:</strong></td>
+                                <td style="border-bottom: 1px dotted black; width: 45%;"><span t-field="o.date_submitted"/></td>
+                                <td style="width: 30%; font-weight: bold; text-align: right;" rowspan="8">
+                                    <div style="border: 1px solid black; padding: 10px; min-height: 200px;">
+                                        <strong>SUM ASSURED CLAIM ORDER</strong><br/><br/>
+                                        <span t-field="o.claim_amount"/>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>POLICY:</strong></td>
+                                <td style="border-bottom: 1px dotted black;"><span t-field="o.policy_id.name"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>POLICYHOLDER'S NAME:</strong></td>
+                                <td style="border-bottom: 1px dotted black;"><span t-field="o.policy_id.proposal_id.full_name"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>I.D NUMBER:</strong></td>
+                                <td style="border-bottom: 1px dotted black;"><span t-field="o.policy_id.proposal_id.national_id"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>COMPANY / EMPLOYER:</strong></td>
+                                <td style="border-bottom: 1px dotted black;"><span t-field="o.employer"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>NAME OF DECEASED:</strong></td>
+                                <td style="border-bottom: 1px dotted black;"><span t-field="o.deceased_name"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>DATE OF DEATH:</strong></td>
+                                <td style="border-bottom: 1px dotted black;"><span t-field="o.date_of_death"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>PLACE OF BURIAL:</strong></td>
+                                <td style="border-bottom: 1px dotted black;"><span t-field="o.place_of_burial"/></td>
+                            </tr>
+                        </table>
+
+                        <table class="table table-borderless table-sm mt-4">
+                            <tr>
+                                <td style="width: 25%;"><strong>CLAIMANT'S NAME:</strong></td>
+                                <td style="border-bottom: 1px dotted black;"><span t-field="o.claimant_name"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>SIGNATURE:</strong></td>
+                                <td style="border-bottom: 1px dotted black;"></td>
+                            </tr>
+                            <tr>
+                                <td><strong>PREMIUM:</strong></td>
+                                <td style="border-bottom: 1px dotted black;"><span t-field="o.policy_id.total_premium"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>CERTIFICATE OF DEATH No:</strong></td>
+                                <td style="border-bottom: 1px dotted black;"><span t-field="o.certificate_of_death_no"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>ADDRESS:</strong></td>
+                                <td style="border-bottom: 1px dotted black;"><span t-field="o.policy_id.proposal_id.residential_address"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>CONTACT NUMBER:</strong></td>
+                                <td style="border-bottom: 1px dotted black;"><span t-field="o.claimant_contact"/></td>
+                            </tr>
+                        </table>
+
+                        <div class="row mt-4">
+                            <div class="col-6">
+                                <strong>CLAIMED BY:</strong><br/>
+                                <span t-field="o.claimed_by" style="border-bottom: 1px dotted black; display: inline-block; width: 100%; min-height: 20px;"/>
+                            </div>
+                            <div class="col-6">
+                                <strong>AUTHORISED BY:</strong><br/>
+                                <span t-field="o.authorised_by" style="border-bottom: 1px dotted black; display: inline-block; width: 100%; min-height: 20px;"/>
+                            </div>
+                        </div>
+
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <strong>SUM ASSURED PAYABLE BY:</strong><br/>
+                                <span>Account: <span t-field="o.sum_assured_payable_by"/> | Details: <span t-field="o.payment_details"/></span>
+                                <div style="border-bottom: 1px dotted black; width: 100%; min-height: 20px;"></div>
+                            </div>
+                        </div>
+
+                        <div class="mt-5" style="border: 2px solid black; padding: 15px;">
+                            <h4 class="text-center mb-3">OFFICE USE ONLY</h4>
+                            <div class="row">
+                                <div class="col-4">
+                                    <strong>PRICE:</strong> <span style="border-bottom: 1px dotted black; display: inline-block; width: 60%;">&amp;nbsp;</span>
+                                </div>
+                                <div class="col-4">
+                                    <strong>DATE:</strong> <span style="border-bottom: 1px dotted black; display: inline-block; width: 60%;">&amp;nbsp;</span>
+                                </div>
+                                <div class="col-4">
+                                    <strong>DATE:</strong> <span style="border-bottom: 1px dotted black; display: inline-block; width: 60%;">&amp;nbsp;</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

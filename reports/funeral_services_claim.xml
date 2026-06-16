@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_funeral_services_claim" model="ir.actions.report">
+        <field name="name">Funeral Services Claim Order</field>
+        <field name="model">funeral.claim</field>
+        <field name="report_type">qweb-html</field>
+        <field name="report_name">funeral_assurance.report_funeral_services_claim_template</field>
+        <field name="report_file">funeral_assurance.report_funeral_services_claim_template</field>
+        <field name="print_report_name">'Funeral Services Claim - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="model_funeral_claim"/>
+        <field name="binding_type">report</field>
+        <field name="binding_view_types">form</field>
+    </record>
+
+    <template id="report_funeral_services_claim_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page" style="font-size: 14px;">
+                        <h3 class="mb-4"><strong>FUNERAL SERVICES CLAIM ORDER</strong></h3>
+                        
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <strong>Date:</strong> <span t-field="o.date_submitted" style="border-bottom: 1px dotted black; padding-left: 10px; padding-right: 50px;"/>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <strong>Messrs:</strong> <span t-field="o.funeral_service_provider" style="border-bottom: 1px dotted black; padding-left: 10px; width: 80%; display: inline-block;"/>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-8">
+                                <strong>Please supply the following services to:</strong>
+                            </div>
+                            <div class="col-4 text-right">
+                                <span t-field="o.claimant_contact"/>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <strong>BURIAL ORDER No:</strong> <span style="border-bottom: 1px dotted black; padding-left: 10px; padding-right: 50px;"></span>
+                            </div>
+                            <div class="col-6 text-right">
+                                <strong>CLAIM No:</strong> <span t-field="o.name" style="border-bottom: 1px dotted black; padding-left: 10px; padding-right: 50px;"/>
+                            </div>
+                        </div>
+                        
+                        <hr style="border-top: 1px dashed black;"/>
+
+                        <table class="table table-borderless table-sm">
+                            <tr>
+                                <td style="width: 25%;"><strong>Policy No:</strong></td>
+                                <td style="border-bottom: 1px dotted black; width: 25%;"><span t-field="o.policy_id.name"/></td>
+                                <td style="width: 25%;"><strong>Policy Status:</strong></td>
+                                <td style="border-bottom: 1px dotted black; width: 25%;"><span t-field="o.policy_id.state"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Policy Holder's:</strong></td>
+                                <td colspan="3" style="border-bottom: 1px dotted black;"><span t-field="o.policy_id.proposal_id.full_name"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Name of Driver:</strong></td>
+                                <td colspan="3" style="border-bottom: 1px dotted black;"><span t-field="o.driver_name"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Company/Group/Employer:</strong></td>
+                                <td colspan="3" style="border-bottom: 1px dotted black;"><span t-field="o.employer"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Name of Deceased:</strong></td>
+                                <td colspan="3" style="border-bottom: 1px dotted black;"><span t-field="o.deceased_name"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Commencement Date:</strong></td>
+                                <td colspan="3" style="border-bottom: 1px dotted black;"><span t-field="o.policy_id.commencement_date"/></td>
+                            </tr>
+                        </table>
+
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <strong>Date of Birth:</strong> <span t-field="o.deceased_dob" style="border-bottom: 1px dotted black; padding-left: 10px; padding-right: 50px;"/>
+                            </div>
+                            <div class="col-6">
+                                <strong>Date of death:</strong> <span t-field="o.date_of_death" style="border-bottom: 1px dotted black; padding-left: 10px; padding-right: 50px;"/>
+                            </div>
+                        </div>
+
+                        <h5 class="mt-4">Service Cost Analysis</h5>
+                        <table class="table table-bordered table-sm">
+                            <thead>
+                                <tr>
+                                    <th style="width: 70%;">Service Description</th>
+                                    <th style="width: 30%;">USD</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="o.service_cost_ids" t-as="line">
+                                    <tr>
+                                        <td><span t-field="line.name"/></td>
+                                        <td><span t-field="line.amount"/></td>
+                                    </tr>
+                                </t>
+                                <tr>
+                                    <td><strong>TOTAL SERVICE COST</strong></td>
+                                    <td><strong><span t-field="o.total_service_cost"/></strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="mt-5">
+                            <div class="row mb-2">
+                                <div class="col-6"><strong>REQUESTED BY:</strong> <span style="border-bottom: 1px dotted black; padding-left: 100px;"></span></div>
+                                <div class="col-6"><strong>Date:</strong> <span style="border-bottom: 1px dotted black; padding-left: 50px;"></span></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-12" style="font-size: 10px;">(INTERNAL AUDITOR)</div>
+                            </div>
+                            
+                            <div class="row mb-2 mt-3">
+                                <div class="col-6"><strong>RECOMMENDED BY:</strong> <span style="border-bottom: 1px dotted black; padding-left: 80px;"></span></div>
+                                <div class="col-6"><strong>Date:</strong> <span style="border-bottom: 1px dotted black; padding-left: 50px;"></span></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-12" style="font-size: 10px;">(OPERATIONS MANAGER)</div>
+                            </div>
+
+                            <div class="row mb-2 mt-3">
+                                <div class="col-6"><strong>APPROVED BY:</strong> <span style="border-bottom: 1px dotted black; padding-left: 110px;"></span></div>
+                                <div class="col-6"><strong>Date:</strong> <span style="border-bottom: 1px dotted black; padding-left: 50px;"></span></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-12" style="font-size: 10px;">(ACCOUNTANT)</div>
+                            </div>
+
+                            <div class="row mb-2 mt-3">
+                                <div class="col-6"><strong>AUTHORISED BY:</strong> <span style="border-bottom: 1px dotted black; padding-left: 100px;"></span></div>
+                                <div class="col-6"><strong>Date:</strong> <span style="border-bottom: 1px dotted black; padding-left: 50px;"></span></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-12" style="font-size: 10px;">(C.E.O.)</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

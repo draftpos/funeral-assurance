@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Payment Form View -->
+        <record id="view_funeral_payment_form" model="ir.ui.view">
+            <field name="name">funeral.payment.form</field>
+            <field name="model">funeral.payment</field>
+            <field name="arch" type="xml">
+                <form string="Payment">
+                    <header>
+                        <button name="action_print_receipt" string="Print Receipt" type="object" class="btn-primary"/>
+                        <field name="premium_status" widget="statusbar" statusbar_visible="paid,pending,overdue"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group string="Policy &amp; Customer">
+                                <field name="policy_id"/>
+                                <field name="proposal_id"/>
+                                <field name="branch_id"/>
+                            </group>
+                            <group string="Payment Details">
+                                <field name="receipt_number"/>
+                                <field name="premium_amount"/>
+                                <field name="payment_method"/>
+                                <field name="payment_date"/>
+                                <field name="payment_frequency"/>
+                            </group>
+                            <group string="Capture Info">
+                                <field name="captured_by_id" readonly="1"/>
+                                <field name="date_captured" readonly="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Payment Tree View -->
+        <record id="view_funeral_payment_tree" model="ir.ui.view">
+            <field name="name">funeral.payment.tree</field>
+            <field name="model">funeral.payment</field>
+            <field name="arch" type="xml">
+                <list string="Payments">
+                    <field name="name"/>
+                    <field name="receipt_number"/>
+                    <field name="policy_id"/>
+                    <field name="premium_amount"/>
+                    <field name="payment_date"/>
+                    <field name="payment_method"/>
+                    <field name="premium_status" widget="badge" decoration-success="premium_status == 'paid'"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Payment Action -->
+        <record id="action_funeral_payment" model="ir.actions.act_window">
+            <field name="name">Payments</field>
+            <field name="res_model">funeral.payment</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <!-- Menu Item -->
+        <menuitem id="menu_funeral_payment"
+                  name="Payments"
+                  parent="menu_funeral_operations"
+                  action="action_funeral_payment"
+                  sequence="4"/>
+    </data>
+</odoo>

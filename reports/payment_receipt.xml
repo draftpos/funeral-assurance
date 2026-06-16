@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_payment_receipt" model="ir.actions.report">
+        <field name="name">Payment Receipt</field>
+        <field name="model">funeral.payment</field>
+        <field name="report_type">qweb-html</field>
+        <field name="report_name">funeral_assurance.report_payment_receipt_template</field>
+        <field name="report_file">funeral_assurance.report_payment_receipt_template</field>
+        <field name="print_report_name">'Receipt - %s' % (object.receipt_number or object.name)</field>
+        <field name="binding_model_id" ref="model_funeral_payment"/>
+        <field name="binding_type">report</field>
+        <field name="binding_view_types">form</field>
+    </record>
+
+    <template id="report_payment_receipt_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div class="row">
+                            <div class="col-6">
+                                <h2>Receipt No. <span t-field="o.receipt_number"/></h2>
+                            </div>
+                            <div class="col-6 text-end">
+                                <strong>Date: </strong> <span t-field="o.payment_date"/><br/>
+                            </div>
+                        </div>
+                        
+                        <table class="table table-sm mt-4">
+                            <tr>
+                                <td><strong>Received From:</strong></td>
+                                <td><span t-field="o.proposal_id.first_name"/> <span t-field="o.proposal_id.last_name"/></td>
+                                <td><strong>Client's Cell:</strong></td>
+                                <td><span t-field="o.proposal_id.contact_number"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>The sum of:</strong></td>
+                                <td><span t-field="o.premium_amount"/></td>
+                                <td><strong>In Payment of (Policy):</strong></td>
+                                <td><span t-field="o.policy_id.name"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Branch:</strong></td>
+                                <td><span t-field="o.branch_id.name"/></td>
+                                <td><strong>Cash/Cheque/Method:</strong></td>
+                                <td><span t-field="o.payment_method"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Receipted by:</strong></td>
+                                <td colspan="3"><span t-field="o.captured_by_id.name"/></td>
+                            </tr>
+                        </table>
+                        
+                        <div class="mt-4 text-center">
+                            <em>"Experience the difference"</em><br/>
+                            <strong>With Thanks</strong>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

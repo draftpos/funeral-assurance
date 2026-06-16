@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_funeral_commission_form" model="ir.ui.view">
+            <field name="name">funeral.commission.form</field>
+            <field name="model">funeral.commission</field>
+            <field name="arch" type="xml">
+                <form string="Commission">
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,paid,cancelled"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="agent_id"/>
+                                <field name="policy_id"/>
+                                <field name="payment_id"/>
+                            </group>
+                            <group>
+                                <field name="amount"/>
+                                <field name="commission_date"/>
+                                <field name="type"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_funeral_commission_list" model="ir.ui.view">
+            <field name="name">funeral.commission.list</field>
+            <field name="model">funeral.commission</field>
+            <field name="arch" type="xml">
+                <list string="Commissions">
+                    <field name="name"/>
+                    <field name="agent_id"/>
+                    <field name="policy_id"/>
+                    <field name="amount"/>
+                    <field name="commission_date"/>
+                    <field name="type"/>
+                    <field name="state" widget="badge"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="action_funeral_commission" model="ir.actions.act_window">
+            <field name="name">Agent Commissions</field>
+            <field name="res_model">funeral.commission</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <menuitem id="menu_funeral_commission"
+                  name="Commissions"
+                  parent="menu_funeral_reports"
+                  action="action_funeral_commission"
+                  sequence="30"/>
+    </data>
+</odoo>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_policy_schedule" model="ir.actions.report">
+        <field name="name">Policy Schedule</field>
+        <field name="model">funeral.policy</field>
+        <field name="report_type">qweb-html</field>
+        <field name="report_name">funeral_assurance.report_policy_schedule_template</field>
+        <field name="report_file">funeral_assurance.report_policy_schedule_template</field>
+        <field name="print_report_name">'Policy Schedule - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="model_funeral_policy"/>
+        <field name="binding_type">report</field>
+        <field name="binding_view_types">form</field>
+    </record>
+
+    <template id="report_policy_schedule_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div class="text-center mb-4">
+                            <h2>Policy Schedule</h2>
+                            <h4>Membership Number: <span t-field="o.name"/></h4>
+                        </div>
+                        
+                        <table class="table table-bordered table-sm">
+                            <tr>
+                                <td><strong>Proposer:</strong></td>
+                                <td><span t-field="o.proposal_id.first_name"/> <span t-field="o.proposal_id.last_name"/></td>
+                                <td><strong>ID No:</strong></td>
+                                <td><span t-field="o.proposal_id.national_id"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Plan Type:</strong></td>
+                                <td><span t-field="o.plan_type"/></td>
+                                <td><strong>Commencement:</strong></td>
+                                <td><span t-field="o.commencement_date"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Premium:</strong></td>
+                                <td><span t-field="o.total_premium"/></td>
+                                <td><strong>Sum Assured:</strong></td>
+                                <td><span t-field="o.sum_assured"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Agent:</strong></td>
+                                <td><span t-field="o.agent_id.name"/></td>
+                                <td><strong>Branch:</strong></td>
+                                <td><span t-field="o.branch_id.name"/></td>
+                            </tr>
+                        </table>
+                        
+                        <h5 class="mt-4">Dependants</h5>
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Relationship</th>
+                                    <th>DOB</th>
+                                    <th>ID Number</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="o.dependant_ids" t-as="dep">
+                                    <tr>
+                                        <td><span t-field="dep.first_name"/> <span t-field="dep.last_name"/></td>
+                                        <td><span t-field="dep.relationship"/></td>
+                                        <td><span t-field="dep.dob"/></td>
+                                        <td><span t-field="dep.national_id"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                        
+                        <h5 class="mt-4">Extended Family</h5>
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Relationship</th>
+                                    <th>DOB</th>
+                                    <th>Premium</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="o.extended_family_ids" t-as="ext">
+                                    <tr>
+                                        <td><span t-field="ext.first_name"/> <span t-field="ext.last_name"/></td>
+                                        <td><span t-field="ext.relationship"/></td>
+                                        <td><span t-field="ext.dob"/></td>
+                                        <td><span t-field="ext.extended_premium_amount"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>
