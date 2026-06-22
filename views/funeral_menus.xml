@@ -40,6 +40,12 @@
                   action="action_funeral_dashboard_window"
                   sequence="10"/>
 
+        <!-- Vehicles Category -->
+        <menuitem id="menu_funeral_vehicles"
+                  name="Vehicles"
+                  parent="menu_funeral_root"
+                  sequence="90"/>
+
         <!-- Configurations Category -->
         <menuitem id="menu_funeral_configurations"
                   name="Configurations"

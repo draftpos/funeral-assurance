@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Property Valuation -->
+        <record id="view_funeral_property_valuation_form" model="ir.ui.view">
+            <field name="name">funeral.property.valuation.form</field>
+            <field name="model">funeral.property.valuation</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="status" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1><field name="name"/></h1>
+                        </div>
+                        <group>
+                            <group string="Property Details">
+                                <field name="property_type"/>
+                                <field name="evaluator"/>
+                            </group>
+                            <group string="Valuation Tracking">
+                                <field name="last_valuation_date"/>
+                                <field name="last_valuation_amount"/>
+                                <field name="next_valuation_due"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        
+        <record id="view_funeral_property_valuation_list" model="ir.ui.view">
+            <field name="name">funeral.property.valuation.list</field>
+            <field name="model">funeral.property.valuation</field>
+            <field name="arch" type="xml">
+                <list string="Property Valuations" decoration-danger="status == 'overdue'" decoration-warning="status == 'due_soon'">
+                    <field name="name"/>
+                    <field name="property_type"/>
+                    <field name="last_valuation_amount"/>
+                    <field name="next_valuation_due"/>
+                    <field name="status" widget="badge"/>
+                </list>
+            </field>
+        </record>
+        
+        <record id="action_funeral_property_valuation" model="ir.actions.act_window">
+            <field name="name">Property Valuations</field>
+            <field name="res_model">funeral.property.valuation</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <!-- Commissioner Data -->
+        <record id="view_funeral_commissioner_data_form" model="ir.ui.view">
+            <field name="name">funeral.commissioner.data.form</field>
+            <field name="model">funeral.commissioner.data</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="submission_status" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1><field name="name"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="report_type"/>
+                                <field name="report_date"/>
+                                <field name="prepared_by"/>
+                            </group>
+                            <group>
+                                <field name="file_name" invisible="1"/>
+                                <field name="attachment" filename="file_name"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Notes">
+                                <field name="notes"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        
+        <record id="view_funeral_commissioner_data_list" model="ir.ui.view">
+            <field name="name">funeral.commissioner.data.list</field>
+            <field name="model">funeral.commissioner.data</field>
+            <field name="arch" type="xml">
+                <list string="Commissioner Data">
+                    <field name="name"/>
+                    <field name="report_type"/>
+                    <field name="report_date"/>
+                    <field name="submission_status" widget="badge"/>
+                </list>
+            </field>
+        </record>
+        
+        <record id="action_funeral_commissioner_data" model="ir.actions.act_window">
+            <field name="name">Commissioner Reporting</field>
+            <field name="res_model">funeral.commissioner.data</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <!-- Menus -->
+        <menuitem id="menu_funeral_compliance"
+                  name="Compliance &amp; Audits"
+                  parent="menu_funeral_root"
+                  sequence="85"/>
+                  
+        <menuitem id="menu_funeral_commissioner"
+                  name="Commissioner Data"
+                  parent="menu_funeral_compliance"
+                  action="action_funeral_commissioner_data"
+                  sequence="10"/>
+                  
+        <menuitem id="menu_funeral_property"
+                  name="Property Valuations"
+                  parent="menu_funeral_compliance"
+                  action="action_funeral_property_valuation"
+                  sequence="40"/>
+    </data>
+</odoo>

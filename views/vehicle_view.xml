@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Form View -->
+        <record id="view_funeral_vehicle_form" model="ir.ui.view">
+            <field name="name">funeral.vehicle.form</field>
+            <field name="model">funeral.vehicle</field>
+            <field name="arch" type="xml">
+                <form string="Vehicle">
+                    <header>
+                        <field name="status" widget="statusbar" statusbar_visible="active,maintenance,inactive"/>
+                    </header>
+                    <sheet>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" invisible="active"/>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Vehicle Name (e.g. Hearse 1)"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group string="Basic Information">
+                                <field name="license_plate"/>
+                                <field name="vehicle_type"/>
+                                <field name="make"/>
+                                <field name="model"/>
+                                <field name="year"/>
+                                <field name="color"/>
+                            </group>
+                            <group string="Technical Details">
+                                <field name="chassis_number"/>
+                                <field name="engine_number"/>
+                                <field name="fuel_type"/>
+                                <field name="mileage"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group string="Allocation &amp; Acquisition">
+                                <field name="branch_id"/>
+                                <field name="purchase_date"/>
+                                <field name="active" invisible="1"/>
+                            </group>
+                            <group string="Compliance &amp; Expiry">
+                                <field name="license_expiry"/>
+                                <field name="insurance_expiry"/>
+                                <field name="roadworthy_expiry"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- List View -->
+        <record id="view_funeral_vehicle_list" model="ir.ui.view">
+            <field name="name">funeral.vehicle.list</field>
+            <field name="model">funeral.vehicle</field>
+            <field name="arch" type="xml">
+                <list string="Vehicles">
+                    <field name="name"/>
+                    <field name="license_plate"/>
+                    <field name="vehicle_type"/>
+                    <field name="branch_id"/>
+                    <field name="license_expiry"/>
+                    <field name="status" widget="badge" decoration-success="status == 'active'" decoration-warning="status == 'maintenance'" decoration-danger="status == 'inactive'"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Search View -->
+        <record id="view_funeral_vehicle_search" model="ir.ui.view">
+            <field name="name">funeral.vehicle.search</field>
+            <field name="model">funeral.vehicle</field>
+            <field name="arch" type="xml">
+                <search string="Search Vehicles">
+                    <field name="name"/>
+                    <field name="license_plate"/>
+                    <field name="make"/>
+                    <field name="branch_id"/>
+                    <filter string="Active Vehicles" name="filter_active" domain="[('status', '=', 'active')]"/>
+                    <filter string="Under Maintenance" name="filter_maintenance" domain="[('status', '=', 'maintenance')]"/>
+                    <separator/>
+                    <filter string="Group By Type" name="group_by_type" context="{'group_by': 'vehicle_type'}"/>
+                    <filter string="Group By Branch" name="group_by_branch" context="{'group_by': 'branch_id'}"/>
+                    <filter string="Group By Status" name="group_by_status" context="{'group_by': 'status'}"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_funeral_vehicle" model="ir.actions.act_window">
+            <field name="name">Vehicles</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+            <field name="search_view_id" ref="view_funeral_vehicle_search"/>
+            <field name="context">{'search_default_filter_active': 1}</field>
+        </record>
+
+        <!-- Submenus -->
+        <menuitem id="menu_vehicle_management_sub"
+                  name="Vehicle Management"
+                  parent="menu_funeral_vehicles"
+                  sequence="10"/>
+
+        <menuitem id="menu_vehicle_records"
+                  name="Vehicles List"
+                  parent="menu_vehicle_management_sub"
+                  action="action_funeral_vehicle"
+                  sequence="10"/>
+                  
+        <!-- Driver Actions & Views -->
+        <record id="view_funeral_driver_form" model="ir.ui.view">
+            <field name="name">funeral.driver.form</field>
+            <field name="model">funeral.driver</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group string="Driver Info">
+                                <field name="name"/>
+                                <field name="contact_number"/>
+                                <field name="user_id"/>
+                            </group>
+                            <group string="License Details">
+                                <field name="license_number"/>
+                                <field name="license_expiry"/>
+                                <field name="active"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        
+        <record id="view_funeral_driver_list" model="ir.ui.view">
+            <field name="name">funeral.driver.list</field>
+            <field name="model">funeral.driver</field>
+            <field name="arch" type="xml">
+                <list string="Drivers">
+                    <field name="name"/>
+                    <field name="contact_number"/>
+                    <field name="license_number"/>
+                    <field name="license_expiry"/>
+                </list>
+            </field>
+        </record>
+        
+        <record id="action_funeral_driver" model="ir.actions.act_window">
+            <field name="name">Drivers</field>
+            <field name="res_model">funeral.driver</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_vehicle_drivers" name="Drivers" parent="menu_vehicle_management_sub" action="action_funeral_driver" sequence="20"/>
+        
+        <!-- Trip Actions & Views -->
+        <record id="view_funeral_vehicle_trip_form" model="ir.ui.view">
+            <field name="name">funeral.vehicle.trip.form</field>
+            <field name="model">funeral.vehicle.trip</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1><field name="name"/></h1>
+                        </div>
+                        <group>
+                            <group string="Trip Info">
+                                <field name="vehicle_id"/>
+                                <field name="driver_id"/>
+                                <field name="claim_id"/>
+                                <field name="date"/>
+                            </group>
+                            <group string="Mileage &amp; Destination">
+                                <field name="start_mileage"/>
+                                <field name="end_mileage"/>
+                                <field name="distance"/>
+                                <field name="destination"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Purpose">
+                                <field name="purpose"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        
+        <record id="view_funeral_vehicle_trip_list" model="ir.ui.view">
+            <field name="name">funeral.vehicle.trip.list</field>
+            <field name="model">funeral.vehicle.trip</field>
+            <field name="arch" type="xml">
+                <list string="Trip Logs">
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="vehicle_id"/>
+                    <field name="driver_id"/>
+                    <field name="distance" sum="Total Distance"/>
+                </list>
+            </field>
+        </record>
+        
+        <record id="action_funeral_vehicle_trip" model="ir.actions.act_window">
+            <field name="name">Trip Logs</field>
+            <field name="res_model">funeral.vehicle.trip</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_vehicle_trips" name="Trip Logs" parent="menu_vehicle_management_sub" action="action_funeral_vehicle_trip" sequence="30"/>
+        
+        <!-- Fuel Log Actions & Views -->
+        <record id="view_funeral_vehicle_fuel_form" model="ir.ui.view">
+            <field name="name">funeral.vehicle.fuel.form</field>
+            <field name="model">funeral.vehicle.fuel.log</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group string="Fuel Fill-up">
+                                <field name="vehicle_id"/>
+                                <field name="driver_id"/>
+                                <field name="date"/>
+                            </group>
+                            <group string="Cost &amp; Metrics">
+                                <field name="liters"/>
+                                <field name="cost"/>
+                                <field name="odometer"/>
+                                <field name="receipt_number"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record id="view_funeral_vehicle_fuel_list" model="ir.ui.view">
+            <field name="name">funeral.vehicle.fuel.list</field>
+            <field name="model">funeral.vehicle.fuel.log</field>
+            <field name="arch" type="xml">
+                <list string="Fuel Logs">
+                    <field name="date"/>
+                    <field name="vehicle_id"/>
+                    <field name="driver_id"/>
+                    <field name="liters" sum="Total Liters"/>
+                    <field name="cost" sum="Total Cost"/>
+                </list>
+            </field>
+        </record>
+        
+        <record id="action_funeral_vehicle_fuel" model="ir.actions.act_window">
+            <field name="name">Fuel Logs</field>
+            <field name="res_model">funeral.vehicle.fuel.log</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_vehicle_fuels" name="Fuel Logs" parent="menu_vehicle_management_sub" action="action_funeral_vehicle_fuel" sequence="40"/>
+        
+        <!-- Maintenance Actions & Views -->
+        <record id="view_funeral_vehicle_maintenance_form" model="ir.ui.view">
+            <field name="name">funeral.vehicle.maintenance.form</field>
+            <field name="model">funeral.vehicle.maintenance</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group string="Service Details">
+                                <field name="vehicle_id"/>
+                                <field name="date"/>
+                                <field name="service_type"/>
+                                <field name="odometer"/>
+                            </group>
+                            <group string="Cost &amp; Workshop">
+                                <field name="cost"/>
+                                <field name="mechanic"/>
+                                <field name="invoice_number"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Description / Parts">
+                                <field name="description"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        
+        <record id="view_funeral_vehicle_maintenance_list" model="ir.ui.view">
+            <field name="name">funeral.vehicle.maintenance.list</field>
+            <field name="model">funeral.vehicle.maintenance</field>
+            <field name="arch" type="xml">
+                <list string="Maintenance Logs">
+                    <field name="date"/>
+                    <field name="vehicle_id"/>
+                    <field name="service_type"/>
+                    <field name="cost" sum="Total Cost"/>
+                    <field name="mechanic"/>
+                </list>
+            </field>
+        </record>
+        
+        <record id="action_funeral_vehicle_maintenance" model="ir.actions.act_window">
+            <field name="name">Maintenance Logs</field>
+            <field name="res_model">funeral.vehicle.maintenance</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_vehicle_maintenances" name="Maintenance Logs" parent="menu_vehicle_management_sub" action="action_funeral_vehicle_maintenance" sequence="50"/>
+        
+    </data>
+</odoo>

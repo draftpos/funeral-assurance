@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Tombstone Item Form -->
+        <record id="view_funeral_tombstone_item_form" model="ir.ui.view">
+            <field name="name">funeral.tombstone.item.form</field>
+            <field name="model">funeral.tombstone.item</field>
+            <field name="arch" type="xml">
+                <form string="Tombstone Item">
+                    <sheet>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" invisible="active"/>
+                        <field name="image" widget="image" class="oe_avatar"/>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Tombstone Name/Model"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group string="Categorization">
+                                <field name="type_id"/>
+                                <field name="supplier_id"/>
+                            </group>
+                            <group string="Pricing Details">
+                                <field name="cost_price"/>
+                                <field name="selling_price"/>
+                                <field name="margin"/>
+                                <field name="active" invisible="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Specifications &amp; Details">
+                                <field name="description" placeholder="Enter dimensions, material details, etc."/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tombstone Item List -->
+        <record id="view_funeral_tombstone_item_list" model="ir.ui.view">
+            <field name="name">funeral.tombstone.item.list</field>
+            <field name="model">funeral.tombstone.item</field>
+            <field name="arch" type="xml">
+                <list string="Tombstone Items">
+                    <field name="name"/>
+                    <field name="type_id"/>
+                    <field name="supplier_id"/>
+                    <field name="cost_price"/>
+                    <field name="selling_price"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Tombstone Order Form -->
+        <record id="view_funeral_tombstone_order_form" model="ir.ui.view">
+            <field name="name">funeral.tombstone.order.form</field>
+            <field name="model">funeral.tombstone.order</field>
+            <field name="arch" type="xml">
+                <form string="Tombstone Order">
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,pending,ordered,completed"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group string="Customer &amp; Policy">
+                                <field name="customer_name"/>
+                                <field name="customer_phone"/>
+                                <field name="policy_id"/>
+                                <field name="branch_id"/>
+                            </group>
+                            <group string="Order Dates">
+                                <field name="order_date"/>
+                                <field name="expected_date"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group string="Product &amp; Supplier">
+                                <field name="item_id"/>
+                                <field name="supplier_id"/>
+                            </group>
+                            <group string="Financials">
+                                <field name="selling_price"/>
+                                <field name="amount_paid"/>
+                                <field name="balance_due" decoration-danger="balance_due &gt; 0"/>
+                                <field name="cost_price" groups="base.group_erp_manager"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Inscription / Message">
+                                <field name="inscription" placeholder="Enter the exact text to be written on the tombstone..."/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tombstone Order List -->
+        <record id="view_funeral_tombstone_order_list" model="ir.ui.view">
+            <field name="name">funeral.tombstone.order.list</field>
+            <field name="model">funeral.tombstone.order</field>
+            <field name="arch" type="xml">
+                <list string="Tombstone Orders">
+                    <field name="name"/>
+                    <field name="customer_name"/>
+                    <field name="item_id"/>
+                    <field name="order_date"/>
+                    <field name="balance_due" sum="Total Balance"/>
+                    <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-warning="state in ('pending','ordered')" decoration-success="state == 'completed'"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Actions -->
+        <record id="action_funeral_tombstone_item" model="ir.actions.act_window">
+            <field name="name">Tombstone Pricing &amp; Items</field>
+            <field name="res_model">funeral.tombstone.item</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        
+        <record id="action_funeral_tombstone_order" model="ir.actions.act_window">
+            <field name="name">Tombstone Orders</field>
+            <field name="res_model">funeral.tombstone.order</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <!-- Menus -->
+        <menuitem id="menu_funeral_tombstones"
+                  name="Tombstones"
+                  parent="menu_funeral_root"
+                  sequence="80"/>
+                  
+        <menuitem id="menu_tombstone_operations"
+                  name="Orders &amp; Processing"
+                  parent="menu_funeral_tombstones"
+                  sequence="10"/>
+                  
+        <menuitem id="menu_tombstone_orders"
+                  name="Tombstone Orders"
+                  parent="menu_tombstone_operations"
+                  action="action_funeral_tombstone_order"
+                  sequence="10"/>
+                  
+        <menuitem id="menu_tombstone_static"
+                  name="Static Data"
+                  parent="menu_funeral_tombstones"
+                  sequence="20"/>
+                  
+        <menuitem id="menu_tombstone_items"
+                  name="Tombstone Pricing (Items)"
+                  parent="menu_tombstone_static"
+                  action="action_funeral_tombstone_item"
+                  sequence="10"/>
+    </data>
+</odoo>
