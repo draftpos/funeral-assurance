@@ -1,0 +1,1256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- This file contains the remaining report menus dynamically generated -->
+
+        <!-- menu_report_cat_operations Actions and Menus -->
+
+        <record id="action_menu_report_cat_operations_clients_listing" model="ir.actions.act_window">
+            <field name="name">Clients Listing</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_clients_listing" name="Clients Listing" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_clients_listing" sequence="10"/>
+        
+        <record id="action_menu_report_cat_operations_new_clients" model="ir.actions.act_window">
+            <field name="name">New Clients</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_new_clients" name="New Clients" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_new_clients" sequence="20"/>
+        
+        <record id="action_menu_report_cat_operations_clients_demographics" model="ir.actions.act_window">
+            <field name="name">Clients Demographics</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_clients_demographics" name="Clients Demographics" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_clients_demographics" sequence="30"/>
+        
+        <record id="action_menu_report_cat_operations_dependants_report" model="ir.actions.act_window">
+            <field name="name">Dependants Report</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_dependants_report" name="Dependants Report" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_dependants_report" sequence="40"/>
+        
+        <record id="action_menu_report_cat_operations_active_policies" model="ir.actions.act_window">
+            <field name="name">Active Policies</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_active_policies" name="Active Policies" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_active_policies" sequence="50"/>
+        
+        <record id="action_menu_report_cat_operations_lapsed_policies" model="ir.actions.act_window">
+            <field name="name">Lapsed Policies</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_lapsed_policies" name="Lapsed Policies" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_lapsed_policies" sequence="60"/>
+        
+        <record id="action_menu_report_cat_operations_overdue_policies" model="ir.actions.act_window">
+            <field name="name">Overdue Policies</field>
+            <field name="res_model">funeral.policy</field>
+            <field name="view_mode">list,form</field>
+            <field name="search_view_id" ref="funeral_assurance.view_funeral_policy_search"/>
+            <field name="context">{'search_default_filter_arrears': 1}</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_overdue_policies" name="Overdue Policies" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_overdue_policies" sequence="65"/>
+        
+        <record id="action_menu_report_cat_operations_cancelled_policies" model="ir.actions.act_window">
+            <field name="name">Cancelled Policies</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_cancelled_policies" name="Cancelled Policies" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_cancelled_policies" sequence="70"/>
+        
+        <record id="action_menu_report_cat_operations_suspended_policies" model="ir.actions.act_window">
+            <field name="name">Suspended Policies</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_suspended_policies" name="Suspended Policies" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_suspended_policies" sequence="80"/>
+        
+        <record id="action_menu_report_cat_operations_underwriting_policies" model="ir.actions.act_window">
+            <field name="name">Underwriting Policies</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_underwriting_policies" name="Underwriting Policies" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_underwriting_policies" sequence="90"/>
+        
+        <record id="action_menu_report_cat_operations_extended_family_report" model="ir.actions.act_window">
+            <field name="name">Extended Family Report</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_extended_family_report" name="Extended Family Report" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_extended_family_report" sequence="100"/>
+        
+        <record id="action_menu_report_cat_operations_collections_daily_premiums" model="ir.actions.act_window">
+            <field name="name">Collections Daily Premiums</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_collections_daily_premiums" name="Collections Daily Premiums" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_collections_daily_premiums" sequence="110"/>
+        
+        <record id="action_menu_report_cat_operations_collections_monthly_premiums" model="ir.actions.act_window">
+            <field name="name">Collections Monthly Premiums</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_collections_monthly_premiums" name="Collections Monthly Premiums" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_collections_monthly_premiums" sequence="120"/>
+        
+        <record id="action_menu_report_cat_operations_summarized_premiuns_collection" model="ir.actions.act_window">
+            <field name="name">Summarized Premiuns Collections</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_summarized_premiuns_collection" name="Summarized Premiuns Collections" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_summarized_premiuns_collection" sequence="130"/>
+        
+        <record id="action_menu_report_cat_operations_debit_order_premiums_collectio" model="ir.actions.act_window">
+            <field name="name">Debit Order Premiums Collections</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_debit_order_premiums_collectio" name="Debit Order Premiums Collections" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_debit_order_premiums_collectio" sequence="140"/>
+        
+        <record id="action_menu_report_cat_operations_stop_order_premiums_collection" model="ir.actions.act_window">
+            <field name="name">Stop Order Premiums Collections</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_stop_order_premiums_collection" name="Stop Order Premiums Collections" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_stop_order_premiums_collection" sequence="150"/>
+        
+        <record id="action_menu_report_cat_operations_outstanding_premiums_collected" model="ir.actions.act_window">
+            <field name="name">Outstanding Premiums Collected</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_outstanding_premiums_collected" name="Outstanding Premiums Collected" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_outstanding_premiums_collected" sequence="160"/>
+        
+        <record id="action_menu_report_cat_operations_arrears_report" model="ir.actions.act_window">
+            <field name="name">Arrears Report</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_arrears_report" name="Arrears Report" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_arrears_report" sequence="170"/>
+        
+        <record id="action_menu_report_cat_operations_premiums_collections_success_r" model="ir.actions.act_window">
+            <field name="name">Premiums Collections Success Rate</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_premiums_collections_success_r" name="Premiums Collections Success Rate" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_premiums_collections_success_r" sequence="180"/>
+        
+        <record id="action_menu_report_cat_operations_premiums_collection_failure_re" model="ir.actions.act_window">
+            <field name="name">Premiums Collection Failure Report</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_premiums_collection_failure_re" name="Premiums Collection Failure Report" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_premiums_collection_failure_re" sequence="190"/>
+        
+        <record id="action_menu_report_cat_operations_premiums_reversed_transactions" model="ir.actions.act_window">
+            <field name="name">Premiums Reversed Transactions</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_premiums_reversed_transactions" name="Premiums Reversed Transactions" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_premiums_reversed_transactions" sequence="200"/>
+        
+        <record id="action_menu_report_cat_operations_premiums_collection_reconcilia" model="ir.actions.act_window">
+            <field name="name">Premiums Collection Reconciliation Report</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_premiums_collection_reconcilia" name="Premiums Collection Reconciliation Report" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_premiums_collection_reconcilia" sequence="210"/>
+        
+        <record id="action_menu_report_cat_operations_branch_premiums_collections_re" model="ir.actions.act_window">
+            <field name="name">Branch Premiums Collections Report</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_branch_premiums_collections_re" name="Branch Premiums Collections Report" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_branch_premiums_collections_re" sequence="220"/>
+        
+        <record id="action_menu_report_cat_operations_agent_premiums_collections_rep" model="ir.actions.act_window">
+            <field name="name">Agent Premiums Collections Report</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_agent_premiums_collections_rep" name="Agent Premiums Collections Report" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_agent_premiums_collections_rep" sequence="230"/>
+        
+        <record id="action_menu_report_cat_operations_premiums_collection_analysis_r" model="ir.actions.act_window">
+            <field name="name">Premiums Collection Analysis Report</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_premiums_collection_analysis_r" name="Premiums Collection Analysis Report" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_premiums_collection_analysis_r" sequence="240"/>
+        
+        <record id="action_menu_report_cat_operations_outstanding_premium_debtors" model="ir.actions.act_window">
+            <field name="name">Outstanding Premium Debtors</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_outstanding_premium_debtors" name="Outstanding Premium Debtors" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_outstanding_premium_debtors" sequence="250"/>
+        
+        <record id="action_menu_report_cat_operations_premium_debtor_age_analysis" model="ir.actions.act_window">
+            <field name="name">Premium Debtor Age Analysis</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_premium_debtor_age_analysis" name="Premium Debtor Age Analysis" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_premium_debtor_age_analysis" sequence="260"/>
+        
+        <record id="action_menu_report_cat_operations_premium_debtors_by_funeral" model="ir.actions.act_window">
+            <field name="name">Premium Debtors by Funeral</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_premium_debtors_by_funeral" name="Premium Debtors by Funeral" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_premium_debtors_by_funeral" sequence="270"/>
+        
+        <record id="action_menu_report_cat_operations_premium_debtors_by_policy" model="ir.actions.act_window">
+            <field name="name">Premium Debtors by Policy</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_premium_debtors_by_policy" name="Premium Debtors by Policy" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_premium_debtors_by_policy" sequence="280"/>
+        
+        <record id="action_menu_report_cat_operations_premium_debtors_by_branch" model="ir.actions.act_window">
+            <field name="name">Premium Debtors by Branch</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_premium_debtors_by_branch" name="Premium Debtors by Branch" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_premium_debtors_by_branch" sequence="290"/>
+        
+        <record id="action_menu_report_cat_operations_premium_collection_follow_up_r" model="ir.actions.act_window">
+            <field name="name">Premium Collection Follow-up Report</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_premium_collection_follow_up_r" name="Premium Collection Follow-up Report" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_premium_collection_follow_up_r" sequence="300"/>
+        
+        <record id="action_menu_report_cat_operations_premium_bad_debt_report" model="ir.actions.act_window">
+            <field name="name">Premium Bad Debt Report</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_premium_bad_debt_report" name="Premium Bad Debt Report" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_premium_bad_debt_report" sequence="310"/>
+        
+        <record id="action_menu_report_cat_operations_premium_debtor_payment_history" model="ir.actions.act_window">
+            <field name="name">Premium Debtor Payment History</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_premium_debtor_payment_history" name="Premium Debtor Payment History" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_premium_debtor_payment_history" sequence="320"/>
+        
+        <record id="action_menu_report_cat_operations_not_yet_done_open_claims" model="ir.actions.act_window">
+            <field name="name">Not yet Done/Open Claims</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_not_yet_done_open_claims" name="Not yet Done/Open Claims" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_not_yet_done_open_claims" sequence="330"/>
+        
+        <record id="action_menu_report_cat_operations_done_andamp_closed_claims" model="ir.actions.act_window">
+            <field name="name">Done &amp; Closed Claims</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_done_andamp_closed_claims" name="Done &amp; Closed Claims" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_done_andamp_closed_claims" sequence="340"/>
+        
+        <record id="action_menu_report_cat_operations_pending_claims" model="ir.actions.act_window">
+            <field name="name">Pending Claims</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_pending_claims" name="Pending Claims" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_pending_claims" sequence="350"/>
+        
+        <record id="action_menu_report_cat_operations_approved_claims" model="ir.actions.act_window">
+            <field name="name">Approved Claims</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_approved_claims" name="Approved Claims" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_approved_claims" sequence="360"/>
+        
+        <record id="action_menu_report_cat_operations_rejected_claims" model="ir.actions.act_window">
+            <field name="name">Rejected Claims</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_rejected_claims" name="Rejected Claims" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_rejected_claims" sequence="370"/>
+        
+        <record id="action_menu_report_cat_operations_claims_by_branch" model="ir.actions.act_window">
+            <field name="name">Claims by Branch</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_claims_by_branch" name="Claims by Branch" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_claims_by_branch" sequence="380"/>
+        
+        <record id="action_menu_report_cat_operations_claims_by_agent" model="ir.actions.act_window">
+            <field name="name">Claims by Agent</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_claims_by_agent" name="Claims by Agent" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_claims_by_agent" sequence="390"/>
+        
+        <record id="action_menu_report_cat_operations_claims_by_product" model="ir.actions.act_window">
+            <field name="name">Claims by Product</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_claims_by_product" name="Claims by Product" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_claims_by_product" sequence="400"/>
+        
+        <record id="action_menu_report_cat_operations_claims_payout_report" model="ir.actions.act_window">
+            <field name="name">Claims Payout Report</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_claims_payout_report" name="Claims Payout Report" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_claims_payout_report" sequence="410"/>
+        
+        <record id="action_menu_report_cat_operations_claims_turnaround_time" model="ir.actions.act_window">
+            <field name="name">Claims Turnaround Time</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_claims_turnaround_time" name="Claims Turnaround Time" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_claims_turnaround_time" sequence="420"/>
+        
+        <record id="action_menu_report_cat_operations_claims_history" model="ir.actions.act_window">
+            <field name="name">Claims History</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_claims_history" name="Claims History" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_claims_history" sequence="430"/>
+        
+        <record id="action_menu_report_cat_operations_claims_audit_report" model="ir.actions.act_window">
+            <field name="name">Claims Audit Report</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_claims_audit_report" name="Claims Audit Report" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_claims_audit_report" sequence="440"/>
+        
+        <record id="action_menu_report_cat_operations_claims_trend_report" model="ir.actions.act_window">
+            <field name="name">Claims Trend Report</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_claims_trend_report" name="Claims Trend Report" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_claims_trend_report" sequence="450"/>
+        
+        <record id="action_menu_report_cat_operations_actuary_claims_report_structur" model="ir.actions.act_window">
+            <field name="name">Actuary Claims Report Structure</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_actuary_claims_report_structur" name="Actuary Claims Report Structure" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_actuary_claims_report_structur" sequence="460"/>
+        
+        <record id="action_menu_report_cat_operations_register___detailed_funerals" model="ir.actions.act_window">
+            <field name="name">Register - Detailed Funerals</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_register___detailed_funerals" name="Register - Detailed Funerals" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_register___detailed_funerals" sequence="470"/>
+        
+        <record id="action_menu_report_cat_operations_register__upcoming_funerals" model="ir.actions.act_window">
+            <field name="name">Register- Upcoming Funerals</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_register__upcoming_funerals" name="Register- Upcoming Funerals" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_register__upcoming_funerals" sequence="480"/>
+        
+        <record id="action_menu_report_cat_operations_register___completed_funerals" model="ir.actions.act_window">
+            <field name="name">Register - Completed Funerals</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_register___completed_funerals" name="Register - Completed Funerals" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_register___completed_funerals" sequence="490"/>
+        
+        <record id="action_menu_report_cat_operations_cost_analysis_for_funerals" model="ir.actions.act_window">
+            <field name="name">Cost Analysis for Funerals</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_cost_analysis_for_funerals" name="Cost Analysis for Funerals" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_cost_analysis_for_funerals" sequence="500"/>
+        
+        <record id="action_menu_report_cat_operations_income_report_funerals" model="ir.actions.act_window">
+            <field name="name">Income Report-Funerals</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_income_report_funerals" name="Income Report-Funerals" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_income_report_funerals" sequence="510"/>
+        
+        <record id="action_menu_report_cat_operations_funeral_profit_made" model="ir.actions.act_window">
+            <field name="name">Funeral Profit made</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_funeral_profit_made" name="Funeral Profit made" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_funeral_profit_made" sequence="520"/>
+        
+        <record id="action_menu_report_cat_operations_burial_reports" model="ir.actions.act_window">
+            <field name="name">Burial Reports</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_burial_reports" name="Burial Reports" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_burial_reports" sequence="530"/>
+        
+        <record id="action_menu_report_cat_operations_detailed_cremation_report" model="ir.actions.act_window">
+            <field name="name">Detailed Cremation Report</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_detailed_cremation_report" name="Detailed Cremation Report" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_detailed_cremation_report" sequence="540"/>
+        
+        <record id="action_menu_report_cat_operations_detailed_funeral_instruction_r" model="ir.actions.act_window">
+            <field name="name">Detailed Funeral Instruction Report</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_detailed_funeral_instruction_r" name="Detailed Funeral Instruction Report" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_detailed_funeral_instruction_r" sequence="550"/>
+        
+        <record id="action_menu_report_cat_operations_police_report_b11_report_avail" model="ir.actions.act_window">
+            <field name="name">Police Report B11 Report availability</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_police_report_b11_report_avail" name="Police Report B11 Report availability" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_police_report_b11_report_avail" sequence="560"/>
+        
+        <record id="action_menu_report_cat_operations_actual_funeral_vehicle_usage" model="ir.actions.act_window">
+            <field name="name">Actual Funeral Vehicle Usage</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_actual_funeral_vehicle_usage" name="Actual Funeral Vehicle Usage" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_actual_funeral_vehicle_usage" sequence="570"/>
+        
+        <record id="action_menu_report_cat_operations_debtors_report" model="ir.actions.act_window">
+            <field name="name">Debtors Report</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_debtors_report" name="Debtors Report" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_debtors_report" sequence="580"/>
+        
+        <record id="action_menu_report_cat_operations_audit_report" model="ir.actions.act_window">
+            <field name="name">Audit Report</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_audit_report" name="Audit Report" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_audit_report" sequence="590"/>
+        
+        <record id="action_menu_report_cat_operations_burial_society_listing" model="ir.actions.act_window">
+            <field name="name">Burial Society Listing</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_burial_society_listing" name="Burial Society Listing" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_burial_society_listing" sequence="600"/>
+        
+        <record id="action_menu_report_cat_operations_burial_society_members" model="ir.actions.act_window">
+            <field name="name">Burial Society Members</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_burial_society_members" name="Burial Society Members" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_burial_society_members" sequence="610"/>
+        
+        <record id="action_menu_report_cat_operations_burial_society_collections" model="ir.actions.act_window">
+            <field name="name">Burial Society Collections</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_burial_society_collections" name="Burial Society Collections" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_burial_society_collections" sequence="620"/>
+        
+        <record id="action_menu_report_cat_operations_burial_society_arrears" model="ir.actions.act_window">
+            <field name="name">Burial Society Arrears</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_burial_society_arrears" name="Burial Society Arrears" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_burial_society_arrears" sequence="630"/>
+        
+        <record id="action_menu_report_cat_operations_burial_society_claims" model="ir.actions.act_window">
+            <field name="name">Burial Society Claims</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_burial_society_claims" name="Burial Society Claims" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_burial_society_claims" sequence="640"/>
+        
+        <record id="action_menu_report_cat_operations_burial_society_payments" model="ir.actions.act_window">
+            <field name="name">Burial Society Payments</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_burial_society_payments" name="Burial Society Payments" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_burial_society_payments" sequence="650"/>
+        
+        <record id="action_menu_report_cat_operations_burial_society_growth_report" model="ir.actions.act_window">
+            <field name="name">Burial Society Growth Report</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_burial_society_growth_report" name="Burial Society Growth Report" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_burial_society_growth_report" sequence="660"/>
+        
+        <record id="action_menu_report_cat_operations_burial_society_summarized_repo" model="ir.actions.act_window">
+            <field name="name">Burial Society Summarized Report</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_burial_society_summarized_repo" name="Burial Society Summarized Report" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_burial_society_summarized_repo" sequence="670"/>
+        
+        <record id="action_menu_report_cat_operations_summary_of_new_business_writte" model="ir.actions.act_window">
+            <field name="name">Summary of New Business Written</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_summary_of_new_business_writte" name="Summary of New Business Written" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_summary_of_new_business_writte" sequence="680"/>
+        
+        <record id="action_menu_report_cat_operations_premiums_overpayment_report" model="ir.actions.act_window">
+            <field name="name">Premiums Overpayment Report</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_premiums_overpayment_report" name="Premiums Overpayment Report" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_premiums_overpayment_report" sequence="690"/>
+        
+        <record id="action_menu_report_cat_operations_new_business_underwriter_colle" model="ir.actions.act_window">
+            <field name="name">New Business Underwriter Collections</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_new_business_underwriter_colle" name="New Business Underwriter Collections" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_new_business_underwriter_colle" sequence="700"/>
+        
+        <record id="action_menu_report_cat_operations_summarized_underwriter_claims" model="ir.actions.act_window">
+            <field name="name">Summarized Underwriter Claims</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_summarized_underwriter_claims" name="Summarized Underwriter Claims" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_summarized_underwriter_claims" sequence="710"/>
+        
+        <record id="action_menu_report_cat_operations_product_by_product_performance" model="ir.actions.act_window">
+            <field name="name">Product by Product Performance</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_product_by_product_performance" name="Product by Product Performance" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_product_by_product_performance" sequence="720"/>
+        
+        <record id="action_menu_report_cat_operations_product_by_product_profitabili" model="ir.actions.act_window">
+            <field name="name">Product by product Profitability Report</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_product_by_product_profitabili" name="Product by product Profitability Report" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_product_by_product_profitabili" sequence="730"/>
+        
+        <record id="action_menu_report_cat_operations_payover_reconciliation_report" model="ir.actions.act_window">
+            <field name="name">Payover Reconciliation Report</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_payover_reconciliation_report" name="Payover Reconciliation Report" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_payover_reconciliation_report" sequence="740"/>
+        
+        <record id="action_menu_report_cat_operations_monthly_agent_commission_state" model="ir.actions.act_window">
+            <field name="name">Monthly Agent Commission Statements</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_monthly_agent_commission_state" name="Monthly Agent Commission Statements" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_monthly_agent_commission_state" sequence="750"/>
+        
+        <record id="action_menu_report_cat_operations_monthly_broker_commission_stat" model="ir.actions.act_window">
+            <field name="name">Monthly Broker Commission Statements</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_monthly_broker_commission_stat" name="Monthly Broker Commission Statements" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_monthly_broker_commission_stat" sequence="760"/>
+        
+        <record id="action_menu_report_cat_operations_summarised_monthly_commission_" model="ir.actions.act_window">
+            <field name="name">Summarised Monthly Commission Report by branch</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_summarised_monthly_commission_" name="Summarised Monthly Commission Report by branch" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_summarised_monthly_commission_" sequence="770"/>
+        
+        <record id="action_menu_report_cat_operations_summarized_monthly_broker_comm" model="ir.actions.act_window">
+            <field name="name">Summarized Monthly Broker Commissions</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_summarized_monthly_broker_comm" name="Summarized Monthly Broker Commissions" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_summarized_monthly_broker_comm" sequence="780"/>
+        
+        <record id="action_menu_report_cat_operations_outstanding_commission_report" model="ir.actions.act_window">
+            <field name="name">Outstanding Commission Report</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_outstanding_commission_report" name="Outstanding Commission Report" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_outstanding_commission_report" sequence="790"/>
+        
+        <record id="action_menu_report_cat_operations_commissions_by_product_summari" model="ir.actions.act_window">
+            <field name="name">Commissions by Product Summarized</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_commissions_by_product_summari" name="Commissions by Product Summarized" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_commissions_by_product_summari" sequence="800"/>
+        
+        <record id="action_menu_report_cat_operations_commissions_by_branch_summariz" model="ir.actions.act_window">
+            <field name="name">Commissions by Branch Summarized</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_commissions_by_branch_summariz" name="Commissions by Branch Summarized" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_commissions_by_branch_summariz" sequence="810"/>
+        
+        <record id="action_menu_report_cat_operations_current_stock_levels" model="ir.actions.act_window">
+            <field name="name">Current Stock Levels</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_current_stock_levels" name="Current Stock Levels" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_current_stock_levels" sequence="820"/>
+        
+        <record id="action_menu_report_cat_operations_low_stock_report" model="ir.actions.act_window">
+            <field name="name">Low Stock Report</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_low_stock_report" name="Low Stock Report" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_low_stock_report" sequence="830"/>
+        
+        <record id="action_menu_report_cat_operations_stock_movement_report" model="ir.actions.act_window">
+            <field name="name">Stock Movement Report</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_stock_movement_report" name="Stock Movement Report" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_stock_movement_report" sequence="840"/>
+        
+        <record id="action_menu_report_cat_operations_stock_valuation" model="ir.actions.act_window">
+            <field name="name">Stock Valuation</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_stock_valuation" name="Stock Valuation" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_stock_valuation" sequence="850"/>
+        
+        <record id="action_menu_report_cat_operations_stock_issues_report" model="ir.actions.act_window">
+            <field name="name">Stock Issues Report</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_stock_issues_report" name="Stock Issues Report" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_stock_issues_report" sequence="860"/>
+        
+        <record id="action_menu_report_cat_operations_stock_purchases" model="ir.actions.act_window">
+            <field name="name">Stock Purchases</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_stock_purchases" name="Stock Purchases" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_stock_purchases" sequence="870"/>
+        
+        <record id="action_menu_report_cat_operations_stock_usage_report" model="ir.actions.act_window">
+            <field name="name">Stock Usage Report</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_stock_usage_report" name="Stock Usage Report" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_stock_usage_report" sequence="880"/>
+        
+        <record id="action_menu_report_cat_operations_stock_audit_report" model="ir.actions.act_window">
+            <field name="name">Stock Audit Report</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_stock_audit_report" name="Stock Audit Report" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_stock_audit_report" sequence="890"/>
+        
+        <record id="action_menu_report_cat_operations_income_report" model="ir.actions.act_window">
+            <field name="name">Income Report</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_income_report" name="Income Report" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_income_report" sequence="900"/>
+        
+        <record id="action_menu_report_cat_operations_expense_report" model="ir.actions.act_window">
+            <field name="name">Expense Report</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_expense_report" name="Expense Report" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_expense_report" sequence="910"/>
+        
+        <record id="action_menu_report_cat_operations_profitability_report" model="ir.actions.act_window">
+            <field name="name">Profitability Report</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_profitability_report" name="Profitability Report" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_profitability_report" sequence="920"/>
+        
+        <record id="action_menu_report_cat_operations_cash_flow_report" model="ir.actions.act_window">
+            <field name="name">Cash Flow Report</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_cash_flow_report" name="Cash Flow Report" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_cash_flow_report" sequence="930"/>
+        
+        <record id="action_menu_report_cat_operations_revenue_analysis" model="ir.actions.act_window">
+            <field name="name">Revenue Analysis</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_revenue_analysis" name="Revenue Analysis" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_revenue_analysis" sequence="940"/>
+        
+        <record id="action_menu_report_cat_operations_monthly_financial_summary" model="ir.actions.act_window">
+            <field name="name">Monthly Financial Summary</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_monthly_financial_summary" name="Monthly Financial Summary" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_monthly_financial_summary" sequence="950"/>
+        
+        <record id="action_menu_report_cat_operations_branch_financial_report" model="ir.actions.act_window">
+            <field name="name">Branch Financial Report</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_branch_financial_report" name="Branch Financial Report" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_branch_financial_report" sequence="960"/>
+        
+        <record id="action_menu_report_cat_operations_collection_vs_claims_analysis" model="ir.actions.act_window">
+            <field name="name">Collection vs Claims Analysis</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_collection_vs_claims_analysis" name="Collection vs Claims Analysis" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_collection_vs_claims_analysis" sequence="970"/>
+        
+        <record id="action_menu_report_cat_operations_performance_summary" model="ir.actions.act_window">
+            <field name="name">Performance Summary</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_performance_summary" name="Performance Summary" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_performance_summary" sequence="980"/>
+        
+        <record id="action_menu_report_cat_operations_growth_analysis" model="ir.actions.act_window">
+            <field name="name">Growth Analysis</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_growth_analysis" name="Growth Analysis" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_growth_analysis" sequence="990"/>
+        
+        <record id="action_menu_report_cat_operations_collection_kpis" model="ir.actions.act_window">
+            <field name="name">Collection KPIs</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_collection_kpis" name="Collection KPIs" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_collection_kpis" sequence="1000"/>
+        
+        <record id="action_menu_report_cat_operations_claims_kpis" model="ir.actions.act_window">
+            <field name="name">Claims KPIs</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_claims_kpis" name="Claims KPIs" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_claims_kpis" sequence="1010"/>
+        
+        <record id="action_menu_report_cat_operations_branch_comparison" model="ir.actions.act_window">
+            <field name="name">Branch Comparison</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_branch_comparison" name="Branch Comparison" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_branch_comparison" sequence="1020"/>
+        
+        <record id="action_menu_report_cat_operations_agent_performance" model="ir.actions.act_window">
+            <field name="name">Agent Performance</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_agent_performance" name="Agent Performance" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_agent_performance" sequence="1030"/>
+        
+        <record id="action_menu_report_cat_operations_monthly_executive_summary" model="ir.actions.act_window">
+            <field name="name">Monthly Executive Summary</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_monthly_executive_summary" name="Monthly Executive Summary" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_monthly_executive_summary" sequence="1040"/>
+        
+        <record id="action_menu_report_cat_operations_year_to_date_performance_repor" model="ir.actions.act_window">
+            <field name="name">Year-to-Date Performance Report</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_operations_year_to_date_performance_repor" name="Year-to-Date Performance Report" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_year_to_date_performance_repor" sequence="1050"/>
+        
+        <!-- menu_report_cat_tombstones Actions and Menus -->
+
+        <record id="action_menu_report_cat_tombstones_tombstones_orders_report" model="ir.actions.act_window">
+            <field name="name">Tombstones Orders Report</field>
+            <field name="res_model">funeral.tombstone.order</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_tombstones_tombstones_orders_report" name="Tombstones Orders Report" parent="menu_report_cat_tombstones" action="action_menu_report_cat_tombstones_tombstones_orders_report" sequence="10"/>
+        
+        <record id="action_menu_report_cat_tombstones_pending_orders_report" model="ir.actions.act_window">
+            <field name="name">Pending Orders Report</field>
+            <field name="res_model">funeral.tombstone.order</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_tombstones_pending_orders_report" name="Pending Orders Report" parent="menu_report_cat_tombstones" action="action_menu_report_cat_tombstones_pending_orders_report" sequence="20"/>
+        
+        <record id="action_menu_report_cat_tombstones_completed_orders_report" model="ir.actions.act_window">
+            <field name="name">Completed Orders Report</field>
+            <field name="res_model">funeral.tombstone.order</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_tombstones_completed_orders_report" name="Completed Orders Report" parent="menu_report_cat_tombstones" action="action_menu_report_cat_tombstones_completed_orders_report" sequence="30"/>
+        
+        <record id="action_menu_report_cat_tombstones_tombstones_debtors_report" model="ir.actions.act_window">
+            <field name="name">Tombstones Debtors Report</field>
+            <field name="res_model">funeral.tombstone.order</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_tombstones_tombstones_debtors_report" name="Tombstones Debtors Report" parent="menu_report_cat_tombstones" action="action_menu_report_cat_tombstones_tombstones_debtors_report" sequence="40"/>
+        
+        <record id="action_menu_report_cat_tombstones_suppliers_report" model="ir.actions.act_window">
+            <field name="name">Suppliers Report</field>
+            <field name="res_model">funeral.tombstone.order</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_tombstones_suppliers_report" name="Suppliers Report" parent="menu_report_cat_tombstones" action="action_menu_report_cat_tombstones_suppliers_report" sequence="50"/>
+        
+        <record id="action_menu_report_cat_tombstones_tombstone_profitability_report" model="ir.actions.act_window">
+            <field name="name">Tombstone Profitability report</field>
+            <field name="res_model">funeral.tombstone.order</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_tombstones_tombstone_profitability_report" name="Tombstone Profitability report" parent="menu_report_cat_tombstones" action="action_menu_report_cat_tombstones_tombstone_profitability_report" sequence="60"/>
+        
+        <record id="action_menu_report_cat_tombstones_tombstone_sales_analysis_repor" model="ir.actions.act_window">
+            <field name="name">Tombstone Sales Analysis report</field>
+            <field name="res_model">funeral.tombstone.order</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_tombstones_tombstone_sales_analysis_repor" name="Tombstone Sales Analysis report" parent="menu_report_cat_tombstones" action="action_menu_report_cat_tombstones_tombstone_sales_analysis_repor" sequence="70"/>
+        
+        <record id="action_menu_report_cat_tombstones_tombstones_sales_by_branch" model="ir.actions.act_window">
+            <field name="name">Tombstones Sales by Branch</field>
+            <field name="res_model">funeral.tombstone.order</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_tombstones_tombstones_sales_by_branch" name="Tombstones Sales by Branch" parent="menu_report_cat_tombstones" action="action_menu_report_cat_tombstones_tombstones_sales_by_branch" sequence="80"/>
+        
+        <record id="action_menu_report_cat_tombstones_highest_sales_by_branch_list" model="ir.actions.act_window">
+            <field name="name">Highest Sales by Branch list</field>
+            <field name="res_model">funeral.tombstone.order</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_tombstones_highest_sales_by_branch_list" name="Highest Sales by Branch list" parent="menu_report_cat_tombstones" action="action_menu_report_cat_tombstones_highest_sales_by_branch_list" sequence="90"/>
+        
+        <!-- menu_report_cat_audit Actions and Menus -->
+
+        <record id="action_menu_report_cat_audit_user_activity_report" model="ir.actions.act_window">
+            <field name="name">User Activity Report</field>
+            <field name="res_model">res.users</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_audit_user_activity_report" name="User Activity Report" parent="menu_report_cat_audit" action="action_menu_report_cat_audit_user_activity_report" sequence="10"/>
+        
+        <record id="action_menu_report_cat_audit_login_history" model="ir.actions.act_window">
+            <field name="name">Login History</field>
+            <field name="res_model">res.users</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_audit_login_history" name="Login History" parent="menu_report_cat_audit" action="action_menu_report_cat_audit_login_history" sequence="20"/>
+        
+        <record id="action_menu_report_cat_audit_transaction_audit_trail" model="ir.actions.act_window">
+            <field name="name">Transaction Audit Trail</field>
+            <field name="res_model">res.users</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_audit_transaction_audit_trail" name="Transaction Audit Trail" parent="menu_report_cat_audit" action="action_menu_report_cat_audit_transaction_audit_trail" sequence="30"/>
+        
+        <record id="action_menu_report_cat_audit_deleted_records_report" model="ir.actions.act_window">
+            <field name="name">Deleted Records Report</field>
+            <field name="res_model">res.users</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_audit_deleted_records_report" name="Deleted Records Report" parent="menu_report_cat_audit" action="action_menu_report_cat_audit_deleted_records_report" sequence="40"/>
+        
+        <record id="action_menu_report_cat_audit_data_changes_report" model="ir.actions.act_window">
+            <field name="name">Data Changes Report</field>
+            <field name="res_model">res.users</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_audit_data_changes_report" name="Data Changes Report" parent="menu_report_cat_audit" action="action_menu_report_cat_audit_data_changes_report" sequence="50"/>
+        
+        <record id="action_menu_report_cat_audit_branch_activity_report" model="ir.actions.act_window">
+            <field name="name">Branch Activity Report</field>
+            <field name="res_model">res.users</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_audit_branch_activity_report" name="Branch Activity Report" parent="menu_report_cat_audit" action="action_menu_report_cat_audit_branch_activity_report" sequence="60"/>
+        
+        <record id="action_menu_report_cat_audit_fraud_investigation_report" model="ir.actions.act_window">
+            <field name="name">Fraud Investigation Report</field>
+            <field name="res_model">res.users</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_audit_fraud_investigation_report" name="Fraud Investigation Report" parent="menu_report_cat_audit" action="action_menu_report_cat_audit_fraud_investigation_report" sequence="70"/>
+        
+        <record id="action_menu_report_cat_audit_security_audit_report" model="ir.actions.act_window">
+            <field name="name">Security Audit Report</field>
+            <field name="res_model">res.users</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_audit_security_audit_report" name="Security Audit Report" parent="menu_report_cat_audit" action="action_menu_report_cat_audit_security_audit_report" sequence="80"/>
+        
+        <!-- menu_report_cat_vehicles Actions and Menus -->
+
+        <record id="action_menu_report_cat_vehicles_vehicle_registers___vehicle_ma" model="ir.actions.act_window">
+            <field name="name">Vehicle Registers - Vehicle Master List</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_vehicle_registers___vehicle_ma" name="Vehicle Registers - Vehicle Master List" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_vehicle_registers___vehicle_ma" sequence="10"/>
+        
+        <record id="action_menu_report_cat_vehicles_vehicle_status_report" model="ir.actions.act_window">
+            <field name="name">Vehicle Status Report</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_vehicle_status_report" name="Vehicle Status Report" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_vehicle_status_report" sequence="20"/>
+        
+        <record id="action_menu_report_cat_vehicles_active_vehicles" model="ir.actions.act_window">
+            <field name="name">Active Vehicles</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_active_vehicles" name="Active Vehicles" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_active_vehicles" sequence="30"/>
+        
+        <record id="action_menu_report_cat_vehicles_inactive_vehicles" model="ir.actions.act_window">
+            <field name="name">Inactive Vehicles</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_inactive_vehicles" name="Inactive Vehicles" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_inactive_vehicles" sequence="40"/>
+        
+        <record id="action_menu_report_cat_vehicles_vehicle_allocation_report" model="ir.actions.act_window">
+            <field name="name">Vehicle Allocation Report</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_vehicle_allocation_report" name="Vehicle Allocation Report" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_vehicle_allocation_report" sequence="50"/>
+        
+        <record id="action_menu_report_cat_vehicles_vehicle_ownership_report" model="ir.actions.act_window">
+            <field name="name">Vehicle Ownership Report</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_vehicle_ownership_report" name="Vehicle Ownership Report" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_vehicle_ownership_report" sequence="60"/>
+        
+        <record id="action_menu_report_cat_vehicles_vehicle_utilization_report" model="ir.actions.act_window">
+            <field name="name">Vehicle Utilization Report</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_vehicle_utilization_report" name="Vehicle Utilization Report" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_vehicle_utilization_report" sequence="70"/>
+        
+        <record id="action_menu_report_cat_vehicles_vehicle_trip_report" model="ir.actions.act_window">
+            <field name="name">Vehicle Trip Report</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_vehicle_trip_report" name="Vehicle Trip Report" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_vehicle_trip_report" sequence="80"/>
+        
+        <record id="action_menu_report_cat_vehicles_daily_vehicle_usage" model="ir.actions.act_window">
+            <field name="name">Daily Vehicle Usage</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_daily_vehicle_usage" name="Daily Vehicle Usage" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_daily_vehicle_usage" sequence="90"/>
+        
+        <record id="action_menu_report_cat_vehicles_monthly_vehicle_usage" model="ir.actions.act_window">
+            <field name="name">Monthly Vehicle Usage</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_monthly_vehicle_usage" name="Monthly Vehicle Usage" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_monthly_vehicle_usage" sequence="100"/>
+        
+        <record id="action_menu_report_cat_vehicles_vehicle_booking_report" model="ir.actions.act_window">
+            <field name="name">Vehicle Booking Report</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_vehicle_booking_report" name="Vehicle Booking Report" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_vehicle_booking_report" sequence="110"/>
+        
+        <record id="action_menu_report_cat_vehicles_vehicle_movement_report" model="ir.actions.act_window">
+            <field name="name">Vehicle Movement Report</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_vehicle_movement_report" name="Vehicle Movement Report" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_vehicle_movement_report" sequence="120"/>
+        
+        <record id="action_menu_report_cat_vehicles_vehicle_mileage_report" model="ir.actions.act_window">
+            <field name="name">Vehicle Mileage Report</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_vehicle_mileage_report" name="Vehicle Mileage Report" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_vehicle_mileage_report" sequence="130"/>
+        
+        <record id="action_menu_report_cat_vehicles_driver_allocation_report" model="ir.actions.act_window">
+            <field name="name">Driver Allocation Report</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_driver_allocation_report" name="Driver Allocation Report" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_driver_allocation_report" sequence="140"/>
+        
+        <record id="action_menu_report_cat_vehicles_fuel_consumption_report" model="ir.actions.act_window">
+            <field name="name">Fuel Consumption Report</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_fuel_consumption_report" name="Fuel Consumption Report" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_fuel_consumption_report" sequence="150"/>
+        
+        <record id="action_menu_report_cat_vehicles_fuel_cost_analysis" model="ir.actions.act_window">
+            <field name="name">Fuel Cost Analysis</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_fuel_cost_analysis" name="Fuel Cost Analysis" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_fuel_cost_analysis" sequence="160"/>
+        
+        <record id="action_menu_report_cat_vehicles_fuel_per_vehicle_report" model="ir.actions.act_window">
+            <field name="name">Fuel per Vehicle Report</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_fuel_per_vehicle_report" name="Fuel per Vehicle Report" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_fuel_per_vehicle_report" sequence="170"/>
+        
+        <record id="action_menu_report_cat_vehicles_fuel_per_driver_report" model="ir.actions.act_window">
+            <field name="name">Fuel per Driver Report</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_fuel_per_driver_report" name="Fuel per Driver Report" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_fuel_per_driver_report" sequence="180"/>
+        
+        <record id="action_menu_report_cat_vehicles_monthly_fuel_summary" model="ir.actions.act_window">
+            <field name="name">Monthly Fuel Summary</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_monthly_fuel_summary" name="Monthly Fuel Summary" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_monthly_fuel_summary" sequence="190"/>
+        
+        <record id="action_menu_report_cat_vehicles_fuel_variance_report" model="ir.actions.act_window">
+            <field name="name">Fuel Variance Report</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_fuel_variance_report" name="Fuel Variance Report" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_fuel_variance_report" sequence="200"/>
+        
+        <record id="action_menu_report_cat_vehicles_vehicle_maintenance_report" model="ir.actions.act_window">
+            <field name="name">Vehicle Maintenance Report</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_vehicle_maintenance_report" name="Vehicle Maintenance Report" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_vehicle_maintenance_report" sequence="210"/>
+        
+        <record id="action_menu_report_cat_vehicles_scheduled_services_report" model="ir.actions.act_window">
+            <field name="name">Scheduled Services Report</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_scheduled_services_report" name="Scheduled Services Report" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_scheduled_services_report" sequence="220"/>
+        
+        <record id="action_menu_report_cat_vehicles_service_history_report" model="ir.actions.act_window">
+            <field name="name">Service History Report</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_service_history_report" name="Service History Report" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_service_history_report" sequence="230"/>
+        
+        <record id="action_menu_report_cat_vehicles_maintenance_cost_analysis" model="ir.actions.act_window">
+            <field name="name">Maintenance Cost Analysis</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_maintenance_cost_analysis" name="Maintenance Cost Analysis" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_maintenance_cost_analysis" sequence="240"/>
+        
+        <record id="action_menu_report_cat_vehicles_workshop_repair_report" model="ir.actions.act_window">
+            <field name="name">Workshop Repair Report</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_workshop_repair_report" name="Workshop Repair Report" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_workshop_repair_report" sequence="250"/>
+        
+        <record id="action_menu_report_cat_vehicles_vehicle_breakdown_report" model="ir.actions.act_window">
+            <field name="name">Vehicle Breakdown Report</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_vehicle_breakdown_report" name="Vehicle Breakdown Report" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_vehicle_breakdown_report" sequence="260"/>
+        
+        <record id="action_menu_report_cat_vehicles_parts_replacement_report" model="ir.actions.act_window">
+            <field name="name">Parts Replacement Report</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_parts_replacement_report" name="Parts Replacement Report" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_parts_replacement_report" sequence="270"/>
+        
+        <record id="action_menu_report_cat_vehicles_hearse_usage_report" model="ir.actions.act_window">
+            <field name="name">Hearse Usage Report</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_hearse_usage_report" name="Hearse Usage Report" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_hearse_usage_report" sequence="280"/>
+        
+        <record id="action_menu_report_cat_vehicles_family_car_usage_report" model="ir.actions.act_window">
+            <field name="name">Family Car Usage Report</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_family_car_usage_report" name="Family Car Usage Report" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_family_car_usage_report" sequence="290"/>
+        
+        <record id="action_menu_report_cat_vehicles_funeral_vehicle_allocation" model="ir.actions.act_window">
+            <field name="name">Funeral Vehicle Allocation</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_funeral_vehicle_allocation" name="Funeral Vehicle Allocation" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_funeral_vehicle_allocation" sequence="300"/>
+        
+        <record id="action_menu_report_cat_vehicles_funeral_transport_costs" model="ir.actions.act_window">
+            <field name="name">Funeral Transport Costs</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_funeral_transport_costs" name="Funeral Transport Costs" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_funeral_transport_costs" sequence="310"/>
+        
+        <record id="action_menu_report_cat_vehicles_vehicle_usage_by_funeral" model="ir.actions.act_window">
+            <field name="name">Vehicle Usage by Funeral</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_vehicle_usage_by_funeral" name="Vehicle Usage by Funeral" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_vehicle_usage_by_funeral" sequence="320"/>
+        
+        <record id="action_menu_report_cat_vehicles_vehicle_availability_report" model="ir.actions.act_window">
+            <field name="name">Vehicle Availability Report</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_vehicle_availability_report" name="Vehicle Availability Report" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_vehicle_availability_report" sequence="330"/>
+        
+        <record id="action_menu_report_cat_vehicles_driver_assignment_report" model="ir.actions.act_window">
+            <field name="name">Driver Assignment Report</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_driver_assignment_report" name="Driver Assignment Report" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_driver_assignment_report" sequence="340"/>
+        
+        <record id="action_menu_report_cat_vehicles_driver_performance_report" model="ir.actions.act_window">
+            <field name="name">Driver Performance Report</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_driver_performance_report" name="Driver Performance Report" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_driver_performance_report" sequence="350"/>
+        
+        <record id="action_menu_report_cat_vehicles_driver_trip_history_report" model="ir.actions.act_window">
+            <field name="name">Driver Trip History Report</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_driver_trip_history_report" name="Driver Trip History Report" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_driver_trip_history_report" sequence="360"/>
+        
+        <record id="action_menu_report_cat_vehicles_driver_incident_report" model="ir.actions.act_window">
+            <field name="name">Driver Incident Report</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_driver_incident_report" name="Driver Incident Report" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_driver_incident_report" sequence="370"/>
+        
+        <record id="action_menu_report_cat_vehicles_driver_licence_expiry_report" model="ir.actions.act_window">
+            <field name="name">Driver Licence Expiry Report</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_driver_licence_expiry_report" name="Driver Licence Expiry Report" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_driver_licence_expiry_report" sequence="380"/>
+        
+        <record id="action_menu_report_cat_vehicles_vehicle_licence_expiry_report" model="ir.actions.act_window">
+            <field name="name">Vehicle Licence Expiry Report</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_vehicle_licence_expiry_report" name="Vehicle Licence Expiry Report" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_vehicle_licence_expiry_report" sequence="390"/>
+        
+        <record id="action_menu_report_cat_vehicles_insurance_expiry_report" model="ir.actions.act_window">
+            <field name="name">Insurance Expiry Report</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_insurance_expiry_report" name="Insurance Expiry Report" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_insurance_expiry_report" sequence="400"/>
+        
+        <record id="action_menu_report_cat_vehicles_roadworthy_certificate_report" model="ir.actions.act_window">
+            <field name="name">Roadworthy Certificate Report</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_roadworthy_certificate_report" name="Roadworthy Certificate Report" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_roadworthy_certificate_report" sequence="410"/>
+        
+        <record id="action_menu_report_cat_vehicles_vehicle_inspection_report" model="ir.actions.act_window">
+            <field name="name">Vehicle Inspection Report</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_vehicle_inspection_report" name="Vehicle Inspection Report" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_vehicle_inspection_report" sequence="420"/>
+        
+        <record id="action_menu_report_cat_vehicles_compliance_status_report" model="ir.actions.act_window">
+            <field name="name">Compliance Status Report</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_compliance_status_report" name="Compliance Status Report" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_compliance_status_report" sequence="430"/>
+        
+        <record id="action_menu_report_cat_vehicles_vehicle_cost_analysis" model="ir.actions.act_window">
+            <field name="name">Vehicle Cost Analysis</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_vehicle_cost_analysis" name="Vehicle Cost Analysis" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_vehicle_cost_analysis" sequence="440"/>
+        
+        <record id="action_menu_report_cat_vehicles_vehicle_profitability_report" model="ir.actions.act_window">
+            <field name="name">Vehicle Profitability Report</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_vehicle_profitability_report" name="Vehicle Profitability Report" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_vehicle_profitability_report" sequence="450"/>
+        
+        <record id="action_menu_report_cat_vehicles_vehicle_expense_report" model="ir.actions.act_window">
+            <field name="name">Vehicle Expense Report</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_vehicle_expense_report" name="Vehicle Expense Report" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_vehicle_expense_report" sequence="460"/>
+        
+        <record id="action_menu_report_cat_vehicles_vehicle_budget_report" model="ir.actions.act_window">
+            <field name="name">Vehicle Budget Report</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_vehicle_budget_report" name="Vehicle Budget Report" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_vehicle_budget_report" sequence="470"/>
+        
+        <record id="action_menu_report_cat_vehicles_cost_per_kilometer_report" model="ir.actions.act_window">
+            <field name="name">Cost per Kilometer Report</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_cost_per_kilometer_report" name="Cost per Kilometer Report" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_cost_per_kilometer_report" sequence="480"/>
+        
+        <record id="action_menu_report_cat_vehicles_fleet_operating_cost_report" model="ir.actions.act_window">
+            <field name="name">Fleet Operating Cost Report</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_fleet_operating_cost_report" name="Fleet Operating Cost Report" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_fleet_operating_cost_report" sequence="490"/>
+        
+        <record id="action_menu_report_cat_vehicles_vehicle_audit_trail" model="ir.actions.act_window">
+            <field name="name">Vehicle Audit Trail</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_vehicle_audit_trail" name="Vehicle Audit Trail" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_vehicle_audit_trail" sequence="500"/>
+        
+        <record id="action_menu_report_cat_vehicles_vehicle_damage_report" model="ir.actions.act_window">
+            <field name="name">Vehicle Damage Report</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_vehicle_damage_report" name="Vehicle Damage Report" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_vehicle_damage_report" sequence="510"/>
+        
+        <record id="action_menu_report_cat_vehicles_accident_report" model="ir.actions.act_window">
+            <field name="name">Accident Report</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_accident_report" name="Accident Report" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_accident_report" sequence="520"/>
+        
+        <record id="action_menu_report_cat_vehicles_vehicle_downtime_report" model="ir.actions.act_window">
+            <field name="name">Vehicle Downtime Report</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_vehicle_downtime_report" name="Vehicle Downtime Report" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_vehicle_downtime_report" sequence="530"/>
+        
+        <record id="action_menu_report_cat_vehicles_fleet_performance_summary" model="ir.actions.act_window">
+            <field name="name">Fleet Performance Summary</field>
+            <field name="res_model">funeral.vehicle</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_item_menu_report_cat_vehicles_fleet_performance_summary" name="Fleet Performance Summary" parent="menu_report_cat_vehicles" action="action_menu_report_cat_vehicles_fleet_performance_summary" sequence="540"/>
+        
+    </data>
+</odoo>

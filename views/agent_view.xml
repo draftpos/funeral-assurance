@@ -6,6 +6,9 @@
             <field name="model">funeral.agent</field>
             <field name="arch" type="xml">
                 <form string="Agent">
+                    <header>
+                        <button name="action_pay_commissions" string="Pay Agent" type="object" class="btn-primary" invisible="unpaid_commission_total == 0"/>
+                    </header>
                     <sheet>
                         <widget name="web_ribbon" title="Archived" bg_color="bg-danger" invisible="active"/>
                         <group>
@@ -25,8 +28,23 @@
                                 <field name="agent_category_id"/>
                                 <field name="engagement_date"/>
                                 <field name="active"/>
+                                <field name="unpaid_commission_total" readonly="1" decoration-danger="unpaid_commission_total &gt; 0"/>
                             </group>
                         </group>
+                        <notebook>
+                            <page string="Commissions">
+                                <field name="commission_ids" readonly="1">
+                                    <list>
+                                        <field name="name"/>
+                                        <field name="policy_id"/>
+                                        <field name="commission_date"/>
+                                        <field name="amount" sum="Total"/>
+                                        <field name="type"/>
+                                        <field name="state" widget="badge" decoration-success="state == 'paid'" decoration-info="state == 'draft'"/>
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
                     </sheet>
                 </form>
             </field>

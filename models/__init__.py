@@ -15,3 +15,4 @@ from . import tombstone
 from . import commissioner
 from . import stock
 from . import res_config_settings
+from . import report_wizard

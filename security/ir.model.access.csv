@@ -37,3 +37,5 @@ access_funeral_commissioner_data,funeral.commissioner.data,funeral_assurance.mod
 access_funeral_actuary_data,funeral.actuary.data,funeral_assurance.model_funeral_actuary_data,base.group_user,1,1,1,1
 access_funeral_auditor_data,funeral.auditor.data,funeral_assurance.model_funeral_auditor_data,base.group_user,1,1,1,1
 access_funeral_property_valuation,funeral.property.valuation,funeral_assurance.model_funeral_property_valuation,base.group_user,1,1,1,1
+access_funeral_report_wizard,funeral.report.wizard,model_funeral_report_wizard,base.group_user,1,1,1,1
+access_funeral_promo_wizard,funeral.promo.wizard,model_funeral_promo_wizard,base.group_user,1,1,1,1

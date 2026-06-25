@@ -22,6 +22,20 @@ class FuneralAgent(models.Model):
     ], string='Agent Type', default='general')
     engagement_date = fields.Date(string='Date of Engagement')
     active = fields.Boolean(string='Status (Active/Inactive)', default=True)
+    
+    commission_ids = fields.One2many('funeral.commission', 'agent_id', string='Commissions')
+    unpaid_commission_total = fields.Float(string='Unpaid Commission', compute='_compute_unpaid_commission')
+
+    def _compute_unpaid_commission(self):
+        for agent in self:
+            draft_commissions = agent.commission_ids.filtered(lambda c: c.state == 'draft')
+            agent.unpaid_commission_total = sum(c.amount for c in draft_commissions)
+
+    def action_pay_commissions(self):
+        for agent in self:
+            draft_commissions = agent.commission_ids.filtered(lambda c: c.state == 'draft')
+            if draft_commissions:
+                draft_commissions.write({'state': 'paid'})
 
     @api.depends('first_name', 'last_name')
     def _compute_name(self):

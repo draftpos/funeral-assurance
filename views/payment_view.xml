@@ -9,12 +9,12 @@
                 <form string="Payment">
                     <header>
                         <button name="action_print_receipt" string="Print Receipt" type="object" class="btn-primary"/>
-                        <field name="premium_status" widget="statusbar" statusbar_visible="paid,pending,overdue"/>
+                        <field name="premium_status" widget="statusbar" statusbar_visible="pending,paid,overdue"/>
                     </header>
                     <sheet>
                         <div class="oe_title">
                             <h1>
-                                <field name="name"/>
+                                <field name="name" readonly="1" class="oe_inline"/>
                             </h1>
                         </div>
                         <group>
@@ -29,6 +29,7 @@
                                 <field name="payment_method"/>
                                 <field name="payment_date"/>
                                 <field name="payment_frequency"/>
+                                <field name="account_payment_id" invisible="account_payment_id == False"/>
                             </group>
                             <group string="Capture Info">
                                 <field name="captured_by_id" readonly="1"/>

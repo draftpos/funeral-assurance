@@ -90,24 +90,5 @@
             <field name="domain">[('payment_method', '=', 'cash'), ('state', '=', 'confirmed')]</field>
         </record>
         
-        <!-- Menus -->
-        
-        <!-- 1. Clients Management Sub-Menus -->
-        <menuitem id="menu_report_client_listing" name="Clients Listing" parent="menu_report_clients" action="action_report_clients_listing" sequence="10"/>
-        <menuitem id="menu_report_client_new" name="New Clients" parent="menu_report_clients" action="action_report_new_clients" sequence="20"/>
-        <menuitem id="menu_report_client_demographics" name="Clients Demographics" parent="menu_report_clients" action="action_report_clients_demographics" sequence="30"/>
-        <menuitem id="menu_report_client_dependants" name="Dependants Report" parent="menu_report_clients" action="action_report_dependants" sequence="40"/>
-        
-        <!-- 2. Policies Management Sub-Menus -->
-        <menuitem id="menu_report_policy_active" name="Active Policies" parent="menu_report_policies" action="action_report_active_policies" sequence="10"/>
-        <menuitem id="menu_report_policy_lapsed" name="Lapsed Policies" parent="menu_report_policies" action="action_report_lapsed_policies" sequence="20"/>
-        <menuitem id="menu_report_policy_cancelled" name="Cancelled Policies" parent="menu_report_policies" action="action_report_cancelled_policies" sequence="30"/>
-        <menuitem id="menu_report_policy_suspended" name="Suspended Policies" parent="menu_report_policies" action="action_report_suspended_policies" sequence="40"/>
-        <menuitem id="menu_report_policy_underwriting" name="Underwriting Policies" parent="menu_report_policies" action="action_report_underwriting_policies" sequence="50"/>
-        <menuitem id="menu_report_policy_extended_family" name="Extended Family Report" parent="menu_report_policies" action="action_report_extended_family" sequence="60"/>
-
-        <!-- 3. Premiums Collections Sub-Menus -->
-        <menuitem id="menu_report_premium_cash" name="Cash Premiums Collections" parent="menu_report_premiums" action="action_report_cash_premiums" sequence="10"/>
-
     </data>
 </odoo>

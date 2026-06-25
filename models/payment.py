@@ -1,5 +1,6 @@
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
+from dateutil.relativedelta import relativedelta
 
 class FuneralPayment(models.Model):
     _name = 'funeral.payment'
@@ -8,7 +9,9 @@ class FuneralPayment(models.Model):
 
     name = fields.Char(string='Payment ID', required=True, copy=False, readonly=True, default=lambda self: _('New'))
     proposal_id = fields.Many2one('funeral.proposal', string='Proposal / Customer ID')
+    national_id = fields.Char(related='proposal_id.national_id', string='National ID', readonly=True)
     policy_id = fields.Many2one('funeral.policy', string='Policy Number', tracking=True)
+    account_payment_id = fields.Many2one('account.payment', string='Linked Accounting Payment', readonly=True, tracking=True)
     
     premium_amount = fields.Float(string='Premium Amount', required=True, tracking=True)
     payment_frequency = fields.Selection([
@@ -25,12 +28,12 @@ class FuneralPayment(models.Model):
         ('debit', 'Debit Order')
     ], string='Payment Method', required=True)
     
-    receipt_number = fields.Char(string='Receipt Number', required=True)
+    receipt_number = fields.Char(string='Receipt Number', required=True, copy=False, readonly=True, default=lambda self: _('New'))
     premium_status = fields.Selection([
-        ('paid', 'Paid'),
         ('pending', 'Pending'),
+        ('paid', 'Paid'),
         ('overdue', 'Overdue')
-    ], string='Premium Status', default='paid')
+    ], string='Premium Status', default='pending')
     
     captured_by_id = fields.Many2one('res.users', string='Captured By', default=lambda self: self.env.user)
     branch_id = fields.Many2one('funeral.branch', string='Branch/Location')
@@ -47,6 +50,39 @@ class FuneralPayment(models.Model):
             existing_policy = self.env['funeral.policy'].search([('proposal_id', '=', self.proposal_id.id)], limit=1)
             if existing_policy:
                 self.policy_id = existing_policy.id
+
+    def write(self, vals):
+        res = super(FuneralPayment, self).write(vals)
+        # Auto create Accounting Payment when status is changed to Paid
+        if vals.get('premium_status') == 'paid':
+            for record in self:
+                if not record.account_payment_id and record.proposal_id.partner_id:
+                    # Find a default Bank/Cash journal
+                    journal = self.env['account.journal'].search([('type', 'in', ['bank', 'cash']), ('company_id', '=', self.env.company.id)], limit=1)
+                    if journal:
+                        payment_vals = {
+                            'partner_id': record.proposal_id.partner_id.id,
+                            'amount': record.premium_amount,
+                            'payment_type': 'inbound',
+                            'partner_type': 'customer',
+                            'date': record.payment_date or fields.Date.context_today(self),
+                            'journal_id': journal.id,
+                            'memo': f"Funeral Premium: {record.receipt_number or record.name}",
+                        }
+                        acc_payment = self.env['account.payment'].create(payment_vals)
+                        acc_payment.action_post()
+                        record.account_payment_id = acc_payment.id
+                        
+                    # Advance Paid Up To Date
+                    if record.policy_id:
+                        current_paid_up = record.policy_id.paid_up_to or record.policy_id.commencement_date or fields.Date.context_today(self)
+                        if record.payment_frequency == 'monthly':
+                            record.policy_id.paid_up_to = current_paid_up + relativedelta(months=1)
+                        elif record.payment_frequency == 'quarterly':
+                            record.policy_id.paid_up_to = current_paid_up + relativedelta(months=3)
+                        elif record.payment_frequency == 'annually':
+                            record.policy_id.paid_up_to = current_paid_up + relativedelta(years=1)
+        return res
 
     @api.onchange('policy_id')
     def _onchange_policy_id(self):
@@ -71,8 +107,17 @@ class FuneralPayment(models.Model):
                 processed_vals.append(v)
                 
         for vals in processed_vals:
-            if vals.get('name', _('New')) == _('New'):
-                vals['name'] = self.env['ir.sequence'].next_by_code('funeral.payment') or _('New')
+            # Force status to 'paid' when saving a new payment
+            if not vals.get('premium_status') or vals.get('premium_status') == 'pending':
+                vals['premium_status'] = 'paid'
+                
+            if vals.get('receipt_number', _('New')) == _('New'):
+                vals['receipt_number'] = self.env['ir.sequence'].next_by_code('funeral.receipt') or _('New')
+                
+            if vals.get('proposal_id'):
+                prop = self.env['funeral.proposal'].browse(vals['proposal_id'])
+                if prop.national_id:
+                    vals['name'] = prop.national_id
                 
             if vals.get('proposal_id') and not vals.get('policy_id'):
                 proposal = self.env['funeral.proposal'].browse(vals['proposal_id'])
@@ -160,6 +205,33 @@ class FuneralPayment(models.Model):
                     
                     # Increment months paid
                     policy.months_paid_to_agent += 1
+            
+            # Auto create Accounting Payment if created with 'Paid' status
+            if record.premium_status == 'paid' and not record.account_payment_id and record.proposal_id.partner_id:
+                journal = self.env['account.journal'].search([('type', 'in', ['bank', 'cash']), ('company_id', '=', self.env.company.id)], limit=1)
+                if journal:
+                    payment_vals = {
+                        'partner_id': record.proposal_id.partner_id.id,
+                        'amount': record.premium_amount,
+                        'payment_type': 'inbound',
+                        'partner_type': 'customer',
+                        'date': record.payment_date or fields.Date.context_today(self),
+                        'journal_id': journal.id,
+                        'memo': f"Funeral Premium: {record.receipt_number or record.name}",
+                    }
+                    acc_payment = self.env['account.payment'].create(payment_vals)
+                    acc_payment.action_post()
+                    record.account_payment_id = acc_payment.id
+                    
+                # Advance Paid Up To Date
+                if record.policy_id:
+                    current_paid_up = record.policy_id.paid_up_to or record.policy_id.commencement_date or fields.Date.context_today(self)
+                    if record.payment_frequency == 'monthly':
+                        record.policy_id.paid_up_to = current_paid_up + relativedelta(months=1)
+                    elif record.payment_frequency == 'quarterly':
+                        record.policy_id.paid_up_to = current_paid_up + relativedelta(months=3)
+                    elif record.payment_frequency == 'annually':
+                        record.policy_id.paid_up_to = current_paid_up + relativedelta(years=1)
                     
         return records
 

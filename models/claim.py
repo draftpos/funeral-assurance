@@ -21,6 +21,15 @@ class FuneralClaim(models.Model):
     claimant_contact = fields.Char(string='Claimant Contact')
     
     # Deceased Details
+    claim_for = fields.Selection([
+        ('main', 'Main Member'),
+        ('dependant', 'Dependant'),
+        ('extended', 'Extended Family')
+    ], string='Claim For', required=True, default='main', tracking=True)
+    
+    deceased_dependant_id = fields.Many2one('funeral.dependant', string='Select Dependant', domain="[('policy_id', '=', policy_id)]")
+    deceased_extended_id = fields.Many2one('funeral.extended.family', string='Select Extended Family', domain="[('policy_id', '=', policy_id)]")
+
     deceased_name = fields.Char(string='Deceased Full Name', required=True)
     deceased_dob = fields.Date(string='Deceased Date of Birth')
     date_of_death = fields.Date(string='Date of Death', required=True)
@@ -56,6 +65,28 @@ class FuneralClaim(models.Model):
     def _compute_total_service_cost(self):
         for claim in self:
             claim.total_service_cost = sum(line.amount for line in claim.service_cost_ids)
+
+    @api.onchange('policy_id', 'claim_for', 'deceased_dependant_id', 'deceased_extended_id')
+    def _onchange_deceased_selection(self):
+        if not self.policy_id:
+            return
+            
+        if self.claim_for == 'main':
+            if self.policy_id.proposal_id:
+                first = self.policy_id.proposal_id.first_name or ''
+                last = self.policy_id.proposal_id.last_name or ''
+                self.deceased_name = self.policy_id.proposal_id.full_name or f"{first} {last}".strip()
+                self.deceased_dob = self.policy_id.proposal_id.dob
+        elif self.claim_for == 'dependant' and self.deceased_dependant_id:
+            first = self.deceased_dependant_id.first_name or ''
+            last = self.deceased_dependant_id.last_name or ''
+            self.deceased_name = f"{first} {last}".strip()
+            self.deceased_dob = self.deceased_dependant_id.dob
+        elif self.claim_for == 'extended' and self.deceased_extended_id:
+            first = self.deceased_extended_id.first_name or ''
+            last = self.deceased_extended_id.last_name or ''
+            self.deceased_name = f"{first} {last}".strip()
+            self.deceased_dob = self.deceased_extended_id.dob
 
     # Claim Details
     claim_type = fields.Selection([

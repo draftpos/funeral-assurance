@@ -8,8 +8,8 @@
             <field name="arch" type="xml">
                 <form string="Proposal">
                     <header>
-                        <button name="action_print_proposal" string="Print Proposal Form" type="object" class="btn-primary"/>
-                        <button name="%(funeral_assurance.action_funeral_payment)d" string="Payments" type="action" class="btn-secondary" context="{'default_proposal_id': id, 'search_default_proposal_id': id}"/>
+                        <button name="action_print_proposal" string="Preview Pdf" type="object" class="btn-primary"/>
+                        <button name="action_create_payment" string="New Payment" type="object" class="btn-secondary"/>
                         <field name="state" widget="statusbar" statusbar_visible="pending,accepted,rejected,ntu"/>
                     </header>
                     <sheet>
@@ -22,7 +22,9 @@
                             <group>
                                 <field name="proposal_date"/>
                             </group>
-                            <group></group>
+                            <group>
+                                <field name="partner_id" invisible="partner_id == False"/>
+                            </group>
                         </group>
                         <div class="row">
                             <div class="col-md-4">

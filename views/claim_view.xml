@@ -38,6 +38,9 @@
                             <page string="Deceased Details">
                                 <group>
                                     <group>
+                                        <field name="claim_for"/>
+                                        <field name="deceased_dependant_id" invisible="claim_for != 'dependant'" required="claim_for == 'dependant'"/>
+                                        <field name="deceased_extended_id" invisible="claim_for != 'extended'" required="claim_for == 'extended'"/>
                                         <field name="deceased_name"/>
                                         <field name="deceased_dob"/>
                                         <field name="date_of_death"/>

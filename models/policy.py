@@ -1,4 +1,5 @@
 from odoo import models, fields, api, _
+from odoo.exceptions import ValidationError
 
 class FuneralPolicy(models.Model):
     _name = 'funeral.policy'
@@ -42,10 +43,23 @@ class FuneralPolicy(models.Model):
         ('active', 'Active'),
         ('lapsed', 'Lapsed'),
         ('revived', 'Revived'),
+        ('pending_cancellation', 'Pending Cancellation'),
+        ('cancelled', 'Cancelled')
     ], string='Policy Status', default='active', tracking=True)
     
     cancellation_reason = fields.Text(string='Reason for Cancellation', tracking=True)
     
+    paid_up_to = fields.Date(string='Paid Up To', tracking=True, help="Date up to which the policy premiums have been paid.")
+    is_in_arrears = fields.Boolean(string='In Arrears', compute='_compute_is_in_arrears', store=True)
+
+    @api.depends('paid_up_to')
+    def _compute_is_in_arrears(self):
+        for policy in self:
+            if policy.paid_up_to and policy.paid_up_to < fields.Date.context_today(self):
+                policy.is_in_arrears = True
+            else:
+                policy.is_in_arrears = False
+
     months_paid_to_agent = fields.Integer(string='Months Paid to Agent', default=0)
     
     dependant_ids = fields.One2many('funeral.dependant', 'policy_id', string='Dependants')
@@ -79,6 +93,31 @@ class FuneralPolicy(models.Model):
                     vals['name'] = proposal.national_id
         return super(FuneralPolicy, self).create(vals_list)
 
+    def action_request_cancellation(self):
+        for policy in self:
+            policy.state = 'pending_cancellation'
+
+    def action_approve_cancellation(self):
+        for policy in self:
+            if not policy.cancellation_reason:
+                raise ValidationError(_("You must provide a cancellation reason before approving."))
+            policy.state = 'cancelled'
+
+    def action_force_lapse(self):
+        for policy in self:
+            policy.state = 'lapsed'
+
+    def action_open_promo_wizard(self):
+        self.ensure_one()
+        return {
+            'name': _('Apply Promotion'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'funeral.promo.wizard',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {'default_policy_id': self.id}
+        }
+
     @api.model
     def process_policy_lapses(self):
         # Fetch configured lapse months (default to 3, industry standard)
@@ -94,18 +133,13 @@ class FuneralPolicy(models.Model):
             if prop.proposal_date and prop.proposal_date <= lapse_date:
                 prop.state = 'ntu'
             
-        # Rule 2: Active policies with last payment > X months ago -> Lapsed
+        # Rule 2: Active policies with Paid Up To date > X months ago -> Lapsed
         active_policies = self.search([('state', '=', 'active')])
         for policy in active_policies:
-            last_payment = self.env['funeral.payment'].search(
-                [('policy_id', '=', policy.id), ('premium_status', '=', 'paid')],
-                order='payment_date desc', limit=1
-            )
-            
             should_lapse = False
-            if last_payment and last_payment.payment_date <= lapse_date:
+            if policy.paid_up_to and policy.paid_up_to <= lapse_date:
                 should_lapse = True
-            elif not last_payment and policy.commencement_date and policy.commencement_date <= lapse_date:
+            elif not policy.paid_up_to and policy.commencement_date and policy.commencement_date <= lapse_date:
                 should_lapse = True
                 
             if should_lapse:
@@ -173,3 +207,33 @@ class FuneralExtendedFamily(models.Model):
         ('removed', 'Removed'),
         ('deceased', 'Deceased')
     ], string='Coverage Status', default='active')
+
+from dateutil.relativedelta import relativedelta
+
+class FuneralPromoWizard(models.TransientModel):
+    _name = 'funeral.promo.wizard'
+    _description = 'Promo Wizard'
+
+    policy_id = fields.Many2one('funeral.policy', string='Policy', required=True)
+    months_paid = fields.Integer(string='Months to Pay', required=True)
+    months_forgiven = fields.Integer(string='Months to Forgive', required=True)
+    
+    def action_apply_promo(self):
+        self.ensure_one()
+        current_date = self.policy_id.paid_up_to or self.policy_id.commencement_date or fields.Date.context_today(self)
+        
+        total_months_advanced = self.months_paid + self.months_forgiven
+        self.policy_id.paid_up_to = current_date + relativedelta(months=total_months_advanced)
+        
+        if self.policy_id.state in ['lapsed', 'cancelled', 'ntu']:
+            self.policy_id.state = 'active'
+            
+        if self.months_paid > 0:
+            self.env['funeral.payment'].create({
+                'policy_id': self.policy_id.id,
+                'proposal_id': self.policy_id.proposal_id.id,
+                'premium_amount': self.policy_id.total_premium * self.months_paid,
+                'payment_frequency': 'monthly',
+                'payment_method': 'cash',
+                'premium_status': 'paid'
+            })

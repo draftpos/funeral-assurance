@@ -8,6 +8,7 @@ class FuneralProposal(models.Model):
 
     name = fields.Char(string='Proposal Number', required=True, copy=False, readonly=True, default=lambda self: _('New'))
     proposal_date = fields.Date(string='Date of Proposal', default=fields.Date.context_today)
+    partner_id = fields.Many2one('res.partner', string='Linked Customer Profile', readonly=True, tracking=True)
     
     title = fields.Selection([
         ('mr', 'Mr'),
@@ -101,7 +102,12 @@ class FuneralProposal(models.Model):
     @api.onchange('product_id')
     def _onchange_product_id(self):
         if self.product_id:
-            self.premium_amount = self.product_id.base_premium
+            # Search for the product rate and pull the premium amount from there
+            rate = self.env['funeral.product.rate'].search([('product_id', '=', self.product_id.id)], limit=1)
+            if rate:
+                self.premium_amount = rate.premium_amount
+            else:
+                self.premium_amount = self.product_id.base_premium
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -113,7 +119,25 @@ class FuneralProposal(models.Model):
     def write(self, vals):
         if 'national_id' in vals:
             vals['name'] = vals['national_id']
-        return super(FuneralProposal, self).write(vals)
+            
+        res = super(FuneralProposal, self).write(vals)
+        
+        # Automatically create Customer Profile when Proposal is Accepted
+        if vals.get('state') == 'accepted':
+            for record in self:
+                if not record.partner_id:
+                    partner = self.env['res.partner'].create({
+                        'name': record.full_name,
+                        'phone': record.home_phone,
+                        'email': record.email or '',
+                        'street': record.residential_address or '',
+                        'vat': record.national_id,
+                        'is_company': False,
+                        'customer_rank': 1,
+                        'comment': f'Auto-created from Funeral Proposal {record.name}'
+                    })
+                    record.partner_id = partner.id
+        return res
 
     @api.constrains('national_id', 'is_override_id')
     def _check_national_id_unique_and_format(self):
@@ -130,3 +154,19 @@ class FuneralProposal(models.Model):
 
     def action_print_proposal(self):
         return self.env.ref('funeral_assurance.action_report_proposal_form').report_action(self)
+
+    def action_create_payment(self):
+        self.ensure_one()
+        return {
+            'name': _('Register Payment'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'funeral.payment',
+            'view_mode': 'form',
+            'target': 'current',
+            'context': {
+                'default_proposal_id': self.id,
+                'default_branch_id': self.branch_id.id,
+                'default_premium_amount': self.premium_amount,
+                'default_payment_frequency': self.frequency,
+            }
+        }

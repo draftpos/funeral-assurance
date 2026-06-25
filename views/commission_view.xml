@@ -56,7 +56,7 @@
 
         <menuitem id="menu_funeral_commission"
                   name="Commissions"
-                  parent="menu_funeral_reports"
+                  parent="menu_funeral_operations"
                   action="action_funeral_commission"
                   sequence="30"/>
     </data>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Sequence for Funeral Payments -->
+        <record id="seq_funeral_payment" model="ir.sequence">
+            <field name="name">Funeral Payment Sequence</field>
+            <field name="code">funeral.payment</field>
+            <field name="prefix">PAY/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <!-- Sequence for Funeral Receipts -->
+        <record id="seq_funeral_receipt" model="ir.sequence">
+            <field name="name">Funeral Receipt Sequence</field>
+            <field name="code">funeral.receipt</field>
+            <field name="prefix">INV</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>

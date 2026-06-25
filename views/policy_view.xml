@@ -8,7 +8,11 @@
             <field name="arch" type="xml">
                 <form string="Policy">
                     <header>
+                        <button name="action_force_lapse" string="Force Lapse (Test)" type="object" class="btn-secondary" invisible="state != 'active'"/>
+                        <button name="action_open_promo_wizard" string="Apply Promo Revive" type="object" class="btn-warning" invisible="state != 'lapsed'"/>
                         <button name="action_print_policy" string="Print Policy Schedule" type="object" class="btn-primary"/>
+                        <button name="action_request_cancellation" string="Request Cancellation" type="object" invisible="state != 'active'"/>
+                        <button name="action_approve_cancellation" string="Approve Cancellation" type="object" class="btn-danger" invisible="state != 'pending_cancellation'"/>
                         <field name="state" widget="statusbar" statusbar_visible="active,lapsed,revived,cancelled"/>
                     </header>
                     <sheet>
@@ -23,7 +27,7 @@
                                 <field name="product_id"/>
                                 <field name="plan_type"/>
                                 <field name="sum_assured"/>
-                                <field name="cancellation_reason" invisible="state != 'cancelled'"/>
+                                <field name="cancellation_reason" invisible="state not in ['pending_cancellation', 'cancelled']" required="state == 'pending_cancellation'" placeholder="Click here to type the reason..."/>
                                 <field name="premium"/>
                                 <field name="total_premium"/>
                                 <field name="policy_term"/>
@@ -38,6 +42,8 @@
                                 <field name="branch_id"/>
                                 <field name="region_id"/>
                                 <field name="commencement_date"/>
+                                <field name="paid_up_to"/>
+                                <field name="is_in_arrears" widget="boolean_toggle" readonly="1"/>
                                 <field name="months_paid_to_agent"/>
                             </group>
                         </group>
@@ -100,6 +106,8 @@
                     <field name="proposal_id" optional="show"/>
                     <field name="product_id" optional="show"/>
                     <field name="total_premium" optional="show"/>
+                    <field name="paid_up_to" optional="show"/>
+                    <field name="is_in_arrears" optional="show" widget="boolean_toggle" readonly="1"/>
                     <field name="agent_id" optional="show"/>
                     <field name="state" optional="show" widget="badge"/>
                 </list>
@@ -117,6 +125,7 @@
                     <field name="product_id"/>
                     <field name="agent_id"/>
                     <filter string="Active Policies" name="filter_active" domain="[('state', '=', 'active')]"/>
+                    <filter string="In Arrears" name="filter_arrears" domain="[('is_in_arrears', '=', True)]"/>
                     <filter string="Lapsed Policies" name="filter_lapsed" domain="[('state', '=', 'lapsed')]"/>
                     <filter string="Cancelled Policies" name="filter_cancelled" domain="[('state', '=', 'cancelled')]"/>
                     <separator/>
@@ -135,6 +144,32 @@
             <field name="view_mode">list,form</field>
             <field name="search_view_id" ref="view_funeral_policy_search"/>
             <field name="context">{'search_default_filter_active': 1}</field>
+        </record>
+
+        <!-- Promo Wizard View -->
+        <record id="view_funeral_promo_wizard_form" model="ir.ui.view">
+            <field name="name">funeral.promo.wizard.form</field>
+            <field name="model">funeral.promo.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Apply Promotion">
+                    <group>
+                        <field name="policy_id" readonly="1" invisible="1"/>
+                        <field name="months_paid"/>
+                        <field name="months_forgiven"/>
+                    </group>
+                    <footer>
+                        <button name="action_apply_promo" string="Apply Promotion" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        
+        <record id="action_funeral_promo_wizard" model="ir.actions.act_window">
+            <field name="name">Apply Promotion</field>
+            <field name="res_model">funeral.promo.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
         </record>
 
         <!-- Menu Item -->
