@@ -35,6 +35,8 @@ class ActuaryData(models.Model):
     name = fields.Char(string='Valuation Reference', required=True, tracking=True)
     actuary_name = fields.Char(string='Actuary / Firm Name', required=True)
     valuation_date = fields.Date(string='Valuation Date', tracking=True)
+    data_period_start = fields.Date(string='Data Period Start')
+    data_period_end = fields.Date(string='Data Period End')
     
     total_liabilities = fields.Float(string='Total Liabilities Evaluated')
     solvency_ratio = fields.Float(string='Solvency Ratio (%)')
@@ -45,6 +47,7 @@ class ActuaryData(models.Model):
     ], string='Status', default='draft', tracking=True)
     
     findings = fields.Text(string='Key Findings')
+    recommendations = fields.Text(string='Recommendations')
     attachment = fields.Binary(string='Actuarial Report')
     file_name = fields.Char(string='File Name')
 
@@ -70,6 +73,13 @@ class AuditorData(models.Model):
     
     management_letter = fields.Binary(string='Management Letter')
     file_name = fields.Char(string='File Name')
+    audit_opinion = fields.Selection([
+        ('unqualified', 'Unqualified (Clean)'),
+        ('qualified', 'Qualified'),
+        ('adverse', 'Adverse'),
+        ('disclaimer', 'Disclaimer of Opinion')
+    ], string='Audit Opinion', tracking=True)
+    key_audit_matters = fields.Text(string='Key Audit Matters')
 
 
 class PropertyValuation(models.Model):

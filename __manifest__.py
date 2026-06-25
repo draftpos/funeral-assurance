@@ -25,9 +25,15 @@
         'views/vehicle_view.xml',
         'views/tombstone_view.xml',
         'views/commissioner_view.xml',
+        'views/stock_view.xml',
         'views/static_data_views.xml',
         'views/res_config_settings_views.xml',
     ],
+    'assets': {
+        'web.assets_backend': [
+            'funeral_assurance/static/src/css/hide_brand.css',
+        ],
+    },
     'installable': True,
     'application': True,
     'auto_install': False,

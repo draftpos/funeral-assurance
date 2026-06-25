@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Stock Type Views -->
+        <record id="view_funeral_stock_type_tree" model="ir.ui.view">
+            <field name="name">funeral.stock.type.tree</field>
+            <field name="model">funeral.stock.type</field>
+            <field name="arch" type="xml">
+                <list string="Stock Types">
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="active"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_funeral_stock_type_form" model="ir.ui.view">
+            <field name="name">funeral.stock.type.form</field>
+            <field name="model">funeral.stock.type</field>
+            <field name="arch" type="xml">
+                <form string="Stock Type">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="description"/>
+                            <field name="active"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Stock Item Views -->
+        <record id="view_funeral_stock_item_tree" model="ir.ui.view">
+            <field name="name">funeral.stock.item.tree</field>
+            <field name="model">funeral.stock.item</field>
+            <field name="arch" type="xml">
+                <list string="Stock Items">
+                    <field name="name"/>
+                    <field name="stock_type_id"/>
+                    <field name="price"/>
+                    <field name="quantity_on_hand"/>
+                    <field name="valuation"/>
+                    <field name="branch_id"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_funeral_stock_item_form" model="ir.ui.view">
+            <field name="name">funeral.stock.item.form</field>
+            <field name="model">funeral.stock.item</field>
+            <field name="arch" type="xml">
+                <form string="Stock Item">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="stock_type_id"/>
+                                <field name="price"/>
+                            </group>
+                            <group>
+                                <field name="quantity_on_hand" readonly="1"/>
+                                <field name="valuation" readonly="1"/>
+                                <field name="branch_id"/>
+                                <field name="active"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Notes">
+                                <field name="notes"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Stock Transaction Views -->
+        <record id="view_funeral_stock_transaction_tree" model="ir.ui.view">
+            <field name="name">funeral.stock.transaction.tree</field>
+            <field name="model">funeral.stock.transaction</field>
+            <field name="arch" type="xml">
+                <list string="Stock Transactions" create="1">
+                    <field name="name"/>
+                    <field name="stock_item_id"/>
+                    <field name="transaction_type"/>
+                    <field name="quantity"/>
+                    <field name="date"/>
+                    <field name="user_id"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_funeral_stock_transaction_form" model="ir.ui.view">
+            <field name="name">funeral.stock.transaction.form</field>
+            <field name="model">funeral.stock.transaction</field>
+            <field name="arch" type="xml">
+                <form string="Stock Transaction">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="stock_item_id"/>
+                                <field name="transaction_type"/>
+                            </group>
+                            <group>
+                                <field name="quantity"/>
+                                <field name="date"/>
+                                <field name="user_id"/>
+                                <field name="adjustment_reason" invisible="transaction_type != 'adjustment'"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Notes">
+                                <field name="notes"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Actions -->
+        <record id="action_funeral_stock_type" model="ir.actions.act_window">
+            <field name="name">Stock Types</field>
+            <field name="res_model">funeral.stock.type</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <record id="action_funeral_stock_item" model="ir.actions.act_window">
+            <field name="name">Stock Items &amp; Prices</field>
+            <field name="res_model">funeral.stock.item</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <record id="action_funeral_stock_transaction" model="ir.actions.act_window">
+            <field name="name">Stock Transactions</field>
+            <field name="res_model">funeral.stock.transaction</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <!-- Top Level Menu -->
+        <menuitem id="menu_funeral_stock_root"
+                  name="Stock Management"
+                  parent="menu_funeral_root"
+                  sequence="55"/>
+
+        <!-- Sub Menus -->
+        <menuitem id="menu_funeral_stock_static"
+                  name="Static Data"
+                  parent="menu_funeral_stock_root"
+                  sequence="10"/>
+
+        <menuitem id="menu_funeral_stock_type_sub"
+                  name="Stock Types"
+                  parent="menu_funeral_stock_static"
+                  action="action_funeral_stock_type"
+                  sequence="10"/>
+
+        <menuitem id="menu_funeral_stock_processes"
+                  name="Processes"
+                  parent="menu_funeral_stock_root"
+                  sequence="20"/>
+
+        <menuitem id="menu_funeral_stock_item_sub"
+                  name="Stock Items &amp; Prices"
+                  parent="menu_funeral_stock_processes"
+                  action="action_funeral_stock_item"
+                  sequence="10"/>
+
+        <menuitem id="menu_funeral_stock_transaction_sub"
+                  name="Stock Transactions"
+                  parent="menu_funeral_stock_processes"
+                  action="action_funeral_stock_transaction"
+                  sequence="20"/>
+                  
+    </data>
+</odoo>

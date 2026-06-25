@@ -1,0 +1,21 @@
+/* Hide the app icon aggressively */
+.o_menu_toggle_icon,
+.o_navbar_apps_menu img,
+.o_menu_toggle img,
+.o_main_navbar .o_app_icon {
+    display: none !important;
+}
+
+/* Hide the text but add a back arrow using ::before */
+.o_menu_brand {
+    font-size: 0 !important; 
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.o_menu_brand::before {
+    content: "\f060"; /* FontAwesome fa-arrow-left */
+    font-family: "FontAwesome", sans-serif;
+    font-size: 18px !important;
+    display: inline-block;
+}

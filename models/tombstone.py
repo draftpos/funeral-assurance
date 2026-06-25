@@ -68,6 +68,11 @@ class TombstoneOrder(models.Model):
     
     inscription = fields.Text(string='Tombstone Inscription (Message)')
     
+    # Installation Tracking
+    installation_date = fields.Date(string='Installation Date', tracking=True)
+    installation_team = fields.Char(string='Installation Team/Person', tracking=True)
+    installation_notes = fields.Text(string='Installation Steps & Notes')
+    
     state = fields.Selection([
         ('draft', 'Quotation'),
         ('pending', 'Pending Order'),

@@ -38,7 +38,8 @@ class FuneralProposal(models.Model):
     national_id = fields.Char(string='National ID', required=True, tracking=True)
     
     first_payment_date = fields.Date(string='1st Date of Payment')
-    groceries = fields.Boolean(string='Groceries')
+    groceries = fields.Boolean(string='Grocery Allowance ($50)')
+    airtime = fields.Boolean(string='Airtime ($20)')
     is_override_id = fields.Boolean(string='Override National ID Format', tracking=True, help="Check this to bypass the standard National ID format validation. Requires approval.")
     
     

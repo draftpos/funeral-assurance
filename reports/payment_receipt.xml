@@ -15,46 +15,96 @@
     <template id="report_payment_receipt_template">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
-                <t t-call="web.external_layout">
-                    <div class="page">
-                        <div class="row">
+                <t t-call="web.basic_layout">
+                    <div class="page" style="font-family: Arial, sans-serif; padding: 20px; font-size: 14px; border: 1px dashed #ccc; width: 800px; margin: 0 auto; background-color: #fff;">
+                        
+                        <!-- Header -->
+                        <div class="row mb-4">
+                            <!-- Logo and Brand -->
                             <div class="col-6">
-                                <h2>Receipt No. <span t-field="o.receipt_number"/></h2>
+                                <h2 style="color: #00a4e4; font-weight: bold; margin-bottom: 0;">Ruvimbo</h2>
+                                <h3 style="color: #6c757d; font-weight: normal; margin-top: 0;">Funeral</h3>
+                                <h4>Assurance (Pvt) Ltd</h4>
+                                <p style="font-style: italic; color: #00a4e4;">"Experience the difference"</p>
                             </div>
-                            <div class="col-6 text-end">
-                                <strong>Date: </strong> <span t-field="o.payment_date"/><br/>
+                            
+                            <!-- Receipt Info -->
+                            <div class="col-6 text-right">
+                                <h3 style="color: red; font-weight: bold;">Receipt No. R <span t-field="o.receipt_number"/></h3>
+                                <p style="margin-bottom: 0; font-size: 12px;">Cell: +263 777 887 549 / +263 777 887 540</p>
+                                <div style="margin-top: 15px;">
+                                    <strong>Date:</strong> <span t-field="o.payment_date" style="border-bottom: 1px dotted black; display: inline-block; width: 150px; text-align: left; padding-left: 10px;"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Body Fields -->
+                        <div style="line-height: 2.5; margin-top: 20px;">
+                            <div class="row">
+                                <div class="col-7">
+                                    <strong>Received From:</strong> <span style="border-bottom: 1px dotted black; display: inline-block; width: 250px; padding-left: 10px;"><span t-field="o.proposal_id.first_name"/> <span t-field="o.proposal_id.last_name"/></span>
+                                </div>
+                                <div class="col-5">
+                                    <strong>Client's Cell:</strong> <span style="border-bottom: 1px dotted black; display: inline-block; width: 150px; padding-left: 10px;"><span t-field="o.proposal_id.home_phone"/></span>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-12">
+                                    <strong>The sum of:</strong> <span style="border-bottom: 1px dotted black; display: inline-block; width: 85%; padding-left: 10px;"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-7">
+                                    <strong>In Payment of:</strong> <span style="border-bottom: 1px dotted black; display: inline-block; width: 260px; padding-left: 10px;"><span t-field="o.policy_id.name"/></span>
+                                </div>
+                                <div class="col-5">
+                                    <strong>Receipted by:</strong> <span style="border-bottom: 1px dotted black; display: inline-block; width: 140px; padding-left: 10px;"><span t-field="o.captured_by_id.name"/></span>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-12">
+                                    <strong>Branch:</strong> <span style="border-bottom: 1px dotted black; display: inline-block; width: 90%; padding-left: 10px;"><span t-field="o.branch_id.name"/></span>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-7">
+                                    <strong>Company:</strong> <span style="border-bottom: 1px dotted black; display: inline-block; width: 300px; padding-left: 10px;">Ruvimbo Funeral Assurance</span>
+                                </div>
+                                <div class="col-5">
+                                    <strong>Membership No:</strong> <span style="border-bottom: 1px dotted black; display: inline-block; width: 110px; padding-left: 10px;"><span t-field="o.policy_id.proposal_id.name"/></span>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-7">
+                                    <strong>Cash/Cheque:</strong> <span style="border-bottom: 1px dotted black; display: inline-block; width: 270px; padding-left: 10px;"><span t-field="o.payment_method"/></span>
+                                </div>
+                                <div class="col-5" style="font-weight: bold; font-style: italic; align-self: flex-end;">
+                                    With Thanks
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Footer -->
+                        <div class="row mt-5">
+                            <div class="col-4">
+                                <div style="font-size: 11px; text-align: left; line-height: 1.4;">
+                                    <strong>HEAD OFFICE</strong><br/>
+                                    1122 Tynwald South<br/>
+                                    Industrial Area<br/>
+                                    Harare
+                                </div>
+                            </div>
+                            <div class="col-4"></div>
+                            <div class="col-4 text-right" style="font-size: 24px; font-weight: bold;">
+                                $ <span style="border: 2px solid #ccc; padding: 5px 20px; display: inline-block; min-width: 150px; background-color: #f8f9fa;"><span t-field="o.premium_amount"/></span>
                             </div>
                         </div>
                         
-                        <table class="table table-sm mt-4">
-                            <tr>
-                                <td><strong>Received From:</strong></td>
-                                <td><span t-field="o.proposal_id.first_name"/> <span t-field="o.proposal_id.last_name"/></td>
-                                <td><strong>Client's Cell:</strong></td>
-                                <td><span t-field="o.proposal_id.contact_number"/></td>
-                            </tr>
-                            <tr>
-                                <td><strong>The sum of:</strong></td>
-                                <td><span t-field="o.premium_amount"/></td>
-                                <td><strong>In Payment of (Policy):</strong></td>
-                                <td><span t-field="o.policy_id.name"/></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Branch:</strong></td>
-                                <td><span t-field="o.branch_id.name"/></td>
-                                <td><strong>Cash/Cheque/Method:</strong></td>
-                                <td><span t-field="o.payment_method"/></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Receipted by:</strong></td>
-                                <td colspan="3"><span t-field="o.captured_by_id.name"/></td>
-                            </tr>
-                        </table>
-                        
-                        <div class="mt-4 text-center">
-                            <em>"Experience the difference"</em><br/>
-                            <strong>With Thanks</strong>
-                        </div>
                     </div>
                 </t>
             </t>

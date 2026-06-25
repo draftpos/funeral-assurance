@@ -15,207 +15,236 @@
     <template id="report_proposal_form_template">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
-                <t t-call="web.external_layout">
-                    <div class="page" style="font-size: 13px;">
+                <t t-call="web.basic_layout">
+                    <div class="page" style="font-family: Arial, sans-serif; font-size: 11px;">
                         
-                        <div class="row mb-3 mt-4">
-                            <div class="col-6">
-                                <strong>MR/MRS/MISS:</strong> <span t-field="o.title" style="border-bottom: 1px dotted black; padding-left: 10px; padding-right: 50px;"/>
-                            </div>
-                            <div class="col-6">
-                                <strong>SURNAME:</strong> <span t-field="o.last_name" style="border-bottom: 1px dotted black; padding-left: 10px; padding-right: 50px;"/>
-                                <strong>NAME:</strong> <span t-field="o.first_name" style="border-bottom: 1px dotted black; padding-left: 10px; padding-right: 50px;"/>
-                            </div>
-                        </div>
-
-                        <div class="row mb-2">
-                            <div class="col-12">
-                                <strong>PHYSICAL ADDRESS:</strong> <span t-field="o.residential_address" style="border-bottom: 1px dotted black; padding-left: 10px; width: 80%; display: inline-block;"/>
-                            </div>
-                        </div>
-
-                        <div class="row mb-2">
-                            <div class="col-8">
-                                <strong>BUSINESS ADDRESS:</strong> <span t-field="o.business_address" style="border-bottom: 1px dotted black; padding-left: 10px; width: 70%; display: inline-block;"/>
-                            </div>
-                            <div class="col-4">
-                                <strong>TEL &amp; CELL:</strong> <span t-field="o.home_phone" style="border-bottom: 1px dotted black; padding-left: 10px; width: 60%; display: inline-block;"/>
+                        <!-- Header / Logo Area -->
+                        <div class="row mb-3">
+                            <div class="col-8"></div>
+                            <div class="col-4 text-center">
+                                <!-- Logo Placeholder -->
+                                <h4 style="color: #0077b6; font-weight: bold; margin-bottom: 0;">Ruvimbo</h4>
+                                <h5 style="color: #0077b6; margin-top: 0;">Funeral</h5>
+                                <p style="margin: 0; font-size: 10px;">Assurance (Pvt) Ltd</p>
+                                <p style="font-style: italic; font-size: 9px; color: #0077b6;">"Experience the difference"</p>
+                                <div style="font-size: 8px; margin-top: 10px;">
+                                    Head Office<br/>
+                                    1122 Tynwald South<br/>
+                                    Industrial Area, Harare<br/>
+                                    Call: +263 777 887 549<br/>
+                                    Email: info@ruvimboholdings.co.zw
+                                </div>
                             </div>
                         </div>
 
-                        <div class="row mb-2">
-                            <div class="col-6">
-                                <strong>EMPLOYER:</strong> <span t-field="o.employer" style="border-bottom: 1px dotted black; padding-left: 10px; width: 70%; display: inline-block;"/>
-                            </div>
-                            <div class="col-6">
-                                <strong>OCCUPATION:</strong> <span t-field="o.occupation" style="border-bottom: 1px dotted black; padding-left: 10px; width: 70%; display: inline-block;"/>
-                            </div>
-                        </div>
-
-                        <div class="row mb-4">
-                            <div class="col-4">
-                                <strong>GROSS SALARY:</strong> <span t-field="o.gross_salary" style="border-bottom: 1px dotted black; padding-left: 10px; width: 50%; display: inline-block;"/>
-                            </div>
-                            <div class="col-4">
-                                <strong>NET SALARY:</strong> <span t-field="o.net_salary" style="border-bottom: 1px dotted black; padding-left: 10px; width: 50%; display: inline-block;"/>
-                            </div>
-                            <div class="col-4">
-                                <strong>I.D No:</strong> <span t-field="o.national_id" style="border-bottom: 1px dotted black; padding-left: 10px; width: 60%; display: inline-block;"/>
-                            </div>
-                        </div>
-
-                        <table class="table table-bordered table-sm mb-4">
+                        <!-- Main Table -->
+                        <table style="width: 100%; border-collapse: collapse; border: 2px solid #0077b6;">
+                            <!-- Row 1 -->
                             <tr>
-                                <td><strong>PRODUCT NAME:</strong> <br/> <span t-field="o.product_id.name"/></td>
-                                <td><strong>PLAN TYPE:</strong> <br/> <span t-field="o.plan_type"/></td>
-                                <td><strong>SUM ASSURED:</strong> <br/> <span t-field="o.sum_assured"/></td>
-                                <td colspan="2">
-                                    <strong>MEMBERSHIP NUMBER</strong> <br/>
-                                    <div style="border: 1px solid black; padding: 5px; text-align: center; letter-spacing: 5px; font-weight: bold;">
+                                <td colspan="2" style="border: 1px solid #0077b6; padding: 4px;"><strong>MR/MRS/MISS:</strong> <span t-field="o.title"/></td>
+                                <td colspan="3" style="border: 1px solid #0077b6; padding: 4px;"><strong>PHYSICAL ADDRESS:</strong> <span t-field="o.residential_address"/></td>
+                            </tr>
+                            <!-- Row 2 -->
+                            <tr>
+                                <td colspan="2" style="border: 1px solid #0077b6; padding: 4px;"><strong>SURNAME:</strong> <span t-field="o.last_name"/></td>
+                                <td colspan="3" style="border: 1px solid #0077b6; padding: 4px;"><strong>BUSINESS ADDRESS:</strong> <span t-field="o.business_address"/></td>
+                            </tr>
+                            <!-- Row 3 -->
+                            <tr>
+                                <td colspan="2" style="border: 1px solid #0077b6; padding: 4px;"><strong>FIRST NAME:</strong> <span t-field="o.first_name"/></td>
+                                <td colspan="3" style="border: 1px solid #0077b6; padding: 4px;"><strong>EMPLOYER:</strong> <span t-field="o.employer"/></td>
+                            </tr>
+                            <!-- Row 4 -->
+                            <tr>
+                                <td colspan="2" style="border: 1px solid #0077b6; padding: 4px;">
+                                    <div class="row">
+                                        <div class="col-6"><strong>GROSS SALARY:</strong> <span t-field="o.gross_salary"/></div>
+                                        <div class="col-6"><strong>NET SALARY:</strong> <span t-field="o.net_salary"/></div>
+                                    </div>
+                                </td>
+                                <td colspan="3" style="border: 1px solid #0077b6; padding: 4px;"><strong>OCCUPATION:</strong> <span t-field="o.occupation"/></td>
+                            </tr>
+                            <!-- Row 5 -->
+                            <tr>
+                                <td colspan="2" style="border: 1px solid #0077b6; padding: 4px;"><strong>ID No:</strong> <span t-field="o.national_id"/></td>
+                                <td colspan="2" style="border: 1px solid #0077b6; padding: 4px;"><strong>TEL &amp; CELL:</strong> <span t-field="o.home_phone"/></td>
+                                <td style="border: 1px solid #0077b6; padding: 4px;"><strong>Date of 1st Payment:</strong> <span t-field="o.first_payment_date"/></td>
+                            </tr>
+
+                            <!-- Middle Section -->
+                            <tr>
+                                <td rowspan="2" style="border: 1px solid #0077b6; padding: 4px; vertical-align: top;">
+                                    <strong>MODE OF PAYMENT</strong><br/>
+                                    CASH [ <t t-if="o.mode_of_payment == 'cash'">X</t> ] <br/>
+                                    S/O [ <t t-if="o.mode_of_payment == 'stop_order'">X</t> ]
+                                </td>
+                                <td rowspan="2" style="border: 1px solid #0077b6; padding: 4px; vertical-align: top;">
+                                    <strong>PRODUCT NAME:</strong> <br/><span t-field="o.product_id.name"/>
+                                </td>
+                                <td rowspan="2" style="border: 1px solid #0077b6; padding: 4px; vertical-align: top;">
+                                    <strong>PLAN TYPE:</strong> <br/><span t-field="o.plan_type"/>
+                                </td>
+                                <td rowspan="2" style="border: 1px solid #0077b6; padding: 4px; vertical-align: top;">
+                                    <strong>FREQUENCY</strong><br/>
+                                    MONTHLY [ <t t-if="o.frequency == 'monthly'">X</t> ]<br/>
+                                    QUARTERLY [ <t t-if="o.frequency == 'quarterly'">X</t> ]<br/>
+                                    YEARLY [ <t t-if="o.frequency == 'yearly'">X</t> ]
+                                </td>
+                                <td style="border: 1px solid #0077b6; padding: 10px; text-align: center; vertical-align: middle;">
+                                    <strong>MEMBERSHIP NUMBER</strong><br/>
+                                    <div style="border: 1px solid black; padding: 5px; font-size: 14px; font-weight: bold; letter-spacing: 2px;">
                                         <span t-field="o.name"/>
                                     </div>
                                 </td>
                             </tr>
                             <tr>
-                                <td rowspan="2">
-                                    <strong>MODE OF PAYMENT</strong><br/>
-                                    CASH [ <t t-if="o.mode_of_payment == 'cash'">X</t> ] 
-                                    S/O [ <t t-if="o.mode_of_payment == 'stop_order'">X</t> ]
+                                <td style="border: 1px solid #0077b6; padding: 4px;">
+                                    <div class="row">
+                                        <div class="col-6"><strong>NAME:</strong> <span t-field="o.first_name"/></div>
+                                        <div class="col-6"><strong>SURNAME:</strong> <span t-field="o.last_name"/></div>
+                                    </div>
                                 </td>
-                                <td>
-                                    <strong>FREQUENCY</strong><br/>
-                                    Monthly [ <t t-if="o.frequency == 'monthly'">X</t> ]<br/>
-                                    Quarterly [ <t t-if="o.frequency == 'quarterly'">X</t> ]<br/>
-                                    Yearly [ <t t-if="o.frequency == 'yearly'">X</t> ]
-                                </td>
-                                <td><strong>PREMIUM:</strong><br/><span t-field="o.premium_amount"/></td>
-                                <td><strong>POLICY TERM:</strong><br/><span t-field="o.policy_term"/></td>
-                                <td><strong>WAITING PERIOD:</strong><br/>
-                                    Y [ <t t-if="o.waiting_period">X</t> ] 
-                                    N [ <t t-if="not o.waiting_period">X</t> ]
+                            </tr>
+
+                            <!-- Lower Section -->
+                            <tr>
+                                <td style="border: 1px solid #0077b6; padding: 4px;"><strong>SUM ASSURED:</strong> <br/>$<span t-field="o.sum_assured"/></td>
+                                <td style="border: 1px solid #0077b6; padding: 4px;"><strong>PREMIUM:</strong> <br/>$<span t-field="o.premium_amount"/></td>
+                                <td style="border: 1px solid #0077b6; padding: 4px;"><strong>AGENT:</strong> <br/><span t-field="o.agent_id.name"/></td>
+                                <td style="border: 1px solid #0077b6; padding: 4px;"><strong>POLICY TERM:</strong> <br/><span t-field="o.policy_term"/></td>
+                                <td style="border: 1px solid #0077b6; padding: 4px;">
+                                    <div class="row">
+                                        <div class="col-6"><strong>AGENT'S CODE:</strong> <br/><span t-field="o.agent_id.code"/></div>
+                                        <div class="col-6"><strong>BRANCH:</strong> <br/><span t-field="o.branch_id.name"/></div>
+                                    </div>
                                 </td>
                             </tr>
                             <tr>
-                                <td><strong>AGENT:</strong><br/><span t-field="o.agent_id.name"/></td>
-                                <td><strong>AGENT'S CODE:</strong><br/><span t-field="o.agent_id.code"/></td>
-                                <td><strong>BRANCH:</strong><br/><span t-field="o.branch_id.name"/></td>
-                                <td><strong>Groceries:</strong><br/>
-                                    Y [ <t t-if="o.groceries">X</t> ] 
-                                    N [ <t t-if="not o.groceries">X</t> ]
+                                <td colspan="2" style="border: 1px solid #0077b6; padding: 4px;">
+                                    <strong>WAITING PERIOD:</strong> 
+                                    Y [ <t t-if="o.waiting_period">X</t> ] N [ <t t-if="not o.waiting_period">X</t> ]
+                                </td>
+                                <td colspan="3" style="border: 1px solid #0077b6; padding: 4px;">
+                                    <strong>Grocery:</strong> Y [ <t t-if="o.groceries">X</t> ] N [ <t t-if="not o.groceries">X</t> ]
+                                    <span style="margin-left: 20px;"><strong>Airtime:</strong> Y [ <t t-if="o.airtime">X</t> ] N [ <t t-if="not o.airtime">X</t> ]</span>
                                 </td>
                             </tr>
-                        </table>
 
-                        <h6 class="mt-4"><strong>BENEFICIARIES</strong> Policy holder, spouse, children to provide birth certificate copies on joining or upon death.</h6>
-                        <table class="table table-bordered table-sm mb-4">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>SURNAME</th>
-                                    <th>FIRST NAME</th>
-                                    <th>RELATIONSHIP</th>
-                                    <th>D.O.B</th>
-                                    <th>ID NUMBER</th>
+                            <!-- Beneficiaries Header -->
+                            <tr>
+                                <td colspan="5" style="border: 1px solid #0077b6; background-color: #f0f8ff; padding: 4px; font-weight: bold; text-align: center;">
+                                    BENEFICIARIES <span style="font-weight: normal; font-size: 9px;">Policy holder, spouse, children to provide birth certificate copies on joining or upon death.</span>
+                                </td>
+                            </tr>
+                            
+                            <!-- Beneficiaries Grid -->
+                            <tr style="background-color: #e6f2ff; font-weight: bold; text-align: center;">
+                                <td style="border: 1px solid #0077b6; padding: 4px; width: 5%;">#</td>
+                                <td style="border: 1px solid #0077b6; padding: 4px; width: 25%;">SURNAME</td>
+                                <td style="border: 1px solid #0077b6; padding: 4px; width: 25%;">FIRST NAME</td>
+                                <td style="border: 1px solid #0077b6; padding: 4px; width: 15%;">RELATIONSHIP</td>
+                                <td style="border: 1px solid #0077b6; padding: 4px; width: 15%;">D.O.B</td>
+                            </tr>
+                            
+                            <t t-foreach="o.dependant_ids" t-as="dep">
+                                <tr style="text-align: center;">
+                                    <td style="border: 1px solid #0077b6; padding: 4px;"><span t-esc="dep_index + 1"/></td>
+                                    <td style="border: 1px solid #0077b6; padding: 4px; text-transform: uppercase;"><span t-field="dep.last_name"/></td>
+                                    <td style="border: 1px solid #0077b6; padding: 4px; text-transform: uppercase;"><span t-field="dep.first_name"/></td>
+                                    <td style="border: 1px solid #0077b6; padding: 4px; text-transform: uppercase;"><span t-field="dep.relationship"/></td>
+                                    <td style="border: 1px solid #0077b6; padding: 4px;"><span t-field="dep.dob"/></td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                <t t-foreach="o.dependant_ids" t-as="dep">
-                                    <tr>
-                                        <td><span t-esc="dep_index + 1"/></td>
-                                        <td><span t-field="dep.last_name"/></td>
-                                        <td><span t-field="dep.first_name"/></td>
-                                        <td><span t-field="dep.relationship"/></td>
-                                        <td><span t-field="dep.dob"/></td>
-                                        <td><span t-field="dep.national_id"/></td>
+                            </t>
+                            <t t-if="len(o.dependant_ids) &lt; 6">
+                                <t t-foreach="range(6 - len(o.dependant_ids))" t-as="empty_row">
+                                    <tr style="text-align: center; height: 25px;">
+                                        <td style="border: 1px solid #0077b6; padding: 4px;"><span t-esc="len(o.dependant_ids) + empty_row + 1"/></td>
+                                        <td style="border: 1px solid #0077b6;"></td><td style="border: 1px solid #0077b6;"></td>
+                                        <td style="border: 1px solid #0077b6;"></td><td style="border: 1px solid #0077b6;"></td>
                                     </tr>
                                 </t>
-                                <t t-if="len(o.dependant_ids) &lt; 6">
-                                    <t t-foreach="range(6 - len(o.dependant_ids))" t-as="empty_row">
-                                        <tr>
-                                            <td><span t-esc="len(o.dependant_ids) + empty_row + 1"/></td>
-                                            <td></td><td></td><td></td><td></td><td></td>
-                                        </tr>
-                                    </t>
-                                </t>
-                            </tbody>
+                            </t>
                         </table>
 
                         <div style="page-break-before: always;"></div>
-                        <!-- Back page content (Image 5) -->
-                        <table class="table table-bordered table-sm mb-4">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>SURNAME</th>
-                                    <th>FIRST NAME</th>
-                                    <th>RELATIONSHIP</th>
-                                    <th>D.O.B</th>
-                                    <th>ID NUMBER</th>
+                        
+                        <!-- Page 2 (Back page with Declaration) -->
+                        <table style="width: 100%; border-collapse: collapse; border: 2px solid #0077b6;">
+                            <!-- Declaration Header -->
+                            <tr>
+                                <td colspan="5" style="border: 1px solid #0077b6; padding: 10px;">
+                                    <h5 style="color: #0077b6; margin-top: 0;"><strong>Declaration by proposer</strong></h5>
+                                    <p style="font-size: 11px; margin-bottom: 30px;">
+                                        I certify that the information supplied hereon is correct to the best of my knowledge. I have understood all the terms and conditions that have been explained to me and which are to be availed to me on the company's policy document.
+                                    </p>
+                                    
+                                    <div class="row">
+                                        <div class="col-7">
+                                            <strong>Proposer's Signature:</strong> <span style="border-bottom: 1px solid black; display: inline-block; width: 200px;"></span>
+                                        </div>
+                                        <div class="col-5">
+                                            <strong>Date:</strong> <span t-field="o.proposal_date" style="border-bottom: 1px solid black; display: inline-block; width: 150px;"/>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-4 mb-2">
+                                        <div class="col-7">
+                                            <strong>Signature of Agent:</strong> <span style="border-bottom: 1px solid black; display: inline-block; width: 200px;"></span>
+                                        </div>
+                                        <div class="col-5">
+                                            <strong>Date:</strong> <span style="border-bottom: 1px solid black; display: inline-block; width: 150px;"></span>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <!-- Office Use -->
+                            <tr>
+                                <td colspan="5" style="border: 1px solid #0077b6; background-color: #f0f8ff; padding: 10px;">
+                                    <h5 style="color: #0077b6; margin-top: 0;"><strong>For office use only</strong></h5>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <strong>Underwriting decision</strong><br/><br/>
+                                            <p>Accepted Loaded / Adjusted [ <t t-if="o.underwriting_decision == 'accepted'">X</t> ]</p>
+                                            <p>Declined [ <t t-if="o.underwriting_decision == 'declined'">X</t> ]</p>
+                                        </div>
+                                        <div class="col-6">
+                                            <strong>Underwriter</strong><br/><br/>
+                                            <p>Initials: <span style="border-bottom: 1px solid black; display: inline-block; width: 150px;"></span></p>
+                                            <p>Signature: <span style="border-bottom: 1px solid black; display: inline-block; width: 150px;"></span></p>
+                                            <p>Date: <span style="border-bottom: 1px solid black; display: inline-block; width: 150px;"></span></p>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <!-- Extended Family Grid -->
+                            <tr style="background-color: #e6f2ff; font-weight: bold; text-align: center;">
+                                <td style="border: 1px solid #0077b6; padding: 4px; width: 5%;">#</td>
+                                <td style="border: 1px solid #0077b6; padding: 4px; width: 25%;">SURNAME</td>
+                                <td style="border: 1px solid #0077b6; padding: 4px; width: 25%;">FIRST NAME</td>
+                                <td style="border: 1px solid #0077b6; padding: 4px; width: 15%;">RELATIONSHIP</td>
+                                <td style="border: 1px solid #0077b6; padding: 4px; width: 15%;">D.O.B</td>
+                            </tr>
+                            
+                            <t t-foreach="o.extended_family_ids" t-as="ext">
+                                <tr style="text-align: center;">
+                                    <td style="border: 1px solid #0077b6; padding: 4px;"><span t-esc="ext_index + 7"/></td>
+                                    <td style="border: 1px solid #0077b6; padding: 4px; text-transform: uppercase;"><span t-field="ext.last_name"/></td>
+                                    <td style="border: 1px solid #0077b6; padding: 4px; text-transform: uppercase;"><span t-field="ext.first_name"/></td>
+                                    <td style="border: 1px solid #0077b6; padding: 4px; text-transform: uppercase;"><span t-field="ext.relationship"/></td>
+                                    <td style="border: 1px solid #0077b6; padding: 4px;"><span t-field="ext.dob"/></td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                <t t-foreach="o.extended_family_ids" t-as="ext">
-                                    <tr>
-                                        <td><span t-esc="ext_index + 7"/></td>
-                                        <td><span t-field="ext.last_name"/></td>
-                                        <td><span t-field="ext.first_name"/></td>
-                                        <td><span t-field="ext.relationship"/></td>
-                                        <td><span t-field="ext.dob"/></td>
-                                        <td><span t-field="ext.national_id"/></td>
+                            </t>
+                            <t t-if="len(o.extended_family_ids) &lt; 14">
+                                <t t-foreach="range(14 - len(o.extended_family_ids))" t-as="empty_row">
+                                    <tr style="text-align: center; height: 25px;">
+                                        <td style="border: 1px solid #0077b6; padding: 4px;"><span t-esc="len(o.extended_family_ids) + empty_row + 7"/></td>
+                                        <td style="border: 1px solid #0077b6;"></td><td style="border: 1px solid #0077b6;"></td>
+                                        <td style="border: 1px solid #0077b6;"></td><td style="border: 1px solid #0077b6;"></td>
                                     </tr>
                                 </t>
-                                <t t-if="len(o.extended_family_ids) &lt; 14">
-                                    <t t-foreach="range(14 - len(o.extended_family_ids))" t-as="empty_row">
-                                        <tr>
-                                            <td><span t-esc="len(o.extended_family_ids) + empty_row + 7"/></td>
-                                            <td></td><td></td><td></td><td></td><td></td>
-                                        </tr>
-                                    </t>
-                                </t>
-                            </tbody>
+                            </t>
                         </table>
-
-                        <div class="mt-5" style="border: 1px solid black; padding: 15px;">
-                            <h5><strong>Declaration by proposer</strong></h5>
-                            <p style="font-size: 12px; line-height: 1.5;">
-                                I certify that the information supplied hereon is correct to the best of my knowledge. I have understood all the terms and conditions that have been explained to me and which are to be availed to me on the company's policy document.
-                            </p>
-                            
-                            <div class="row mt-4">
-                                <div class="col-6">
-                                    <strong>Proposer's Signature:</strong> <span style="border-bottom: 1px dotted black; padding-left: 150px;"></span>
-                                </div>
-                                <div class="col-6">
-                                    <strong>Date:</strong> <span t-field="o.proposal_date" style="border-bottom: 1px dotted black; padding-left: 100px;"/>
-                                </div>
-                            </div>
-                            
-                            <div class="row mt-4 mb-3">
-                                <div class="col-6">
-                                    <strong>Signature of Agent:</strong> <span style="border-bottom: 1px dotted black; padding-left: 150px;"></span>
-                                </div>
-                                <div class="col-6">
-                                    <strong>Date:</strong> <span style="border-bottom: 1px dotted black; padding-left: 100px;"></span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mt-4" style="border: 1px solid black; padding: 15px;">
-                            <h5><strong>For office use only</strong></h5>
-                            
-                            <div class="row mt-3">
-                                <div class="col-6" style="border-right: 1px solid black;">
-                                    <strong>Underwriting decision</strong><br/><br/>
-                                    <p>Accepted Loaded / Adjusted [ <t t-if="o.underwriting_decision == 'accepted'">X</t> ]</p>
-                                    <p>Declined [ <t t-if="o.underwriting_decision == 'declined'">X</t> ]</p>
-                                </div>
-                                <div class="col-6 pl-4">
-                                    <strong>Underwriter</strong><br/><br/>
-                                    <p>Initials: <span style="border-bottom: 1px dotted black; padding-left: 150px;"></span></p>
-                                    <p>Signature: <span style="border-bottom: 1px dotted black; padding-left: 140px;"></span></p>
-                                </div>
-                            </div>
-                        </div>
 
                     </div>
                 </t>

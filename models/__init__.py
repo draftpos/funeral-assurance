@@ -13,4 +13,5 @@ from . import commission
 from . import vehicle
 from . import tombstone
 from . import commissioner
+from . import stock
 from . import res_config_settings

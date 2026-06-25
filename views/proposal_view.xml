@@ -9,6 +9,7 @@
                 <form string="Proposal">
                     <header>
                         <button name="action_print_proposal" string="Print Proposal Form" type="object" class="btn-primary"/>
+                        <button name="%(funeral_assurance.action_funeral_payment)d" string="Payments" type="action" class="btn-secondary" context="{'default_proposal_id': id, 'search_default_proposal_id': id}"/>
                         <field name="state" widget="statusbar" statusbar_visible="pending,accepted,rejected,ntu"/>
                     </header>
                     <sheet>
@@ -75,6 +76,7 @@
                                         <field name="frequency"/>
                                         <field name="first_payment_date"/>
                                         <field name="groceries"/>
+                                        <field name="airtime"/>
                                     </group>
                                 </group>
 
@@ -107,11 +109,6 @@
                             </page>
                         </notebook>
                     </sheet>
-                    <div class="oe_chatter">
-                        <field name="message_follower_ids"/>
-                        <field name="activity_ids"/>
-                        <field name="message_ids"/>
-                    </div>
                 </form>
             </field>
         </record>
@@ -143,6 +140,10 @@
                     <field name="full_name"/>
                     <field name="national_id"/>
                     <field name="home_phone"/>
+                    <field name="plan_type"/>
+                    <field name="state"/>
+                    <field name="agent_id"/>
+                    <field name="branch_id"/>
                 </search>
             </field>
         </record>

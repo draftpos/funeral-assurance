@@ -26,11 +26,6 @@
                             </group>
                         </group>
                     </sheet>
-                    <div class="oe_chatter">
-                        <field name="message_follower_ids" widget="mail_followers"/>
-                        <field name="activity_ids" widget="mail_activity"/>
-                        <field name="message_ids" widget="mail_thread"/>
-                    </div>
                 </form>
             </field>
         </record>
@@ -85,11 +80,6 @@
                             </page>
                         </notebook>
                     </sheet>
-                    <div class="oe_chatter">
-                        <field name="message_follower_ids" widget="mail_followers"/>
-                        <field name="activity_ids" widget="mail_activity"/>
-                        <field name="message_ids" widget="mail_thread"/>
-                    </div>
                 </form>
             </field>
         </record>
@@ -113,21 +103,150 @@
             <field name="view_mode">list,form</field>
         </record>
 
+        <!-- Actuary Data -->
+        <record id="view_funeral_actuary_data_form" model="ir.ui.view">
+            <field name="name">funeral.actuary.data.form</field>
+            <field name="model">funeral.actuary.data</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="status" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1><field name="name"/></h1>
+                        </div>
+                        <group>
+                            <group string="Details">
+                                <field name="actuary_name"/>
+                                <field name="valuation_date"/>
+                                <field name="data_period_start"/>
+                                <field name="data_period_end"/>
+                            </group>
+                            <group string="Metrics">
+                                <field name="total_liabilities"/>
+                                <field name="solvency_ratio"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Findings &amp; Recommendations">
+                                <group>
+                                    <field name="findings"/>
+                                    <field name="recommendations"/>
+                                </group>
+                            </page>
+                            <page string="Attachment">
+                                <field name="file_name" invisible="1"/>
+                                <field name="attachment" filename="file_name"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record id="view_funeral_actuary_data_list" model="ir.ui.view">
+            <field name="name">funeral.actuary.data.list</field>
+            <field name="model">funeral.actuary.data</field>
+            <field name="arch" type="xml">
+                <list string="Actuarial Reports">
+                    <field name="name"/>
+                    <field name="actuary_name"/>
+                    <field name="valuation_date"/>
+                    <field name="solvency_ratio"/>
+                    <field name="status" widget="badge"/>
+                </list>
+            </field>
+        </record>
+        
+        <record id="action_funeral_actuary_data" model="ir.actions.act_window">
+            <field name="name">Actuarial Data</field>
+            <field name="res_model">funeral.actuary.data</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <!-- Auditor Data -->
+        <record id="view_funeral_auditor_data_form" model="ir.ui.view">
+            <field name="name">funeral.auditor.data.form</field>
+            <field name="model">funeral.auditor.data</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="status" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1><field name="name"/></h1>
+                        </div>
+                        <group>
+                            <group string="Auditor Info">
+                                <field name="auditor_name"/>
+                                <field name="financial_year"/>
+                            </group>
+                            <group string="Dates">
+                                <field name="start_date"/>
+                                <field name="end_date"/>
+                            </group>
+                            <group string="Results">
+                                <field name="audit_opinion"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Key Audit Matters">
+                                <field name="key_audit_matters"/>
+                            </page>
+                            <page string="Management Letter">
+                                <field name="file_name" invisible="1"/>
+                                <field name="management_letter" filename="file_name"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record id="view_funeral_auditor_data_list" model="ir.ui.view">
+            <field name="name">funeral.auditor.data.list</field>
+            <field name="model">funeral.auditor.data</field>
+            <field name="arch" type="xml">
+                <list string="Audit Reports">
+                    <field name="name"/>
+                    <field name="auditor_name"/>
+                    <field name="financial_year"/>
+                    <field name="status" widget="badge"/>
+                </list>
+            </field>
+        </record>
+        
+        <record id="action_funeral_auditor_data" model="ir.actions.act_window">
+            <field name="name">Auditor Data</field>
+            <field name="res_model">funeral.auditor.data</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
         <!-- Menus -->
-        <menuitem id="menu_funeral_compliance"
-                  name="Compliance &amp; Audits"
-                  parent="menu_funeral_root"
-                  sequence="85"/>
                   
         <menuitem id="menu_funeral_commissioner"
                   name="Commissioner Data"
-                  parent="menu_funeral_compliance"
+                  parent="menu_funeral_compliance_audit"
                   action="action_funeral_commissioner_data"
                   sequence="10"/>
+
+        <menuitem id="menu_funeral_actuary"
+                  name="Actuarial Reports"
+                  parent="menu_funeral_compliance_audit"
+                  action="action_funeral_actuary_data"
+                  sequence="20"/>
+
+        <menuitem id="menu_funeral_auditor"
+                  name="Audit Reports"
+                  parent="menu_funeral_compliance_audit"
+                  action="action_funeral_auditor_data"
+                  sequence="30"/>
                   
         <menuitem id="menu_funeral_property"
                   name="Property Valuations"
-                  parent="menu_funeral_compliance"
+                  parent="menu_funeral_compliance_audit"
                   action="action_funeral_property_valuation"
                   sequence="40"/>
     </data>

@@ -1,63 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+        <!-- Root Menu for App Switcher -->
         <menuitem id="menu_funeral_root"
                   name="Funeral Assurance"
                   web_icon="funeral_assurance,static/description/icon.png"
                   sequence="10"/>
 
-        <!-- Dashboard Action is now defined in dashboard_view.xml -->
-
+        <!-- 1. Dashboard -->
         <menuitem id="menu_funeral_dashboard"
                   name="Dashboard"
                   parent="menu_funeral_root"
                   action="action_funeral_dashboard_window"
-                  sequence="1"/>
+                  sequence="10"/>
 
-        <!-- Operations Category -->
+        <!-- 2. Static Data -->
+        <menuitem id="menu_funeral_static_data"
+                  name="Static Data"
+                  parent="menu_funeral_root"
+                  sequence="20"/>
+
+        <!-- 3. Operations -->
         <menuitem id="menu_funeral_operations"
                   name="Operations"
                   parent="menu_funeral_root"
-                  sequence="20"/>
-                  
-        <!-- Dummy Operations Submenu so it shows up -->
-        <menuitem id="menu_funeral_operations_dummy"
-                  name="Daily Operations"
-                  parent="menu_funeral_operations"
-                  action="action_funeral_dashboard_window"
-                  sequence="10"/>
+                  sequence="30"/>
 
-        <!-- Reports Category -->
-        <menuitem id="menu_funeral_reports"
-                  name="Reports"
+        <!-- 4. Compliance & Audit -->
+        <menuitem id="menu_funeral_compliance_audit"
+                  name="Compliance &amp; Audit"
+                  parent="menu_funeral_root"
+                  sequence="40"/>
+
+        <!-- 5. Tombstones -->
+        <menuitem id="menu_funeral_tombstones"
+                  name="Tombstones"
                   parent="menu_funeral_root"
                   sequence="50"/>
 
-        <!-- Dummy Reports Submenu so it shows up -->
-        <menuitem id="menu_funeral_reports_dummy"
-                  name="Sales Reports"
-                  parent="menu_funeral_reports"
-                  action="action_funeral_dashboard_window"
-                  sequence="10"/>
-
-        <!-- Vehicles Category -->
+        <!-- 6. Vehicles -->
         <menuitem id="menu_funeral_vehicles"
                   name="Vehicles"
                   parent="menu_funeral_root"
-                  sequence="90"/>
+                  sequence="60"/>
 
-        <!-- Configurations Category -->
-        <menuitem id="menu_funeral_configurations"
-                  name="Configurations"
+        <!-- 7. Reports -->
+        <menuitem id="menu_funeral_reports"
+                  name="Reports"
                   parent="menu_funeral_root"
-                  sequence="100"/>
-        
-        <!-- Move Static Data to Configurations -->
-        <menuitem id="menu_funeral_static_data"
-                  name="Static Data"
-                  parent="menu_funeral_configurations"
-                  sequence="10"/>
+                  sequence="70"/>
 
-        <!-- Create generic views for dynamic generation or just list menus -->
+        <!-- Reports Sub-Categories -->
+        <menuitem id="menu_report_clients" name="1. Clients Management" parent="menu_funeral_reports" sequence="10"/>
+        <menuitem id="menu_report_policies" name="2. Policies Management" parent="menu_funeral_reports" sequence="20"/>
+        <menuitem id="menu_report_premiums" name="3. Premiums Collections" parent="menu_funeral_reports" sequence="30"/>
+        <menuitem id="menu_report_debtors" name="4. Debtors Management" parent="menu_funeral_reports" sequence="40"/>
+        <menuitem id="menu_report_claims" name="5. Claims Management" parent="menu_funeral_reports" sequence="50"/>
+        <menuitem id="menu_report_funerals" name="6. Funerals Management" parent="menu_funeral_reports" sequence="60"/>
+        <menuitem id="menu_report_burial" name="7. Burial Societies" parent="menu_funeral_reports" sequence="70"/>
+        <menuitem id="menu_report_new_business" name="8. New Business" parent="menu_funeral_reports" sequence="80"/>
+        <menuitem id="menu_report_commissions" name="9. Commissions Management" parent="menu_funeral_reports" sequence="90"/>
+        <menuitem id="menu_report_tombstones" name="10. Tombstones Management" parent="menu_funeral_reports" sequence="100"/>
+        <menuitem id="menu_report_stock" name="11. Services Stocks" parent="menu_funeral_reports" sequence="110"/>
+        <menuitem id="menu_report_users_audit" name="12. Users &amp; Audit" parent="menu_funeral_reports" sequence="120"/>
+        <menuitem id="menu_report_financial" name="13. Financial Reports" parent="menu_funeral_reports" sequence="130"/>
+        <menuitem id="menu_report_dashboard" name="14. Dashboard Reports" parent="menu_funeral_reports" sequence="140"/>
+        <menuitem id="menu_report_vehicles" name="15. Vehicles Management" parent="menu_funeral_reports" sequence="150"/>
+
+        <!-- 8. User Rights (formerly Configurations) -->
+        <menuitem id="menu_funeral_configurations"
+                  name="User Rights"
+                  parent="menu_funeral_root"
+                  sequence="80"/>
+
     </data>
 </odoo>

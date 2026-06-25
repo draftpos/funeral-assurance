@@ -33,11 +33,6 @@
                             </page>
                         </notebook>
                     </sheet>
-                    <div class="oe_chatter">
-                        <field name="message_follower_ids" widget="mail_followers"/>
-                        <field name="activity_ids" widget="mail_activity"/>
-                        <field name="message_ids" widget="mail_thread"/>
-                    </div>
                 </form>
             </field>
         </record>
@@ -100,13 +95,15 @@
                             <page string="Inscription / Message">
                                 <field name="inscription" placeholder="Enter the exact text to be written on the tombstone..."/>
                             </page>
+                            <page string="Installation">
+                                <group>
+                                    <field name="installation_date"/>
+                                    <field name="installation_team"/>
+                                </group>
+                                <field name="installation_notes" placeholder="Notes on installation..."/>
+                            </page>
                         </notebook>
                     </sheet>
-                    <div class="oe_chatter">
-                        <field name="message_follower_ids" widget="mail_followers"/>
-                        <field name="activity_ids" widget="mail_activity"/>
-                        <field name="message_ids" widget="mail_thread"/>
-                    </div>
                 </form>
             </field>
         </record>
@@ -141,10 +138,6 @@
         </record>
 
         <!-- Menus -->
-        <menuitem id="menu_funeral_tombstones"
-                  name="Tombstones"
-                  parent="menu_funeral_root"
-                  sequence="80"/>
                   
         <menuitem id="menu_tombstone_operations"
                   name="Orders &amp; Processing"

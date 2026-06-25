@@ -45,6 +45,10 @@ class FuneralVehicle(models.Model):
         ('sold', 'Sold/Disposed')
     ], string='Status', default='active', tracking=True)
     active = fields.Boolean(default=True)
+    
+    # Service Tracking
+    next_service_due = fields.Date(string='Next Service Due Date', tracking=True)
+    next_service_mileage = fields.Float(string='Next Service Mileage', tracking=True)
 
 
 class FuneralDriver(models.Model):
