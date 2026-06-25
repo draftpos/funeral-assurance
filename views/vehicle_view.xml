@@ -58,12 +58,12 @@
             <field name="model">funeral.vehicle</field>
             <field name="arch" type="xml">
                 <list string="Vehicles">
-                    <field name="name"/>
-                    <field name="license_plate"/>
-                    <field name="vehicle_type"/>
-                    <field name="branch_id"/>
-                    <field name="license_expiry"/>
-                    <field name="status" widget="badge" decoration-success="status == 'active'" decoration-warning="status == 'maintenance'" decoration-danger="status == 'inactive'"/>
+                    <field name="name" optional="show"/>
+                    <field name="license_plate" optional="show"/>
+                    <field name="vehicle_type" optional="show"/>
+                    <field name="branch_id" optional="show"/>
+                    <field name="license_expiry" optional="show"/>
+                    <field name="status" optional="show" widget="badge" decoration-success="status == 'active'" decoration-warning="status == 'maintenance'" decoration-danger="status == 'inactive'"/>
                 </list>
             </field>
         </record>
@@ -138,10 +138,10 @@
             <field name="model">funeral.driver</field>
             <field name="arch" type="xml">
                 <list string="Drivers">
-                    <field name="name"/>
-                    <field name="contact_number"/>
-                    <field name="license_number"/>
-                    <field name="license_expiry"/>
+                    <field name="name" optional="show"/>
+                    <field name="contact_number" optional="show"/>
+                    <field name="license_number" optional="show"/>
+                    <field name="license_expiry" optional="show"/>
                 </list>
             </field>
         </record>
@@ -192,11 +192,11 @@
             <field name="model">funeral.vehicle.trip</field>
             <field name="arch" type="xml">
                 <list string="Trip Logs">
-                    <field name="name"/>
-                    <field name="date"/>
-                    <field name="vehicle_id"/>
-                    <field name="driver_id"/>
-                    <field name="distance" sum="Total Distance"/>
+                    <field name="name" optional="show"/>
+                    <field name="date" optional="show"/>
+                    <field name="vehicle_id" optional="show"/>
+                    <field name="driver_id" optional="show"/>
+                    <field name="distance" optional="show" sum="Total Distance"/>
                 </list>
             </field>
         </record>
@@ -238,11 +238,11 @@
             <field name="model">funeral.vehicle.fuel.log</field>
             <field name="arch" type="xml">
                 <list string="Fuel Logs">
-                    <field name="date"/>
-                    <field name="vehicle_id"/>
-                    <field name="driver_id"/>
-                    <field name="liters" sum="Total Liters"/>
-                    <field name="cost" sum="Total Cost"/>
+                    <field name="date" optional="show"/>
+                    <field name="vehicle_id" optional="show"/>
+                    <field name="driver_id" optional="show"/>
+                    <field name="liters" optional="show" sum="Total Liters"/>
+                    <field name="cost" optional="show" sum="Total Cost"/>
                 </list>
             </field>
         </record>
@@ -289,11 +289,11 @@
             <field name="model">funeral.vehicle.maintenance</field>
             <field name="arch" type="xml">
                 <list string="Maintenance Logs">
-                    <field name="date"/>
-                    <field name="vehicle_id"/>
-                    <field name="service_type"/>
-                    <field name="cost" sum="Total Cost"/>
-                    <field name="mechanic"/>
+                    <field name="date" optional="show"/>
+                    <field name="vehicle_id" optional="show"/>
+                    <field name="service_type" optional="show"/>
+                    <field name="cost" optional="show" sum="Total Cost"/>
+                    <field name="mechanic" optional="show"/>
                 </list>
             </field>
         </record>

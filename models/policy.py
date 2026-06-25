@@ -52,6 +52,9 @@ class FuneralPolicy(models.Model):
     extended_family_ids = fields.One2many('funeral.extended.family', 'policy_id', string='Extended Family')
     optional_benefit_ids = fields.Many2many('funeral.optional.benefit', string='Optional Benefits')
     
+    groceries = fields.Boolean(string='Grocery Allowance ($50)', tracking=True)
+    airtime = fields.Boolean(string='Airtime ($20)', tracking=True)
+    
     policy_document = fields.Binary(string='Policy Document', attachment=True)
     policy_document_name = fields.Char(string='Document Name')
     

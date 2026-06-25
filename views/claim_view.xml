@@ -65,8 +65,8 @@
                                 </group>
                                 <field name="service_cost_ids">
                                     <list editable="bottom">
-                                        <field name="name"/>
-                                        <field name="amount"/>
+                                        <field name="name" optional="show"/>
+                                        <field name="amount" optional="show"/>
                                     </list>
                                 </field>
                                 <group class="oe_subtotal_footer oe_right">
@@ -99,12 +99,12 @@
             <field name="model">funeral.claim</field>
             <field name="arch" type="xml">
                 <list string="Claims">
-                    <field name="name"/>
-                    <field name="claim_category"/>
-                    <field name="policy_id"/>
-                    <field name="deceased_name"/>
-                    <field name="claim_amount"/>
-                    <field name="state" widget="badge"/>
+                    <field name="name" optional="show"/>
+                    <field name="claim_category" optional="show"/>
+                    <field name="policy_id" optional="show"/>
+                    <field name="deceased_name" optional="show"/>
+                    <field name="claim_amount" optional="show"/>
+                    <field name="state" optional="show" widget="badge"/>
                 </list>
             </field>
         </record>

@@ -37,13 +37,13 @@
             <field name="model">funeral.commission</field>
             <field name="arch" type="xml">
                 <list string="Commissions">
-                    <field name="name"/>
-                    <field name="agent_id"/>
-                    <field name="policy_id"/>
-                    <field name="amount"/>
-                    <field name="commission_date"/>
-                    <field name="type"/>
-                    <field name="state" widget="badge"/>
+                    <field name="name" optional="show"/>
+                    <field name="agent_id" optional="show"/>
+                    <field name="policy_id" optional="show"/>
+                    <field name="amount" optional="show"/>
+                    <field name="commission_date" optional="show"/>
+                    <field name="type" optional="show"/>
+                    <field name="state" optional="show" widget="badge"/>
                 </list>
             </field>
         </record>

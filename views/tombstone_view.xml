@@ -43,11 +43,11 @@
             <field name="model">funeral.tombstone.item</field>
             <field name="arch" type="xml">
                 <list string="Tombstone Items">
-                    <field name="name"/>
-                    <field name="type_id"/>
-                    <field name="supplier_id"/>
-                    <field name="cost_price"/>
-                    <field name="selling_price"/>
+                    <field name="name" optional="show"/>
+                    <field name="type_id" optional="show"/>
+                    <field name="supplier_id" optional="show"/>
+                    <field name="cost_price" optional="show"/>
+                    <field name="selling_price" optional="show"/>
                 </list>
             </field>
         </record>
@@ -114,12 +114,12 @@
             <field name="model">funeral.tombstone.order</field>
             <field name="arch" type="xml">
                 <list string="Tombstone Orders">
-                    <field name="name"/>
-                    <field name="customer_name"/>
-                    <field name="item_id"/>
-                    <field name="order_date"/>
-                    <field name="balance_due" sum="Total Balance"/>
-                    <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-warning="state in ('pending','ordered')" decoration-success="state == 'completed'"/>
+                    <field name="name" optional="show"/>
+                    <field name="customer_name" optional="show"/>
+                    <field name="item_id" optional="show"/>
+                    <field name="order_date" optional="show"/>
+                    <field name="balance_due" optional="show" sum="Total Balance"/>
+                    <field name="state" optional="show" widget="badge" decoration-info="state == 'draft'" decoration-warning="state in ('pending','ordered')" decoration-success="state == 'completed'"/>
                 </list>
             </field>
         </record>

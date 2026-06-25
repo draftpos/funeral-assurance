@@ -38,8 +38,6 @@ class FuneralProposal(models.Model):
     national_id = fields.Char(string='National ID', required=True, tracking=True)
     
     first_payment_date = fields.Date(string='1st Date of Payment')
-    groceries = fields.Boolean(string='Grocery Allowance ($50)')
-    airtime = fields.Boolean(string='Airtime ($20)')
     is_override_id = fields.Boolean(string='Override National ID Format', tracking=True, help="Check this to bypass the standard National ID format validation. Requires approval.")
     
     
@@ -64,6 +62,10 @@ class FuneralProposal(models.Model):
     sum_assured = fields.Float(string='Sum Assured')
     policy_term = fields.Char(string='Policy Term')
     waiting_period = fields.Boolean(string='Waiting Period (Y/N)')
+    
+    groceries = fields.Boolean(string='Grocery Allowance ($50)', tracking=True)
+    airtime = fields.Boolean(string='Airtime ($20)', tracking=True)
+    
     agent_id = fields.Many2one('funeral.agent', string='Agent')
     branch_id = fields.Many2one('funeral.branch', string='Branch')
     mode_of_payment = fields.Selection([
@@ -95,6 +97,11 @@ class FuneralProposal(models.Model):
     def _compute_full_name(self):
         for record in self:
             record.full_name = f"{record.first_name} {record.last_name}" if record.first_name and record.last_name else ""
+
+    @api.onchange('product_id')
+    def _onchange_product_id(self):
+        if self.product_id:
+            self.premium_amount = self.product_id.base_premium
 
     @api.model_create_multi
     def create(self, vals_list):

@@ -45,32 +45,38 @@
                             <page string="Dependants">
                                 <field name="dependant_ids">
                                     <list editable="bottom">
-                                        <field name="first_name"/>
-                                        <field name="last_name"/>
-                                        <field name="relationship"/>
-                                        <field name="dob"/>
-                                        <field name="national_id"/>
-                                        <field name="gender_id"/>
-                                        <field name="coverage_status"/>
+                                        <field name="first_name" optional="show"/>
+                                        <field name="last_name" optional="show"/>
+                                        <field name="relationship" optional="show"/>
+                                        <field name="dob" optional="show"/>
+                                        <field name="national_id" optional="show"/>
+                                        <field name="gender_id" optional="show"/>
+                                        <field name="coverage_status" optional="show"/>
                                     </list>
                                 </field>
                             </page>
                             <page string="Extended Family">
                                 <field name="extended_family_ids">
                                     <list editable="bottom">
-                                        <field name="first_name"/>
-                                        <field name="last_name"/>
-                                        <field name="relationship"/>
-                                        <field name="dob"/>
-                                        <field name="national_id"/>
-                                        <field name="gender_id"/>
-                                        <field name="extended_premium_amount"/>
-                                        <field name="coverage_status"/>
+                                        <field name="first_name" optional="show"/>
+                                        <field name="last_name" optional="show"/>
+                                        <field name="relationship" optional="show"/>
+                                        <field name="dob" optional="show"/>
+                                        <field name="national_id" optional="show"/>
+                                        <field name="gender_id" optional="show"/>
+                                        <field name="extended_premium_amount" optional="show"/>
+                                        <field name="coverage_status" optional="show"/>
                                     </list>
                                 </field>
                             </page>
                             <page string="Optional Benefits">
                                 <field name="optional_benefit_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                            </page>
+                            <page string="Benefits">
+                                <group>
+                                    <field name="groceries"/>
+                                    <field name="airtime"/>
+                                </group>
                             </page>
                             <page string="Documents">
                                 <group>
@@ -90,12 +96,12 @@
             <field name="model">funeral.policy</field>
             <field name="arch" type="xml">
                 <list string="Policies">
-                    <field name="name"/>
-                    <field name="proposal_id"/>
-                    <field name="product_id"/>
-                    <field name="total_premium"/>
-                    <field name="agent_id"/>
-                    <field name="state" widget="badge"/>
+                    <field name="name" optional="show"/>
+                    <field name="proposal_id" optional="show"/>
+                    <field name="product_id" optional="show"/>
+                    <field name="total_premium" optional="show"/>
+                    <field name="agent_id" optional="show"/>
+                    <field name="state" optional="show" widget="badge"/>
                 </list>
             </field>
         </record>

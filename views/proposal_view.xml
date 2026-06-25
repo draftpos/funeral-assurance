@@ -75,8 +75,6 @@
                                         <field name="mode_of_payment"/>
                                         <field name="frequency"/>
                                         <field name="first_payment_date"/>
-                                        <field name="groceries"/>
-                                        <field name="airtime"/>
                                     </group>
                                 </group>
 
@@ -87,25 +85,31 @@
                             <page string="Beneficiaries / Dependants">
                                 <field name="dependant_ids">
                                     <list editable="bottom">
-                                        <field name="last_name"/>
-                                        <field name="first_name"/>
-                                        <field name="relationship"/>
-                                        <field name="dob"/>
-                                        <field name="national_id"/>
+                                        <field name="last_name" optional="show"/>
+                                        <field name="first_name" optional="show"/>
+                                        <field name="relationship" optional="show"/>
+                                        <field name="dob" optional="show"/>
+                                        <field name="national_id" optional="show"/>
                                     </list>
                                 </field>
                             </page>
                             <page string="Extended Families">
                                 <field name="extended_family_ids">
                                     <list editable="bottom">
-                                        <field name="last_name"/>
-                                        <field name="first_name"/>
-                                        <field name="relationship"/>
-                                        <field name="dob"/>
-                                        <field name="national_id"/>
-                                        <field name="extended_premium_amount"/>
+                                        <field name="last_name" optional="show"/>
+                                        <field name="first_name" optional="show"/>
+                                        <field name="relationship" optional="show"/>
+                                        <field name="dob" optional="show"/>
+                                        <field name="national_id" optional="show"/>
+                                        <field name="extended_premium_amount" optional="show"/>
                                     </list>
                                 </field>
+                            </page>
+                            <page string="Benefits">
+                                <group>
+                                    <field name="groceries"/>
+                                    <field name="airtime"/>
+                                </group>
                             </page>
                         </notebook>
                     </sheet>
@@ -119,13 +123,22 @@
             <field name="model">funeral.proposal</field>
             <field name="arch" type="xml">
                 <list string="Proposals">
-                    <field name="name"/>
-                    <field name="full_name"/>
-                    <field name="national_id"/>
-                    <field name="home_phone"/>
-                    <field name="plan_type"/>
-                    <field name="premium_amount"/>
-                    <field name="state" widget="badge" decoration-info="state == 'pending'" decoration-success="state == 'accepted'" decoration-danger="state == 'rejected'" decoration-muted="state == 'ntu'"/>
+                    <field name="name" optional="show"/>
+                    <field name="proposal_date" optional="hide"/>
+                    <field name="title" optional="hide"/>
+                    <field name="first_name" optional="hide"/>
+                    <field name="last_name" optional="hide"/>
+                    <field name="full_name" optional="show"/>
+                    <field name="national_id" optional="show"/>
+                    <field name="home_phone" optional="show"/>
+                    <field name="email" optional="hide"/>
+                    <field name="product_id" optional="hide"/>
+                    <field name="plan_type" optional="show"/>
+                    <field name="premium_amount" optional="show"/>
+                    <field name="sum_assured" optional="hide"/>
+                    <field name="agent_id" optional="hide"/>
+                    <field name="branch_id" optional="hide"/>
+                    <field name="state" optional="show" widget="badge" decoration-info="state == 'pending'" decoration-success="state == 'accepted'" decoration-danger="state == 'rejected'" decoration-muted="state == 'ntu'"/>
                 </list>
             </field>
         </record>

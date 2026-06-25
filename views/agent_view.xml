@@ -37,13 +37,19 @@
             <field name="model">funeral.agent</field>
             <field name="arch" type="xml">
                 <list string="Agents">
-                    <field name="first_name"/>
-                    <field name="last_name"/>
-                    <field name="national_id"/>
-                    <field name="contact_number"/>
-                    <field name="city_id"/>
-                    <field name="agent_category_id"/>
-                    <field name="active"/>
+                    <field name="capture_date" optional="hide"/>
+                    <field name="first_name" optional="show"/>
+                    <field name="last_name" optional="show"/>
+                    <field name="national_id" optional="show"/>
+                    <field name="contact_number" optional="show"/>
+                    <field name="email" optional="hide"/>
+                    <field name="physical_address" optional="hide"/>
+                    <field name="city_id" optional="show"/>
+                    <field name="region_id" optional="hide"/>
+                    <field name="branch_id" optional="hide"/>
+                    <field name="agent_category_id" optional="show"/>
+                    <field name="engagement_date" optional="hide"/>
+                    <field name="active" optional="show"/>
                 </list>
             </field>
         </record>

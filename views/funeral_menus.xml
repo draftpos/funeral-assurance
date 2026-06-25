@@ -32,6 +32,7 @@
                   parent="menu_funeral_root"
                   sequence="40"/>
 
+
         <!-- 5. Tombstones -->
         <menuitem id="menu_funeral_tombstones"
                   name="Tombstones"
@@ -51,21 +52,34 @@
                   sequence="70"/>
 
         <!-- Reports Sub-Categories -->
-        <menuitem id="menu_report_clients" name="1. Clients Management" parent="menu_funeral_reports" sequence="10"/>
-        <menuitem id="menu_report_policies" name="2. Policies Management" parent="menu_funeral_reports" sequence="20"/>
-        <menuitem id="menu_report_premiums" name="3. Premiums Collections" parent="menu_funeral_reports" sequence="30"/>
-        <menuitem id="menu_report_debtors" name="4. Debtors Management" parent="menu_funeral_reports" sequence="40"/>
-        <menuitem id="menu_report_claims" name="5. Claims Management" parent="menu_funeral_reports" sequence="50"/>
-        <menuitem id="menu_report_funerals" name="6. Funerals Management" parent="menu_funeral_reports" sequence="60"/>
-        <menuitem id="menu_report_burial" name="7. Burial Societies" parent="menu_funeral_reports" sequence="70"/>
-        <menuitem id="menu_report_new_business" name="8. New Business" parent="menu_funeral_reports" sequence="80"/>
-        <menuitem id="menu_report_commissions" name="9. Commissions Management" parent="menu_funeral_reports" sequence="90"/>
-        <menuitem id="menu_report_tombstones" name="10. Tombstones Management" parent="menu_funeral_reports" sequence="100"/>
-        <menuitem id="menu_report_stock" name="11. Services Stocks" parent="menu_funeral_reports" sequence="110"/>
-        <menuitem id="menu_report_users_audit" name="12. Users &amp; Audit" parent="menu_funeral_reports" sequence="120"/>
-        <menuitem id="menu_report_financial" name="13. Financial Reports" parent="menu_funeral_reports" sequence="130"/>
-        <menuitem id="menu_report_dashboard" name="14. Dashboard Reports" parent="menu_funeral_reports" sequence="140"/>
-        <menuitem id="menu_report_vehicles" name="15. Vehicles Management" parent="menu_funeral_reports" sequence="150"/>
+        <menuitem id="menu_report_cat_operations" name="Operations" parent="menu_funeral_reports" sequence="10"/>
+        <menuitem id="menu_report_cat_tombstones" name="Tombstones" parent="menu_funeral_reports" sequence="20"/>
+        <menuitem id="menu_report_cat_vehicles" name="Vehicles" parent="menu_funeral_reports" sequence="30"/>
+        <menuitem id="menu_report_cat_audit" name="Audit and Compliance" parent="menu_funeral_reports" sequence="40"/>
+
+        <!-- Operations Reports -->
+        <menuitem id="menu_report_clients" name="1. Clients Management" parent="menu_report_cat_operations" sequence="10"/>
+        <menuitem id="menu_report_policies" name="2. Policies Management" parent="menu_report_cat_operations" sequence="20"/>
+        <menuitem id="menu_report_premiums" name="3. Premiums Collections" parent="menu_report_cat_operations" sequence="30"/>
+        <menuitem id="menu_report_debtors" name="4. Debtors Management" parent="menu_report_cat_operations" sequence="40"/>
+        <menuitem id="menu_report_claims" name="5. Claims Management" parent="menu_report_cat_operations" sequence="50"/>
+        <menuitem id="menu_report_funerals" name="6. Funerals Management" parent="menu_report_cat_operations" sequence="60"/>
+        <menuitem id="menu_report_burial" name="7. Burial Societies" parent="menu_report_cat_operations" sequence="70"/>
+        <menuitem id="menu_report_new_business" name="8. New Business" parent="menu_report_cat_operations" sequence="80"/>
+        <menuitem id="menu_report_commissions" name="9. Commissions Management" parent="menu_report_cat_operations" sequence="90"/>
+        <menuitem id="menu_report_stock" name="10. Services Stocks" parent="menu_report_cat_operations" sequence="100"/>
+        <menuitem id="menu_report_financial" name="11. Financial Reports" parent="menu_report_cat_operations" sequence="110"/>
+        <menuitem id="menu_report_dashboard" name="12. Dashboard Reports" parent="menu_report_cat_operations" sequence="120"/>
+
+
+        <!-- Tombstones Reports -->
+        <menuitem id="menu_report_tombstones" name="1. Tombstones Management" parent="menu_report_cat_tombstones" sequence="10"/>
+
+        <!-- Vehicles Reports -->
+        <menuitem id="menu_report_vehicles" name="1. Vehicles Management" parent="menu_report_cat_vehicles" sequence="10"/>
+
+        <!-- Audit and Compliance Reports -->
+        <menuitem id="menu_report_users_audit" name="1. Users &amp; Audit" parent="menu_report_cat_audit" sequence="10"/>
 
         <!-- 8. User Rights (formerly Configurations) -->
         <menuitem id="menu_funeral_configurations"

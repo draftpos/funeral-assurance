@@ -15,6 +15,7 @@
         'reports/proposal_form.xml',
         'views/dashboard_view.xml',
         'views/funeral_menus.xml',
+        'views/reports_operations_view.xml',
         'views/proposal_view.xml',
         'views/policy_view.xml',
         'views/payment_view.xml',

@@ -7,9 +7,9 @@
             <field name="model">funeral.stock.type</field>
             <field name="arch" type="xml">
                 <list string="Stock Types">
-                    <field name="name"/>
-                    <field name="description"/>
-                    <field name="active"/>
+                    <field name="name" optional="show"/>
+                    <field name="description" optional="show"/>
+                    <field name="active" optional="show"/>
                 </list>
             </field>
         </record>
@@ -36,12 +36,12 @@
             <field name="model">funeral.stock.item</field>
             <field name="arch" type="xml">
                 <list string="Stock Items">
-                    <field name="name"/>
-                    <field name="stock_type_id"/>
-                    <field name="price"/>
-                    <field name="quantity_on_hand"/>
-                    <field name="valuation"/>
-                    <field name="branch_id"/>
+                    <field name="name" optional="show"/>
+                    <field name="stock_type_id" optional="show"/>
+                    <field name="price" optional="show"/>
+                    <field name="quantity_on_hand" optional="show"/>
+                    <field name="valuation" optional="show"/>
+                    <field name="branch_id" optional="show"/>
                 </list>
             </field>
         </record>
@@ -81,12 +81,12 @@
             <field name="model">funeral.stock.transaction</field>
             <field name="arch" type="xml">
                 <list string="Stock Transactions" create="1">
-                    <field name="name"/>
-                    <field name="stock_item_id"/>
-                    <field name="transaction_type"/>
-                    <field name="quantity"/>
-                    <field name="date"/>
-                    <field name="user_id"/>
+                    <field name="name" optional="show"/>
+                    <field name="stock_item_id" optional="show"/>
+                    <field name="transaction_type" optional="show"/>
+                    <field name="quantity" optional="show"/>
+                    <field name="date" optional="show"/>
+                    <field name="user_id" optional="show"/>
                 </list>
             </field>
         </record>

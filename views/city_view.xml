@@ -28,10 +28,10 @@
             <field name="model">funeral.city</field>
             <field name="arch" type="xml">
                 <list string="Cities">
-                    <field name="name"/>
-                    <field name="region_id"/>
-                    <field name="capture_date"/>
-                    <field name="active"/>
+                    <field name="name" optional="show"/>
+                    <field name="region_id" optional="show"/>
+                    <field name="capture_date" optional="show"/>
+                    <field name="active" optional="show"/>
                 </list>
             </field>
         </record>

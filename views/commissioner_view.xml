@@ -35,11 +35,11 @@
             <field name="model">funeral.property.valuation</field>
             <field name="arch" type="xml">
                 <list string="Property Valuations" decoration-danger="status == 'overdue'" decoration-warning="status == 'due_soon'">
-                    <field name="name"/>
-                    <field name="property_type"/>
-                    <field name="last_valuation_amount"/>
-                    <field name="next_valuation_due"/>
-                    <field name="status" widget="badge"/>
+                    <field name="name" optional="show"/>
+                    <field name="property_type" optional="show"/>
+                    <field name="last_valuation_amount" optional="show"/>
+                    <field name="next_valuation_due" optional="show"/>
+                    <field name="status" optional="show" widget="badge"/>
                 </list>
             </field>
         </record>
@@ -89,10 +89,10 @@
             <field name="model">funeral.commissioner.data</field>
             <field name="arch" type="xml">
                 <list string="Commissioner Data">
-                    <field name="name"/>
-                    <field name="report_type"/>
-                    <field name="report_date"/>
-                    <field name="submission_status" widget="badge"/>
+                    <field name="name" optional="show"/>
+                    <field name="report_type" optional="show"/>
+                    <field name="report_date" optional="show"/>
+                    <field name="submission_status" optional="show" widget="badge"/>
                 </list>
             </field>
         </record>
@@ -150,11 +150,11 @@
             <field name="model">funeral.actuary.data</field>
             <field name="arch" type="xml">
                 <list string="Actuarial Reports">
-                    <field name="name"/>
-                    <field name="actuary_name"/>
-                    <field name="valuation_date"/>
-                    <field name="solvency_ratio"/>
-                    <field name="status" widget="badge"/>
+                    <field name="name" optional="show"/>
+                    <field name="actuary_name" optional="show"/>
+                    <field name="valuation_date" optional="show"/>
+                    <field name="solvency_ratio" optional="show"/>
+                    <field name="status" optional="show" widget="badge"/>
                 </list>
             </field>
         </record>
@@ -210,10 +210,10 @@
             <field name="model">funeral.auditor.data</field>
             <field name="arch" type="xml">
                 <list string="Audit Reports">
-                    <field name="name"/>
-                    <field name="auditor_name"/>
-                    <field name="financial_year"/>
-                    <field name="status" widget="badge"/>
+                    <field name="name" optional="show"/>
+                    <field name="auditor_name" optional="show"/>
+                    <field name="financial_year" optional="show"/>
+                    <field name="status" optional="show" widget="badge"/>
                 </list>
             </field>
         </record>

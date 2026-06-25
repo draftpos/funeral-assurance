@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- ========================================== -->
+        <!-- 1. CLIENTS MANAGEMENT REPORTS ACTIONS      -->
+        <!-- ========================================== -->
+        
+        <record id="action_report_clients_listing" model="ir.actions.act_window">
+            <field name="name">Clients Listing</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[('state', '=', 'accepted')]</field>
+        </record>
+
+        <record id="action_report_new_clients" model="ir.actions.act_window">
+            <field name="name">New Clients</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+            <!-- Assuming new clients are those created this month -->
+            <field name="domain">[('create_date', '&gt;=', (context_today().strftime('%Y-%m-01')))]</field>
+        </record>
+
+        <record id="action_report_clients_demographics" model="ir.actions.act_window">
+            <field name="name">Clients Demographics</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,pivot,graph</field>
+            <!-- Ideally grouped by gender/city -->
+            <field name="context">{'search_default_group_by_gender': 1}</field>
+        </record>
+        
+        <record id="action_report_dependants" model="ir.actions.act_window">
+            <field name="name">Dependants Report</field>
+            <field name="res_model">funeral.dependant</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <record id="action_report_extended_family" model="ir.actions.act_window">
+            <field name="name">Extended Family Report</field>
+            <field name="res_model">funeral.extended.family</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <!-- ========================================== -->
+        <!-- 2. POLICIES MANAGEMENT REPORTS ACTIONS     -->
+        <!-- ========================================== -->
+
+        <record id="action_report_active_policies" model="ir.actions.act_window">
+            <field name="name">Active Policies</field>
+            <field name="res_model">funeral.policy</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[('state', '=', 'active')]</field>
+        </record>
+
+        <record id="action_report_lapsed_policies" model="ir.actions.act_window">
+            <field name="name">Lapsed Policies</field>
+            <field name="res_model">funeral.policy</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[('state', '=', 'lapsed')]</field>
+        </record>
+        
+        <record id="action_report_cancelled_policies" model="ir.actions.act_window">
+            <field name="name">Cancelled Policies</field>
+            <field name="res_model">funeral.policy</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[('state', '=', 'cancelled')]</field>
+        </record>
+        
+        <record id="action_report_suspended_policies" model="ir.actions.act_window">
+            <field name="name">Suspended Policies</field>
+            <field name="res_model">funeral.policy</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[('state', '=', 'suspended')]</field>
+        </record>
+
+        <record id="action_report_underwriting_policies" model="ir.actions.act_window">
+            <field name="name">Underwriting Policies</field>
+            <field name="res_model">funeral.proposal</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[('state', '=', 'pending')]</field>
+        </record>
+        
+        <!-- ========================================== -->
+        <!-- 3. PREMIUMS COLLECTIONS REPORTS ACTIONS    -->
+        <!-- ========================================== -->
+
+        <record id="action_report_cash_premiums" model="ir.actions.act_window">
+            <field name="name">Cash Premiums Collections</field>
+            <field name="res_model">funeral.payment</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[('payment_method', '=', 'cash'), ('state', '=', 'confirmed')]</field>
+        </record>
+        
+        <!-- Menus -->
+        
+        <!-- 1. Clients Management Sub-Menus -->
+        <menuitem id="menu_report_client_listing" name="Clients Listing" parent="menu_report_clients" action="action_report_clients_listing" sequence="10"/>
+        <menuitem id="menu_report_client_new" name="New Clients" parent="menu_report_clients" action="action_report_new_clients" sequence="20"/>
+        <menuitem id="menu_report_client_demographics" name="Clients Demographics" parent="menu_report_clients" action="action_report_clients_demographics" sequence="30"/>
+        <menuitem id="menu_report_client_dependants" name="Dependants Report" parent="menu_report_clients" action="action_report_dependants" sequence="40"/>
+        
+        <!-- 2. Policies Management Sub-Menus -->
+        <menuitem id="menu_report_policy_active" name="Active Policies" parent="menu_report_policies" action="action_report_active_policies" sequence="10"/>
+        <menuitem id="menu_report_policy_lapsed" name="Lapsed Policies" parent="menu_report_policies" action="action_report_lapsed_policies" sequence="20"/>
+        <menuitem id="menu_report_policy_cancelled" name="Cancelled Policies" parent="menu_report_policies" action="action_report_cancelled_policies" sequence="30"/>
+        <menuitem id="menu_report_policy_suspended" name="Suspended Policies" parent="menu_report_policies" action="action_report_suspended_policies" sequence="40"/>
+        <menuitem id="menu_report_policy_underwriting" name="Underwriting Policies" parent="menu_report_policies" action="action_report_underwriting_policies" sequence="50"/>
+        <menuitem id="menu_report_policy_extended_family" name="Extended Family Report" parent="menu_report_policies" action="action_report_extended_family" sequence="60"/>
+
+        <!-- 3. Premiums Collections Sub-Menus -->
+        <menuitem id="menu_report_premium_cash" name="Cash Premiums Collections" parent="menu_report_premiums" action="action_report_cash_premiums" sequence="10"/>
+
+    </data>
+</odoo>

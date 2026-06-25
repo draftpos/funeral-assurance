@@ -25,7 +25,9 @@ class FuneralProduct(models.Model):
     eligibility_criteria = fields.Text(string='Eligibility Criteria')
     effective_date = fields.Date(string='Effective Date')
     expiry_date = fields.Date(string='Expiry Date')
+    base_premium = fields.Float(string='Base Premium')
     active = fields.Boolean(string='Status (Active/Inactive)', default=True)
+
 
 class FuneralCommissionRate(models.Model):
     _name = 'funeral.commission.rate'
