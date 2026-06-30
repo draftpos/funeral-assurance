@@ -24,8 +24,9 @@
                             <group>
                                 <field name="city_id"/>
                                 <field name="region_id"/>
-                                <field name="branch_id"/>
+                                <field name="branch_id" domain="[('city_id', '=', city_id)]"/>
                                 <field name="agent_category_id"/>
+                                <field name="commission_rate"/>
                                 <field name="engagement_date"/>
                                 <field name="active"/>
                                 <field name="unpaid_commission_total" readonly="1" decoration-danger="unpaid_commission_total &gt; 0"/>
@@ -36,7 +37,7 @@
                                 <field name="commission_ids" readonly="1">
                                     <list>
                                         <field name="name"/>
-                                        <field name="policy_id"/>
+                                        <field name="proposal_id" string="Policy ID"/>
                                         <field name="commission_date"/>
                                         <field name="amount" sum="Total"/>
                                         <field name="type"/>

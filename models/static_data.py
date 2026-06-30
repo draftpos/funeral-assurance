@@ -1,4 +1,4 @@
-from odoo import models, fields
+from odoo import models, fields, api, _
 
 class FuneralRegion(models.Model):
     _name = 'funeral.region'
@@ -24,7 +24,7 @@ class FuneralAgentCategory(models.Model):
 
     capture_date = fields.Date(string='Date Captured', default=fields.Date.context_today)
     name = fields.Char(string='Category Name', required=True)
-    commission_structure = fields.Text(string='Commission Structure')
+    months_to_pay = fields.Integer(string='Months to Pay')
     description = fields.Text(string='Description')
     active = fields.Boolean(string='Status (Active/Inactive)', default=True)
 
@@ -49,6 +49,7 @@ class FuneralPolicyStatus(models.Model):
 
     capture_date = fields.Date(string='Date Captured', default=fields.Date.context_today)
     name = fields.Char(string='Status Name', required=True)
+    duration_months = fields.Integer(string='Duration (Months)', help='How many months before transition')
     description = fields.Text(string='Description')
     active = fields.Boolean(string='Status (Active/Inactive)', default=True)
 
@@ -62,20 +63,43 @@ class FuneralControlRight(models.Model):
     module_name = fields.Char(string='Module/Feature Name')
     active = fields.Boolean(string='Status (Active/Inactive)', default=True)
 
-class FuneralPeriodToPay(models.Model):
-    _name = 'funeral.period.to.pay'
-    _description = 'Period to Pay'
+class FuneralRelationship(models.Model):
+    _name = 'funeral.relationship'
+    _description = 'Relationship'
 
     capture_date = fields.Date(string='Date Captured', default=fields.Date.context_today)
-    agent_category_id = fields.Many2one('funeral.agent.category', string='Agents Category')
-    period_to_pay = fields.Char(string='Period to pay')
+    name = fields.Char(string='Relationship Name', required=True)
+    premium_amount = fields.Float(string='Premium Amount', required=True)
+    active = fields.Boolean(string='Status (Active/Inactive)', default=True)
 
-class FuneralOptionalBenefit(models.Model):
-    _name = 'funeral.optional.benefit'
-    _description = 'Optional Benefit'
+class FuneralBenefit(models.Model):
+    _name = 'funeral.benefit'
+    _description = 'Benefit'
 
     capture_date = fields.Date(string='Date Captured', default=fields.Date.context_today)
     name = fields.Char(string='Benefit Name', required=True)
+    benefit_type = fields.Selection([
+        ('mandatory', 'Mandatory'),
+        ('optional', 'Optional')
+    ], string='Benefit Type', required=True, default='optional')
     description = fields.Text(string='Description')
-    premium_amount = fields.Float(string='Premium Amount', required=True)
+    premium_amount = fields.Float(string='Premium Amount (Cost)')
+    beneficial_amount = fields.Float(string='Beneficial Amount (Payout)')
     active = fields.Boolean(string='Status (Active/Inactive)', default=True)
+
+class FuneralReceiptBook(models.Model):
+    _name = 'funeral.receipt.book'
+    _description = 'Receipt Book Range'
+    
+    name = fields.Char(string='Book Name/Reference', required=True)
+    prefix = fields.Char(string='Receipt Prefix', default='R', help="E.g. 'R' for R1000")
+    start_number = fields.Integer(string='Start Number', required=True)
+    end_number = fields.Integer(string='End Number', required=True)
+    active = fields.Boolean(default=True)
+    
+    @api.constrains('start_number', 'end_number')
+    def _check_ranges(self):
+        from odoo.exceptions import ValidationError
+        for record in self:
+            if record.start_number >= record.end_number:
+                raise ValidationError("End Number must be greater than Start Number.")

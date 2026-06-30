@@ -8,9 +8,9 @@ class FuneralPayment(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
     name = fields.Char(string='Payment ID', required=True, copy=False, readonly=True, default=lambda self: _('New'))
-    proposal_id = fields.Many2one('funeral.proposal', string='Proposal / Customer ID')
+    proposal_id = fields.Many2one('funeral.proposal', string='Proposal / Customer ID', required=True)
+    customer_name = fields.Char(related='proposal_id.full_name', string='Customer Name', readonly=True)
     national_id = fields.Char(related='proposal_id.national_id', string='National ID', readonly=True)
-    policy_id = fields.Many2one('funeral.policy', string='Policy Number', tracking=True)
     account_payment_id = fields.Many2one('account.payment', string='Linked Accounting Payment', readonly=True, tracking=True)
     
     premium_amount = fields.Float(string='Premium Amount', required=True, tracking=True)
@@ -28,7 +28,11 @@ class FuneralPayment(models.Model):
         ('debit', 'Debit Order')
     ], string='Payment Method', required=True)
     
-    receipt_number = fields.Char(string='Receipt Number', required=True, copy=False, readonly=True, default=lambda self: _('New'))
+    receipt_number = fields.Char(string='Receipt Number', required=True, copy=False)
+    entry_type = fields.Selection([
+        ('manual', 'Manual Entry'),
+        ('excel', 'Excel Upload')
+    ], string='Entry Type', default='manual', required=True)
     premium_status = fields.Selection([
         ('pending', 'Pending'),
         ('paid', 'Paid'),
@@ -42,22 +46,30 @@ class FuneralPayment(models.Model):
     @api.onchange('proposal_id')
     def _onchange_proposal_id(self):
         if self.proposal_id:
-            self.premium_amount = self.proposal_id.premium_amount
+            base_amount = self.proposal_id.total_premium or self.proposal_id.premium_amount
+            
+            if self.proposal_id.is_in_arrears and self.proposal_id.paid_up_to:
+                today = fields.Date.context_today(self)
+                diff = relativedelta(today, self.proposal_id.paid_up_to)
+                months_owed = diff.years * 12 + diff.months
+                if diff.days > 0:
+                    months_owed += 1
+                    
+                if months_owed > 1:
+                    self.premium_amount = base_amount * months_owed
+                else:
+                    self.premium_amount = base_amount
+            else:
+                self.premium_amount = base_amount
+                
             self.payment_frequency = self.proposal_id.frequency
             self.branch_id = self.proposal_id.branch_id
-            
-            # If a policy already exists for this proposal, auto-link it
-            existing_policy = self.env['funeral.policy'].search([('proposal_id', '=', self.proposal_id.id)], limit=1)
-            if existing_policy:
-                self.policy_id = existing_policy.id
 
     def write(self, vals):
         res = super(FuneralPayment, self).write(vals)
-        # Auto create Accounting Payment when status is changed to Paid
         if vals.get('premium_status') == 'paid':
             for record in self:
                 if not record.account_payment_id and record.proposal_id.partner_id:
-                    # Find a default Bank/Cash journal
                     journal = self.env['account.journal'].search([('type', 'in', ['bank', 'cash']), ('company_id', '=', self.env.company.id)], limit=1)
                     if journal:
                         payment_vals = {
@@ -73,29 +85,26 @@ class FuneralPayment(models.Model):
                         acc_payment.action_post()
                         record.account_payment_id = acc_payment.id
                         
-                    # Advance Paid Up To Date
-                    if record.policy_id:
-                        current_paid_up = record.policy_id.paid_up_to or record.policy_id.commencement_date or fields.Date.context_today(self)
-                        if record.payment_frequency == 'monthly':
-                            record.policy_id.paid_up_to = current_paid_up + relativedelta(months=1)
-                        elif record.payment_frequency == 'quarterly':
-                            record.policy_id.paid_up_to = current_paid_up + relativedelta(months=3)
-                        elif record.payment_frequency == 'annually':
-                            record.policy_id.paid_up_to = current_paid_up + relativedelta(years=1)
+                if record.proposal_id:
+                    current_paid_up = record.proposal_id.paid_up_to or record.proposal_id.commencement_date or fields.Date.context_today(self)
+                    base = record.proposal_id.total_premium or record.proposal_id.premium_amount
+                    
+                    if record.payment_frequency == 'monthly':
+                        months_paid = int(record.premium_amount / base) if base > 0 else 1
+                        months_paid = max(1, months_paid)
+                        record.proposal_id.paid_up_to = current_paid_up + relativedelta(months=months_paid)
+                    elif record.payment_frequency == 'quarterly':
+                        quarters_paid = int(record.premium_amount / base) if base > 0 else 1
+                        quarters_paid = max(1, quarters_paid)
+                        record.proposal_id.paid_up_to = current_paid_up + relativedelta(months=3 * quarters_paid)
+                    elif record.payment_frequency == 'yearly':
+                        years_paid = int(record.premium_amount / base) if base > 0 else 1
+                        years_paid = max(1, years_paid)
+                        record.proposal_id.paid_up_to = current_paid_up + relativedelta(years=years_paid)
         return res
-
-    @api.onchange('policy_id')
-    def _onchange_policy_id(self):
-        if self.policy_id:
-            self.premium_amount = self.policy_id.total_premium or self.policy_id.premium
-            self.payment_frequency = self.policy_id.frequency_of_payments
-            self.branch_id = self.policy_id.branch_id
-            if self.policy_id.proposal_id:
-                self.proposal_id = self.policy_id.proposal_id
 
     @api.model_create_multi
     def create(self, vals_list):
-        # Bulletproof check in case Odoo passes a single dict or a list of lists
         if isinstance(vals_list, dict):
             vals_list = [vals_list]
         
@@ -107,7 +116,6 @@ class FuneralPayment(models.Model):
                 processed_vals.append(v)
                 
         for vals in processed_vals:
-            # Force status to 'paid' when saving a new payment
             if not vals.get('premium_status') or vals.get('premium_status') == 'pending':
                 vals['premium_status'] = 'paid'
                 
@@ -118,95 +126,57 @@ class FuneralPayment(models.Model):
                 prop = self.env['funeral.proposal'].browse(vals['proposal_id'])
                 if prop.national_id:
                     vals['name'] = prop.national_id
-                
-            if vals.get('proposal_id') and not vals.get('policy_id'):
-                proposal = self.env['funeral.proposal'].browse(vals['proposal_id'])
-                
-                # Check if policy already exists for this proposal
-                existing_policy = self.env['funeral.policy'].search([('proposal_id', '=', proposal.id)], limit=1)
-                
-                if existing_policy:
-                    vals['policy_id'] = existing_policy.id
-                else:
-                    # Fetch default policy document from Admin Policies (Latest active one with a document)
-                    admin_policy = self.env['funeral.admin.policy'].search([
-                        ('document_upload', '!=', False)
-                    ], order='id desc', limit=1)
-                    
-                    default_doc = admin_policy.document_upload if admin_policy else False
-                    default_doc_name = (admin_policy.name + '.pdf') if admin_policy else False
-                    
-                    # Create Policy from Proposal
-                    policy_vals = {
-                        'proposal_id': proposal.id,
-                        'name': proposal.national_id or _('New'),
-                        'product_id': proposal.product_id.id,
-                        'sum_assured': proposal.sum_assured,
-                        'premium': proposal.premium_amount,
-                        'policy_term': proposal.policy_term,
-                        'waiting_period': proposal.waiting_period,
-                        'mode_of_payment': proposal.mode_of_payment,
-                        'frequency_of_payments': proposal.frequency,
-                        'agent_id': proposal.agent_id.id,
-                        'branch_id': proposal.branch_id.id,
-                        'commencement_date': vals.get('payment_date'),
-                        'state': 'active',
-                        'policy_document': default_doc,
-                        'policy_document_name': default_doc_name,
-                    }
-                    policy = self.env['funeral.policy'].create(policy_vals)
-                    
-                    # Transfer dependants and extended family
-                    for dep in proposal.dependant_ids:
-                        dep.policy_id = policy.id
-                    for ext in proposal.extended_family_ids:
-                        ext.policy_id = policy.id
-                        
-                    vals['policy_id'] = policy.id
-                    proposal.state = 'accepted'
             
         records = super(FuneralPayment, self).create(processed_vals)
         
-        # When payment is created, process policy update and commission
         for record in records:
-            if record.policy_id:
-                policy = record.policy_id
+            if record.proposal_id:
+                proposal = record.proposal_id
                 if record.branch_id:
-                    policy.branch_id = record.branch_id
+                    proposal.branch_id = record.branch_id
                     
-                # 1. Update Policy Status to active
-                if policy.state in ['lapsed', 'cancelled', 'ntu']:
-                    policy.state = 'active'
+                # 1. Update Status to Active or Revival
+                if proposal.state in ['pending', 'accepted', 'ntu']:
+                    proposal.state = 'active'
+                    active_status = self.env['funeral.policy.status'].search([('name', 'ilike', 'Active')], limit=1)
+                    if active_status:
+                        proposal.status_id = active_status.id
+                elif proposal.state == 'lapse':
+                    proposal.state = 'revival'
+                    revival_status = self.env['funeral.policy.status'].search([('name', 'ilike', 'Revival')], limit=1)
+                    if revival_status:
+                        proposal.status_id = revival_status.id
+                
+                if not proposal.commencement_date:
+                    proposal.commencement_date = record.payment_date or fields.Date.context_today(self)
                 
                 # 2. Commission Logic
-                agent = policy.agent_id
+                agent = proposal.agent_id
                 if agent:
                     commission_amount = 0.0
-                    months_paid = policy.months_paid_to_agent
+                    months_paid = proposal.months_paid_to_agent
                     
                     if agent.agent_type == 'executive':
                         if months_paid == 0:
-                            commission_amount = record.premium_amount * 0.3333
+                            commission_amount = record.premium_amount * (agent.commission_rate / 100.0) if agent.commission_rate else record.premium_amount * 0.3333
                     else: # general
                         if months_paid < 3:
-                            commission_amount = record.premium_amount * 0.3333
+                            commission_amount = record.premium_amount * (agent.commission_rate / 100.0) if agent.commission_rate else record.premium_amount * 0.3333
                         else:
                             commission_amount = record.premium_amount * 0.10
                     
                     if commission_amount > 0:
                         self.env['funeral.commission'].create({
                             'agent_id': agent.id,
-                            'policy_id': policy.id,
+                            'proposal_id': proposal.id,
                             'payment_id': record.id,
                             'amount': commission_amount,
                             'type': 'earned',
                             'state': 'draft'
                         })
                     
-                    # Increment months paid
-                    policy.months_paid_to_agent += 1
+                    proposal.months_paid_to_agent += 1
             
-            # Auto create Accounting Payment if created with 'Paid' status
             if record.premium_status == 'paid' and not record.account_payment_id and record.proposal_id.partner_id:
                 journal = self.env['account.journal'].search([('type', 'in', ['bank', 'cash']), ('company_id', '=', self.env.company.id)], limit=1)
                 if journal:
@@ -223,23 +193,55 @@ class FuneralPayment(models.Model):
                     acc_payment.action_post()
                     record.account_payment_id = acc_payment.id
                     
-                # Advance Paid Up To Date
-                if record.policy_id:
-                    current_paid_up = record.policy_id.paid_up_to or record.policy_id.commencement_date or fields.Date.context_today(self)
+                if record.proposal_id:
+                    current_paid_up = record.proposal_id.paid_up_to or record.proposal_id.commencement_date or fields.Date.context_today(self)
+                    base = record.proposal_id.total_premium or record.proposal_id.premium_amount
+                    
                     if record.payment_frequency == 'monthly':
-                        record.policy_id.paid_up_to = current_paid_up + relativedelta(months=1)
+                        months_paid = int(record.premium_amount / base) if base > 0 else 1
+                        months_paid = max(1, months_paid)
+                        record.proposal_id.paid_up_to = current_paid_up + relativedelta(months=months_paid)
                     elif record.payment_frequency == 'quarterly':
-                        record.policy_id.paid_up_to = current_paid_up + relativedelta(months=3)
-                    elif record.payment_frequency == 'annually':
-                        record.policy_id.paid_up_to = current_paid_up + relativedelta(years=1)
+                        quarters_paid = int(record.premium_amount / base) if base > 0 else 1
+                        quarters_paid = max(1, quarters_paid)
+                        record.proposal_id.paid_up_to = current_paid_up + relativedelta(months=3 * quarters_paid)
+                    elif record.payment_frequency == 'yearly':
+                        years_paid = int(record.premium_amount / base) if base > 0 else 1
+                        years_paid = max(1, years_paid)
+                        record.proposal_id.paid_up_to = current_paid_up + relativedelta(years=years_paid)
                     
         return records
 
     @api.constrains('receipt_number')
-    def _check_receipt_unique(self):
+    def _check_receipt_validity(self):
+        import re
         for record in self:
+            if not record.receipt_number or record.receipt_number == 'New':
+                continue
+                
+            # Uniqueness check
             if self.search_count([('receipt_number', '=', record.receipt_number), ('id', '!=', record.id)]) > 0:
-                raise ValidationError(_("Receipt number must be unique!"))
+                raise ValidationError(_("Receipt number %s already exists!" % record.receipt_number))
+                
+            # Range check
+            books = self.env['funeral.receipt.book'].search([])
+            if books:
+                match = re.search(r'\d+', record.receipt_number)
+                if match:
+                    number = int(match.group())
+                    valid = False
+                    for book in books:
+                        prefix_match = True
+                        if book.prefix and not record.receipt_number.upper().startswith(book.prefix.upper()):
+                            prefix_match = False
+                        
+                        if prefix_match and book.start_number <= number <= book.end_number:
+                            valid = True
+                            break
+                    if not valid:
+                        raise ValidationError(_("The receipt number '%s' does not fall within any configured Receipt Book Range in Static Data." % record.receipt_number))
+                else:
+                    raise ValidationError(_("Receipt number '%s' must contain numbers to be validated against the Receipt Book Ranges." % record.receipt_number))
 
     def action_print_receipt(self):
         return self.env.ref('funeral_assurance.action_report_payment_receipt').report_action(self)

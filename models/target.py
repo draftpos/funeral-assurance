@@ -7,10 +7,10 @@ class FuneralTarget(models.Model):
     agent_id = fields.Many2one('funeral.agent', string='Agent ID', required=True)
     category_id = fields.Many2one('funeral.agent.category', string='Category ID')
     
-    written_daily_target = fields.Float(string='Written Daily Target')
-    written_weekly_target = fields.Float(string='Written Weekly Target')
-    written_monthly_target = fields.Float(string='Written Monthly Target')
-    written_annual_target = fields.Float(string='Wtitten Annual Target')
+    written_daily_target = fields.Integer(string='Written Proposal Daily Target')
+    written_weekly_target = fields.Integer(string='Written Proposal Weekly Target')
+    written_monthly_target = fields.Integer(string='Written Proposal Monthly Target')
+    written_annual_target = fields.Integer(string='Written Proposal Annual Target')
     
     collection_daily_target = fields.Float(string='Collection Daily Target')
     collection_weekly_target = fields.Float(string='Collection Weekly Target')

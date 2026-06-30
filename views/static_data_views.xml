@@ -102,9 +102,9 @@
                             <group>
                                 <field name="capture_date"/>
                                 <field name="name"/>
+                                <field name="months_to_pay"/>
                             </group>
                             <group>
-                                <field name="commission_structure"/>
                                 <field name="description"/>
                                 <field name="active"/>
                             </group>
@@ -187,8 +187,6 @@
                             </group>
                             <group>
                                 <field name="coverage_amount"/>
-                                <field name="effective_date"/>
-                                <field name="expiry_date"/>
                                 <field name="active"/>
                             </group>
                         </group>
@@ -258,6 +256,7 @@
                             <group>
                                 <field name="capture_date"/>
                                 <field name="name"/>
+                                <field name="duration_months"/>
                             </group>
                             <group>
                                 <field name="description"/>
@@ -402,38 +401,12 @@
             <field name="res_model">funeral.agent.commission.rate</field>
             <field name="view_mode">list,form</field>
         </record>
-        <menuitem id="menu_funeral_agent_commission_rate" name="Agent Commission Rates" parent="menu_funeral_static_data" action="action_funeral_agent_commission_rate" sequence="140"/>
+        <!-- Removed Agent Commission Rates Menu -->
 
-        <!-- Period to Pay -->
-        <record id="view_funeral_period_to_pay_form" model="ir.ui.view">
-            <field name="name">funeral.period.to.pay.form</field>
-            <field name="model">funeral.period.to.pay</field>
-            <field name="arch" type="xml">
-                <form>
-                    <sheet>
-                        <group>
-                            <group>
-                                <field name="capture_date"/>
-                                <field name="agent_category_id"/>
-                            </group>
-                            <group>
-                                <field name="period_to_pay"/>
-                            </group>
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
-        <record id="action_funeral_period_to_pay" model="ir.actions.act_window">
-            <field name="name">Period to Pay</field>
-            <field name="res_model">funeral.period.to.pay</field>
-            <field name="view_mode">list,form</field>
-        </record>
-        <menuitem id="menu_funeral_period_to_pay" name="Period to Pay" parent="menu_funeral_static_data" action="action_funeral_period_to_pay" sequence="150"/>
-        <!-- Optional Benefits -->
-        <record id="view_funeral_optional_benefit_form" model="ir.ui.view">
-            <field name="name">funeral.optional.benefit.form</field>
-            <field name="model">funeral.optional.benefit</field>
+        <!-- Relationships -->
+        <record id="view_funeral_relationship_form" model="ir.ui.view">
+            <field name="name">funeral.relationship.form</field>
+            <field name="model">funeral.relationship</field>
             <field name="arch" type="xml">
                 <form>
                     <sheet>
@@ -443,7 +416,6 @@
                                 <field name="name"/>
                             </group>
                             <group>
-                                <field name="description"/>
                                 <field name="premium_amount"/>
                                 <field name="active"/>
                             </group>
@@ -452,22 +424,106 @@
                 </form>
             </field>
         </record>
-        <record id="view_funeral_optional_benefit_list" model="ir.ui.view">
-            <field name="name">funeral.optional.benefit.list</field>
-            <field name="model">funeral.optional.benefit</field>
+        <record id="action_funeral_relationship" model="ir.actions.act_window">
+            <field name="name">Relationships</field>
+            <field name="res_model">funeral.relationship</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_funeral_relationship" name="Relationships" parent="menu_funeral_static_data" action="action_funeral_relationship" sequence="150"/>
+
+        <!-- Receipt Book Range View -->
+        <record id="view_funeral_receipt_book_form" model="ir.ui.view">
+            <field name="name">funeral.receipt.book.form</field>
+            <field name="model">funeral.receipt.book</field>
             <field name="arch" type="xml">
-                <list string="Optional Benefits">
+                <form string="Receipt Book">
+                    <sheet>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" invisible="active"/>
+                        <div class="oe_title">
+                            <h1><field name="name" placeholder="e.g. June 2026 Book 1"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="prefix"/>
+                                <field name="active" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="start_number"/>
+                                <field name="end_number"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_funeral_receipt_book_tree" model="ir.ui.view">
+            <field name="name">funeral.receipt.book.tree</field>
+            <field name="model">funeral.receipt.book</field>
+            <field name="arch" type="xml">
+                <list string="Receipt Books">
+                    <field name="name"/>
+                    <field name="prefix"/>
+                    <field name="start_number"/>
+                    <field name="end_number"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="action_funeral_receipt_book" model="ir.actions.act_window">
+            <field name="name">Receipt Books</field>
+            <field name="res_model">funeral.receipt.book</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <menuitem id="menu_funeral_receipt_book"
+                  name="Receipt Book Ranges"
+                  parent="menu_funeral_static_data"
+                  action="action_funeral_receipt_book"
+                  sequence="50"/>
+
+        <!-- Benefits -->
+        <record id="view_funeral_benefit_form" model="ir.ui.view">
+            <field name="name">funeral.benefit.form</field>
+            <field name="model">funeral.benefit</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="capture_date"/>
+                                <field name="name"/>
+                                <field name="benefit_type"/>
+                            </group>
+                            <group>
+                                <field name="description"/>
+                                <field name="premium_amount" invisible="benefit_type == 'mandatory'"/>
+                                <field name="beneficial_amount" invisible="benefit_type == 'mandatory'"/>
+                                <field name="active"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_funeral_benefit_list" model="ir.ui.view">
+            <field name="name">funeral.benefit.list</field>
+            <field name="model">funeral.benefit</field>
+            <field name="arch" type="xml">
+                <list string="Benefits">
                     <field name="name" optional="show"/>
+                    <field name="benefit_type" optional="show"/>
                     <field name="premium_amount" optional="show"/>
+                    <field name="beneficial_amount" optional="show"/>
                     <field name="active" optional="show" widget="boolean_toggle"/>
                 </list>
             </field>
         </record>
-        <record id="action_funeral_optional_benefit" model="ir.actions.act_window">
-            <field name="name">Optional Benefits</field>
-            <field name="res_model">funeral.optional.benefit</field>
+        <record id="action_funeral_benefit" model="ir.actions.act_window">
+            <field name="name">Benefits</field>
+            <field name="res_model">funeral.benefit</field>
             <field name="view_mode">list,form</field>
         </record>
-        <menuitem id="menu_funeral_optional_benefit" name="Optional Benefits" parent="menu_funeral_static_data" action="action_funeral_optional_benefit" sequence="160"/>
+        <menuitem id="menu_funeral_benefit" name="Benefits" parent="menu_funeral_static_data" action="action_funeral_benefit" sequence="160"/>
     </data>
 </odoo>

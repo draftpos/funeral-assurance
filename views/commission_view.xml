@@ -18,7 +18,7 @@
                         <group>
                             <group>
                                 <field name="agent_id"/>
-                                <field name="policy_id"/>
+                                <field name="proposal_id"/>
                                 <field name="payment_id"/>
                             </group>
                             <group>
@@ -39,7 +39,7 @@
                 <list string="Commissions">
                     <field name="name" optional="show"/>
                     <field name="agent_id" optional="show"/>
-                    <field name="policy_id" optional="show"/>
+                    <field name="proposal_id" optional="show"/>
                     <field name="amount" optional="show"/>
                     <field name="commission_date" optional="show"/>
                     <field name="type" optional="show"/>

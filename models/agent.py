@@ -21,6 +21,7 @@ class FuneralAgent(models.Model):
         ('executive', 'Executive Agent')
     ], string='Agent Type', default='general')
     engagement_date = fields.Date(string='Date of Engagement')
+    commission_rate = fields.Float(string='Commission Rate (%)')
     active = fields.Boolean(string='Status (Active/Inactive)', default=True)
     
     commission_ids = fields.One2many('funeral.commission', 'agent_id', string='Commissions')

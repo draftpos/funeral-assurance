@@ -71,7 +71,7 @@
                             <group string="Customer &amp; Policy">
                                 <field name="customer_name"/>
                                 <field name="customer_phone"/>
-                                <field name="policy_id"/>
+                                <field name="proposal_id"/>
                                 <field name="branch_id"/>
                             </group>
                             <group string="Order Dates">

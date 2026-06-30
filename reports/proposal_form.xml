@@ -126,8 +126,10 @@
                                     Y [ <t t-if="o.waiting_period">X</t> ] N [ <t t-if="not o.waiting_period">X</t> ]
                                 </td>
                                 <td colspan="3" style="border: 1px solid #0077b6; padding: 4px;">
-                                    <strong>Grocery:</strong> Y [ <t t-if="o.groceries">X</t> ] N [ <t t-if="not o.groceries">X</t> ]
-                                    <span style="margin-left: 20px;"><strong>Airtime:</strong> Y [ <t t-if="o.airtime">X</t> ] N [ <t t-if="not o.airtime">X</t> ]</span>
+                                    <strong>Benefits:</strong> 
+                                    <t t-foreach="o.benefit_ids" t-as="b">
+                                        <span style="margin-right: 15px;">[X] <t t-esc="b.name"/></span>
+                                    </t>
                                 </td>
                             </tr>
 

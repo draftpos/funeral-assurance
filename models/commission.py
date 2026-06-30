@@ -7,7 +7,7 @@ class FuneralCommission(models.Model):
 
     name = fields.Char(string='Reference', required=True, copy=False, readonly=True, default=lambda self: _('New'))
     agent_id = fields.Many2one('funeral.agent', string='Agent', required=True, tracking=True)
-    policy_id = fields.Many2one('funeral.policy', string='Policy', required=True, tracking=True)
+    proposal_id = fields.Many2one('funeral.proposal', string='Proposal / Policy', required=True, tracking=True)
     payment_id = fields.Many2one('funeral.payment', string='Payment Reference')
     
     amount = fields.Float(string='Commission Amount', required=True, tracking=True)

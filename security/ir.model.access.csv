@@ -7,7 +7,6 @@ access_funeral_agent_category,funeral.agent.category,funeral_assurance.model_fun
 access_funeral_branch,funeral.branch,funeral_assurance.model_funeral_branch,base.group_user,1,1,1,1
 access_funeral_policy_status,funeral.policy.status,funeral_assurance.model_funeral_policy_status,base.group_user,1,1,1,1
 access_funeral_control_right,funeral.control.right,funeral_assurance.model_funeral_control_right,base.group_user,1,1,1,1
-access_funeral_period_to_pay,funeral.period.to_pay,funeral_assurance.model_funeral_period_to_pay,base.group_user,1,1,1,1
 access_funeral_product,funeral.product,funeral_assurance.model_funeral_product,base.group_user,1,1,1,1
 access_funeral_product_rate,funeral.product.rate,funeral_assurance.model_funeral_product_rate,base.group_user,1,1,1,1
 access_funeral_commission_rate,funeral.commission.rate,funeral_assurance.model_funeral_commission_rate,base.group_user,1,1,1,1
@@ -23,7 +22,6 @@ access_funeral_payment,funeral.payment,funeral_assurance.model_funeral_payment,b
 access_funeral_claim,funeral.claim,funeral_assurance.model_funeral_claim,base.group_user,1,1,1,1
 access_funeral_claim_service,funeral.claim.service,funeral_assurance.model_funeral_claim_service,base.group_user,1,1,1,1
 access_funeral_commission,funeral.commission,funeral_assurance.model_funeral_commission,base.group_user,1,1,1,1
-access_funeral_optional_benefit,funeral.optional.benefit,funeral_assurance.model_funeral_optional_benefit,base.group_user,1,1,1,1
 access_funeral_vehicle,funeral.vehicle,funeral_assurance.model_funeral_vehicle,base.group_user,1,1,1,1
 access_tombstone_type,funeral.tombstone.type,funeral_assurance.model_funeral_tombstone_type,base.group_user,1,1,1,1
 access_tombstone_supplier,funeral.tombstone.supplier,funeral_assurance.model_funeral_tombstone_supplier,base.group_user,1,1,1,1
@@ -39,3 +37,6 @@ access_funeral_auditor_data,funeral.auditor.data,funeral_assurance.model_funeral
 access_funeral_property_valuation,funeral.property.valuation,funeral_assurance.model_funeral_property_valuation,base.group_user,1,1,1,1
 access_funeral_report_wizard,funeral.report.wizard,model_funeral_report_wizard,base.group_user,1,1,1,1
 access_funeral_promo_wizard,funeral.promo.wizard,model_funeral_promo_wizard,base.group_user,1,1,1,1
+access_funeral_relationship,funeral.relationship,funeral_assurance.model_funeral_relationship,base.group_user,1,1,1,1
+access_funeral_receipt_book,funeral.receipt.book,funeral_assurance.model_funeral_receipt_book,base.group_user,1,1,1,1
+access_funeral_benefit,funeral.benefit,funeral_assurance.model_funeral_benefit,base.group_user,1,1,1,1

@@ -9,8 +9,6 @@ class FuneralProductRate(models.Model):
     age_range = fields.Char(string='Age Range')
     premium_amount = fields.Float(string='Premium Amount')
     coverage_amount = fields.Float(string='Coverage Amount')
-    effective_date = fields.Date(string='Effective Date')
-    expiry_date = fields.Date(string='Expiry Date')
     active = fields.Boolean(string='Status (Active/Inactive)', default=True)
 
 class FuneralProduct(models.Model):

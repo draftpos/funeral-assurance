@@ -19,7 +19,7 @@
                         <group>
                             <group string="Claim Overview">
                                 <field name="claim_category"/>
-                                <field name="policy_id" invisible="claim_category == 'private'"/>
+                                <field name="proposal_id" invisible="claim_category == 'private'"/>
                                 <field name="claim_type"/>
                                 <field name="claim_amount"/>
                                 <field name="date_submitted"/>
@@ -104,7 +104,7 @@
                 <list string="Claims">
                     <field name="name" optional="show"/>
                     <field name="claim_category" optional="show"/>
-                    <field name="policy_id" optional="show"/>
+                    <field name="proposal_id" optional="show"/>
                     <field name="deceased_name" optional="show"/>
                     <field name="claim_amount" optional="show"/>
                     <field name="state" optional="show" widget="badge"/>

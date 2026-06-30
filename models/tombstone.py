@@ -50,7 +50,7 @@ class TombstoneOrder(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
     name = fields.Char(string='Order Reference', required=True, copy=False, readonly=True, default=lambda self: 'New')
-    policy_id = fields.Many2one('funeral.policy', string='Related Policy', tracking=True)
+    proposal_id = fields.Many2one('funeral.proposal', string='Related Proposal/Policy', tracking=True)
     customer_name = fields.Char(string='Customer Name', required=True)
     customer_phone = fields.Char(string='Customer Phone')
     

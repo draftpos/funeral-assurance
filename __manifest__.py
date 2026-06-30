@@ -20,7 +20,6 @@
         'views/reports_operations_view.xml',
         'views/reports_all_remaining.xml',
         'views/proposal_view.xml',
-        'views/policy_view.xml',
         'views/payment_view.xml',
         'views/claim_view.xml',
         'views/commission_view.xml',

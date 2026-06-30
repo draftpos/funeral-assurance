@@ -19,12 +19,13 @@
                         </div>
                         <group>
                             <group string="Policy &amp; Customer">
-                                <field name="policy_id"/>
                                 <field name="proposal_id"/>
+                                <field name="customer_name"/>
                                 <field name="branch_id"/>
                             </group>
                             <group string="Payment Details">
-                                <field name="receipt_number"/>
+                                <field name="entry_type" widget="radio" options="{'horizontal': true}"/>
+                                <field name="receipt_number" placeholder="e.g. R1050"/>
                                 <field name="premium_amount"/>
                                 <field name="payment_method"/>
                                 <field name="payment_date"/>
@@ -48,8 +49,8 @@
             <field name="arch" type="xml">
                 <list string="Payments">
                     <field name="name" optional="show"/>
+                    <field name="entry_type" optional="show"/>
                     <field name="receipt_number" optional="show"/>
-                    <field name="policy_id" optional="show"/>
                     <field name="premium_amount" optional="show"/>
                     <field name="payment_date" optional="show"/>
                     <field name="payment_method" optional="show"/>

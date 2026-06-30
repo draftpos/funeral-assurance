@@ -49,9 +49,9 @@
         
         <record id="action_menu_report_cat_operations_overdue_policies" model="ir.actions.act_window">
             <field name="name">Overdue Policies</field>
-            <field name="res_model">funeral.policy</field>
+            <field name="res_model">funeral.proposal</field>
             <field name="view_mode">list,form</field>
-            <field name="search_view_id" ref="funeral_assurance.view_funeral_policy_search"/>
+            <field name="search_view_id" ref="funeral_assurance.view_funeral_proposal_search"/>
             <field name="context">{'search_default_filter_arrears': 1}</field>
         </record>
         <menuitem id="menu_item_menu_report_cat_operations_overdue_policies" name="Overdue Policies" parent="menu_report_cat_operations" action="action_menu_report_cat_operations_overdue_policies" sequence="65"/>
