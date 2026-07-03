@@ -10,7 +10,7 @@
                     <header>
                         <button name="action_print_proposal" string="Preview Pdf" type="object" class="btn-primary"/>
                         <button name="action_create_payment" string="New Payment" type="object" class="btn-secondary"/>
-                        <field name="state" widget="statusbar" statusbar_visible="pending,accepted,active,lapse,ntu"/>
+                        <field name="status_id" widget="statusbar" options="{'clickable': '1'}"/>
                     </header>
                     <sheet>
                         <div class="oe_title">
@@ -65,10 +65,15 @@
                                 <group>
                                     <group string="Policy Cover Details">
                                         <field name="product_id"/>
-                                        <field name="plan_type"/>
+                                        <field name="structural_type_id"/>
+                                        <field name="is_policy_state" invisible="1"/>
+                                        <field name="allow_dependants" invisible="1"/>
+                                        <field name="allow_extended_family" invisible="1"/>
                                         <field name="premium_amount"/>
                                         <field name="total_premium" readonly="1"/>
                                         <field name="sum_assured"/>
+                                        <field name="grocery_benefit"/>
+                                        <field name="casket_allocation"/>
                                         <field name="policy_term"/>
                                         <field name="waiting_period"/>
                                     </group>
@@ -83,18 +88,19 @@
 
                                 <group string="Underwriting &amp; Declaration">
                                     <field name="underwriting_decision"/>
-                                    <field name="status_id"/>
                                 </group>
-                                <group string="Policy Status &amp; Tracking">
+                                <group string="Policy Status &amp; Tracking" invisible="not is_policy_state">
                                     <field name="paid_up_to"/>
                                     <field name="is_in_arrears"/>
+                                    <field name="months_in_arrears" invisible="is_in_arrears == False" style="color: red; font-weight: bold;"/>
+                                    <field name="arrears_amount" invisible="is_in_arrears == False" style="color: red; font-weight: bold;"/>
                                     <field name="months_paid_to_agent"/>
                                     <field name="commencement_date"/>
                                     <field name="policy_document"/>
                                     <field name="cancellation_reason"/>
                                 </group>
                             </page>
-                            <page string="Beneficiaries / Dependants">
+                            <page string="Beneficiaries / Dependants" invisible="not allow_dependants">
                                 <field name="dependant_ids">
                                     <list editable="bottom">
                                         <field name="last_name" optional="show"/>
@@ -105,15 +111,17 @@
                                     </list>
                                 </field>
                             </page>
-                            <page string="Extended Families">
+                            <page string="Extended Families" invisible="not allow_extended_family">
                                 <field name="extended_family_ids">
                                     <list editable="bottom">
                                         <field name="last_name" optional="show"/>
                                         <field name="first_name" optional="show"/>
                                         <field name="relationship_id" optional="show"/>
                                         <field name="dob" optional="show"/>
+                                        <field name="age" optional="show"/>
                                         <field name="national_id" optional="show"/>
                                         <field name="extended_premium_amount" optional="show"/>
+                                        <field name="has_college_proof" optional="show"/>
                                     </list>
                                 </field>
                             </page>
@@ -149,12 +157,12 @@
                     <field name="home_phone" optional="show"/>
                     <field name="email" optional="hide"/>
                     <field name="product_id" optional="hide"/>
-                    <field name="plan_type" optional="show"/>
+                    <field name="structural_type_id" optional="show"/>
                     <field name="premium_amount" optional="show"/>
                     <field name="sum_assured" optional="hide"/>
                     <field name="agent_id" optional="hide"/>
                     <field name="branch_id" optional="hide"/>
-                    <field name="state" optional="show" widget="badge" decoration-info="state == 'pending'" decoration-success="state == 'accepted'" decoration-danger="state == 'rejected'" decoration-muted="state == 'ntu'"/>
+                    <field name="status_id" optional="show" widget="badge"/>
                 </list>
             </field>
         </record>
@@ -169,8 +177,8 @@
                     <field name="full_name"/>
                     <field name="national_id"/>
                     <field name="home_phone"/>
-                    <field name="plan_type"/>
-                    <field name="state"/>
+                    <field name="structural_type_id"/>
+                    <field name="status_id"/>
                     <field name="agent_id"/>
                     <field name="branch_id"/>
                 </search>
@@ -212,19 +220,5 @@
                   parent="menu_funeral_root"
                   action="action_funeral_active_policies"
                   sequence="35"/>
-                  
-        <!-- Action for Status Update -->
-        <record id="action_funeral_status_update" model="ir.actions.act_window">
-            <field name="name">Status Updates</field>
-            <field name="res_model">funeral.proposal</field>
-            <field name="view_mode">list,form</field>
-        </record>
-
-        <!-- Menu Item for Status Update (Between Claims and Commissions) -->
-        <menuitem id="menu_funeral_status_update"
-                  name="Status Update"
-                  parent="menu_funeral_operations"
-                  action="action_funeral_status_update"
-                  sequence="10"/>
     </data>
 </odoo>

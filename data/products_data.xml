@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Delete existing dummy data to clean slate -->
+        <function model="funeral.product" name="search" eval="[[]]">
+            <function name="unlink"/>
+        </function>
+        <function model="funeral.product.rate" name="search" eval="[[]]">
+            <function name="unlink"/>
+        </function>
+        <function model="funeral.structural.type" name="search" eval="[[]]">
+            <function name="unlink"/>
+        </function>
+        <function model="funeral.policy.status" name="search" eval="[[]]">
+            <function name="unlink"/>
+        </function>
+
+        <!-- Policy Statuses -->
+        <record id="status_underwriting" model="funeral.policy.status">
+            <field name="name">Underwriting</field>
+            <field name="description">New proposals awaiting initial payment and approval.</field>
+            <field name="duration_months">0</field>
+        </record>
+        <record id="status_accepted" model="funeral.policy.status">
+            <field name="name">Accepted</field>
+            <field name="description">Proposal accepted but pending final live activation.</field>
+            <field name="duration_months">0</field>
+        </record>
+        <record id="status_active" model="funeral.policy.status">
+            <field name="name">Active</field>
+            <field name="description">Live policy with up-to-date payments.</field>
+            <field name="duration_months">0</field>
+            <field name="is_policy_state">True</field>
+        </record>
+        <record id="status_ntu" model="funeral.policy.status">
+            <field name="name">NTU</field>
+            <field name="description">Not Taken Up. Failed to activate or make first payment.</field>
+            <field name="duration_months">0</field>
+            <field name="is_policy_state">False</field>
+        </record>
+        <record id="status_lapsed" model="funeral.policy.status">
+            <field name="name">Lapsed</field>
+            <field name="description">Policy remains unpaid for 4 consecutive months.</field>
+            <field name="duration_months">0</field>
+            <field name="is_policy_state">True</field>
+        </record>
+        <record id="status_revived" model="funeral.policy.status">
+            <field name="name">Revived</field>
+            <field name="description">Lapsed policy that has resumed payment. Marker status.</field>
+            <field name="duration_months">0</field>
+            <field name="is_policy_state">True</field>
+        </record>
+
+        <!-- Structural Types -->
+        <record id="struct_member_only" model="funeral.structural.type">
+            <field name="name">Member Only</field>
+            <field name="allow_dependants" eval="False"/>
+            <field name="allow_extended_family" eval="False"/>
+        </record>
+        <record id="struct_family_only" model="funeral.structural.type">
+            <field name="name">Family Only</field>
+            <field name="allow_dependants" eval="True"/>
+            <field name="allow_extended_family" eval="False"/>
+        </record>
+        <record id="struct_family_parents" model="funeral.structural.type">
+            <field name="name">Family + 4 Parents</field>
+            <field name="allow_dependants" eval="True"/>
+            <field name="allow_extended_family" eval="True"/>
+            <field name="max_extended_family">4</field>
+        </record>
+        <record id="struct_corporate" model="funeral.structural.type">
+            <field name="name">Corporate Group</field>
+            <field name="allow_dependants" eval="True"/>
+            <field name="allow_extended_family" eval="True"/>
+        </record>
+
+        <!-- 1. The "O" Plan -->
+        <record id="product_o_plan" model="funeral.product">
+            <field name="name">O Plan</field>
+            <field name="product_description">The primary multi-tenant product engine with nested sub-plans.</field>
+            <field name="premium_structure">Tiered (Bronze, Silver, Diamond, Platinum)</field>
+        </record>
+
+        <!-- O Plan: Member Only Rates -->
+        <record id="rate_o_bronze_member" model="funeral.product.rate">
+            <field name="product_id" ref="product_o_plan"/>
+            <field name="name">Bronze Plan</field>
+            <field name="structural_type_id" ref="struct_member_only"/>
+            <field name="premium_amount">15.00</field>
+            <field name="extended_family_top_up">2.00</field>
+            <field name="sum_assured">100.00</field>
+            <field name="grocery_benefit">50.00</field>
+            <field name="casket_allocation">standard</field>
+        </record>
+        <record id="rate_o_silver_member" model="funeral.product.rate">
+            <field name="product_id" ref="product_o_plan"/>
+            <field name="name">Silver Plan</field>
+            <field name="structural_type_id" ref="struct_member_only"/>
+            <field name="premium_amount">24.00</field>
+            <field name="extended_family_top_up">2.00</field>
+            <field name="sum_assured">120.00</field>
+            <field name="grocery_benefit">60.00</field>
+            <field name="casket_allocation">two_tier</field>
+        </record>
+        <record id="rate_o_diamond_member" model="funeral.product.rate">
+            <field name="product_id" ref="product_o_plan"/>
+            <field name="name">Diamond Plan</field>
+            <field name="structural_type_id" ref="struct_member_only"/>
+            <field name="premium_amount">27.00</field>
+            <field name="extended_family_top_up">2.00</field>
+            <field name="sum_assured">130.00</field>
+            <field name="grocery_benefit">70.00</field>
+            <field name="casket_allocation">three_tier</field>
+        </record>
+        <record id="rate_o_platinum_member" model="funeral.product.rate">
+            <field name="product_id" ref="product_o_plan"/>
+            <field name="name">Platinum/Gold</field>
+            <field name="structural_type_id" ref="struct_member_only"/>
+            <field name="premium_amount">33.00</field>
+            <field name="extended_family_top_up">2.00</field>
+            <field name="sum_assured">150.00</field>
+            <field name="grocery_benefit">90.00</field>
+            <field name="casket_allocation">dome</field>
+        </record>
+
+        <!-- O Plan: Family Only Rates -->
+        <record id="rate_o_bronze_family" model="funeral.product.rate">
+            <field name="product_id" ref="product_o_plan"/>
+            <field name="name">Bronze Plan</field>
+            <field name="structural_type_id" ref="struct_family_only"/>
+            <field name="premium_amount">18.00</field>
+            <field name="extended_family_top_up">2.00</field>
+            <field name="sum_assured">100.00</field>
+            <field name="grocery_benefit">50.00</field>
+            <field name="casket_allocation">standard</field>
+        </record>
+        <record id="rate_o_silver_family" model="funeral.product.rate">
+            <field name="product_id" ref="product_o_plan"/>
+            <field name="name">Silver Plan</field>
+            <field name="structural_type_id" ref="struct_family_only"/>
+            <field name="premium_amount">23.00</field>
+            <field name="extended_family_top_up">2.00</field>
+            <field name="sum_assured">120.00</field>
+            <field name="grocery_benefit">60.00</field>
+            <field name="casket_allocation">two_tier</field>
+        </record>
+        <record id="rate_o_diamond_family" model="funeral.product.rate">
+            <field name="product_id" ref="product_o_plan"/>
+            <field name="name">Diamond Plan</field>
+            <field name="structural_type_id" ref="struct_family_only"/>
+            <field name="premium_amount">29.00</field>
+            <field name="extended_family_top_up">2.00</field>
+            <field name="sum_assured">130.00</field>
+            <field name="grocery_benefit">70.00</field>
+            <field name="casket_allocation">three_tier</field>
+        </record>
+        <record id="rate_o_platinum_family" model="funeral.product.rate">
+            <field name="product_id" ref="product_o_plan"/>
+            <field name="name">Platinum/Gold</field>
+            <field name="structural_type_id" ref="struct_family_only"/>
+            <field name="premium_amount">39.00</field>
+            <field name="extended_family_top_up">2.00</field>
+            <field name="sum_assured">150.00</field>
+            <field name="grocery_benefit">90.00</field>
+            <field name="casket_allocation">dome</field>
+        </record>
+
+        <!-- O Plan: Family + 4 Parents Rates -->
+        <record id="rate_o_bronze_parents" model="funeral.product.rate">
+            <field name="product_id" ref="product_o_plan"/>
+            <field name="name">Bronze Plan</field>
+            <field name="structural_type_id" ref="struct_family_parents"/>
+            <field name="premium_amount">33.00</field>
+            <field name="extended_family_top_up">2.00</field>
+            <field name="sum_assured">120.00</field>
+            <field name="grocery_benefit">70.00</field>
+            <field name="casket_allocation">standard</field>
+        </record>
+        <record id="rate_o_silver_parents" model="funeral.product.rate">
+            <field name="product_id" ref="product_o_plan"/>
+            <field name="name">Silver Plan</field>
+            <field name="structural_type_id" ref="struct_family_parents"/>
+            <field name="premium_amount">38.00</field>
+            <field name="extended_family_top_up">2.00</field>
+            <field name="sum_assured">140.00</field>
+            <field name="grocery_benefit">80.00</field>
+            <field name="casket_allocation">two_tier</field>
+        </record>
+        <record id="rate_o_diamond_parents" model="funeral.product.rate">
+            <field name="product_id" ref="product_o_plan"/>
+            <field name="name">Diamond Plan</field>
+            <field name="structural_type_id" ref="struct_family_parents"/>
+            <field name="premium_amount">44.00</field>
+            <field name="extended_family_top_up">2.00</field>
+            <field name="sum_assured">150.00</field>
+            <field name="grocery_benefit">90.00</field>
+            <field name="casket_allocation">three_tier</field>
+        </record>
+        <record id="rate_o_platinum_parents" model="funeral.product.rate">
+            <field name="product_id" ref="product_o_plan"/>
+            <field name="name">Platinum/Gold</field>
+            <field name="structural_type_id" ref="struct_family_parents"/>
+            <field name="premium_amount">50.00</field>
+            <field name="extended_family_top_up">2.00</field>
+            <field name="sum_assured">170.00</field>
+            <field name="grocery_benefit">110.00</field>
+            <field name="casket_allocation">dome</field>
+        </record>
+
+
+        <!-- 2. Hukama Plan -->
+        <record id="product_hukama" model="funeral.product">
+            <field name="name">Hukama Plan</field>
+            <field name="product_description">Fixed structure product</field>
+        </record>
+        <record id="rate_hukama" model="funeral.product.rate">
+            <field name="product_id" ref="product_hukama"/>
+            <field name="name">Hukama Standard</field>
+            <field name="structural_type_id" ref="struct_member_only"/>
+            <field name="premium_amount">20.00</field>
+            <field name="extended_family_top_up">2.00</field>
+            <field name="sum_assured">120.00</field>
+            <field name="grocery_benefit">60.00</field>
+            <field name="casket_allocation">standard</field>
+        </record>
+
+        <!-- 3. Gutsarushinji Plan -->
+        <record id="product_gutsarushinji" model="funeral.product">
+            <field name="name">Gutsarushinji Plan</field>
+            <field name="product_description">Fixed structure product with Dome-Shape Casket</field>
+        </record>
+        <record id="rate_gutsarushinji" model="funeral.product.rate">
+            <field name="product_id" ref="product_gutsarushinji"/>
+            <field name="name">Gutsarushinji Standard</field>
+            <field name="structural_type_id" ref="struct_member_only"/>
+            <field name="premium_amount">38.00</field>
+            <field name="extended_family_top_up">2.00</field>
+            <field name="sum_assured">150.00</field>
+            <field name="grocery_benefit">100.00</field>
+            <field name="casket_allocation">dome</field>
+        </record>
+
+        <!-- 4. ZPCS / SSB / Civil Servant Plans -->
+        <record id="product_civil_servant" model="funeral.product">
+            <field name="name">ZPCS / SSB / Civil Servant</field>
+            <field name="product_description">Institutional plans hard-coded to parallel each other.</field>
+        </record>
+        <record id="rate_civil_servant" model="funeral.product.rate">
+            <field name="product_id" ref="product_civil_servant"/>
+            <field name="name">Standard Civil Servant</field>
+            <field name="structural_type_id" ref="struct_member_only"/>
+            <field name="premium_amount">21.00</field>
+            <field name="extended_family_top_up">2.00</field>
+            <field name="sum_assured">120.00</field>
+            <field name="grocery_benefit">75.00</field>
+            <field name="casket_allocation">two_tier</field>
+        </record>
+
+        <!-- 5. ZENE Plan -->
+        <record id="product_zene" model="funeral.product">
+            <field name="name">ZENE Plan</field>
+            <field name="product_description">20-year maturity timeline.</field>
+        </record>
+        <record id="rate_zene_standard" model="funeral.product.rate">
+            <field name="product_id" ref="product_zene"/>
+            <field name="name">ZENE Standard</field>
+            <field name="structural_type_id" ref="struct_member_only"/>
+            <field name="premium_amount">15.00</field>
+            <field name="extended_family_top_up">2.00</field>
+            <field name="sum_assured">100.00</field>
+            <field name="grocery_benefit">50.00</field>
+            <field name="casket_allocation">standard</field>
+        </record>
+        <record id="rate_zene_twotier" model="funeral.product.rate">
+            <field name="product_id" ref="product_zene"/>
+            <field name="name">ZENE Two-Tier</field>
+            <field name="structural_type_id" ref="struct_member_only"/>
+            <field name="premium_amount">20.00</field>
+            <field name="extended_family_top_up">2.00</field>
+            <field name="sum_assured">150.00</field>
+            <field name="grocery_benefit">60.00</field>
+            <field name="casket_allocation">two_tier</field>
+        </record>
+        <record id="rate_zene_dome" model="funeral.product.rate">
+            <field name="product_id" ref="product_zene"/>
+            <field name="name">ZENE Dome</field>
+            <field name="structural_type_id" ref="struct_member_only"/>
+            <field name="premium_amount">25.00</field>
+            <field name="extended_family_top_up">2.00</field>
+            <field name="sum_assured">200.00</field>
+            <field name="grocery_benefit">70.00</field>
+            <field name="casket_allocation">dome</field>
+        </record>
+
+        <!-- 6. Corporate Group Plan -->
+        <record id="product_corporate" model="funeral.product">
+            <field name="name">Corporate Group Plan</field>
+            <field name="product_description">Requires minimum 20 active members. Payouts scale dynamically.</field>
+        </record>
+        <record id="rate_corporate" model="funeral.product.rate">
+            <field name="product_id" ref="product_corporate"/>
+            <field name="name">Corporate Flat Rate</field>
+            <field name="structural_type_id" ref="struct_corporate"/>
+            <field name="premium_amount">2.00</field>
+            <field name="extended_family_top_up">2.00</field>
+            <field name="sum_assured">0.00</field>
+            <field name="grocery_benefit">0.00</field>
+        </record>
+
+    </data>
+</odoo>

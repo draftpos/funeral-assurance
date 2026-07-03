@@ -34,6 +34,11 @@ class FuneralClaim(models.Model):
     deceased_dob = fields.Date(string='Deceased Date of Birth')
     date_of_death = fields.Date(string='Date of Death', required=True)
     cause_of_death = fields.Char(string='Cause of Death')
+    place_of_death = fields.Selection([
+        ('hospital', 'Hospital'),
+        ('home', 'Home'),
+        ('other', 'Other')
+    ], string='Place of Death', required=True, default='hospital')
     
     # Documents
     doc_death_certificate = fields.Binary(string='Death Certificate')
@@ -99,13 +104,60 @@ class FuneralClaim(models.Model):
     date_submitted = fields.Date(string='Date Submitted', default=fields.Date.context_today)
     
     state = fields.Selection([
-        ('pending', 'Pending'),
-        ('approved', 'Approved'),
+        ('pending', 'Pending Verification'),
+        ('verified', 'Verified (Awaiting Approval)'),
+        ('approved', 'Approved for Disbursement'),
         ('rejected', 'Rejected'),
         ('paid', 'Paid')
     ], string='Claim Status', default='pending', tracking=True)
     
     payment_details = fields.Text(string='Payment Details (Bank/Mobile)')
+    
+    # Verification Matrix Output
+    verification_notes = fields.Text(string='Verification Matrix Notes', readonly=True)
+
+    def action_verify_claim(self):
+        from odoo.exceptions import UserError
+        for claim in self:
+            if not claim.proposal_id:
+                raise UserError("Cannot verify without a linked Proposal.")
+                
+            status_name = claim.proposal_id.status_id.name.lower() if claim.proposal_id.status_id else ''
+            notes = []
+            passed = True
+            
+            # Check 1: Is the policy structurally active?
+            if 'active' not in status_name and 'revived' not in status_name:
+                notes.append(f"FAILED: Policy is currently {status_name.upper()}, not Active.")
+                passed = False
+            else:
+                notes.append("PASSED: Policy is structurally Active.")
+                
+            # Check 2: Arrears Check
+            if claim.proposal_id.is_in_arrears:
+                notes.append(f"WARNING: Policy is in arrears by {claim.proposal_id.months_in_arrears} month(s). Outstanding Balance: ${claim.proposal_id.arrears_amount}.")
+                # It might still pass depending on rules, but we flag it.
+                
+            # Check 3: Death Certificate Attached
+            if not claim.doc_death_certificate:
+                notes.append("FAILED: Missing Death Certificate.")
+                passed = False
+            else:
+                notes.append("PASSED: Death Certificate attached.")
+                
+            claim.verification_notes = "\n".join(notes)
+            
+            if passed:
+                claim.state = 'verified'
+            else:
+                raise UserError(f"Verification Failed. See Verification Notes for details.\n\n{claim.verification_notes}")
+                
+    def action_approve_claim(self):
+        for claim in self:
+            if claim.state != 'verified':
+                from odoo.exceptions import UserError
+                raise UserError("Claim must be verified by the Verification Matrix before approval.")
+            claim.state = 'approved'
 
     def action_print_sum_assured(self):
         return self.env.ref('funeral_assurance.action_report_sum_assured_claim').report_action(self)

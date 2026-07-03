@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+        
+        <!-- Clients -->
+        <record id="demo_client_1" model="res.partner">
+            <field name="name">Michael Scott</field>
+            <field name="phone">0771234567</field>
+        </record>
+        
+        <record id="demo_client_2" model="res.partner">
+            <field name="name">Jim Halpert</field>
+            <field name="phone">0777654321</field>
+        </record>
+
+        <!-- Agents -->
+        <record id="demo_agent_executive" model="funeral.agent">
+            <field name="first_name">John</field>
+            <field name="last_name">Executive</field>
+            <field name="agent_type">executive</field>
+            <field name="commission_rate">33.33</field>
+        </record>
+        
+        <record id="demo_agent_general" model="funeral.agent">
+            <field name="first_name">Jane</field>
+            <field name="last_name">General</field>
+            <field name="agent_type">general</field>
+            <field name="commission_rate">33.33</field>
+        </record>
+
+        <!-- Proposals -->
+        <record id="demo_proposal_1" model="funeral.proposal">
+            <field name="partner_id" ref="demo_client_1"/>
+            <field name="first_name">Michael</field>
+            <field name="last_name">Scott</field>
+            <field name="dob">1980-01-01</field>
+            <field name="national_id">63-123456X12</field>
+            <field name="product_id" ref="funeral_assurance.product_o_plan"/>
+            <field name="structural_type_id" ref="funeral_assurance.struct_family_only"/>
+            <field name="agent_id" ref="demo_agent_executive"/>
+            <field name="status_id" ref="funeral_assurance.status_underwriting"/>
+            <field name="premium_amount">24.00</field>
+        </record>
+        
+        <record id="demo_proposal_2" model="funeral.proposal">
+            <field name="partner_id" ref="demo_client_2"/>
+            <field name="first_name">Jim</field>
+            <field name="last_name">Halpert</field>
+            <field name="dob">1990-05-15</field>
+            <field name="national_id">63-654321Y34</field>
+            <field name="product_id" ref="funeral_assurance.product_zene"/>
+            <field name="structural_type_id" ref="funeral_assurance.struct_member_only"/>
+            <field name="agent_id" ref="demo_agent_general"/>
+            <field name="status_id" ref="funeral_assurance.status_underwriting"/>
+            <field name="premium_amount">15.00</field>
+        </record>
+        
+</odoo>

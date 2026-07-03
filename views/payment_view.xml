@@ -29,6 +29,7 @@
                                 <field name="premium_amount"/>
                                 <field name="payment_method"/>
                                 <field name="payment_date"/>
+                                <field name="payment_for_month"/>
                                 <field name="payment_frequency"/>
                                 <field name="account_payment_id" invisible="account_payment_id == False"/>
                             </group>

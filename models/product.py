@@ -6,9 +6,20 @@ class FuneralProductRate(models.Model):
 
     capture_date = fields.Date(string='Date Captured', default=fields.Date.context_today)
     product_id = fields.Many2one('funeral.product', string='Product ID')
-    age_range = fields.Char(string='Age Range')
+
+    name = fields.Char(string='Sub-Plan Name', help='e.g., Bronze Plan, Hukama Standard')
+    structural_type_id = fields.Many2one('funeral.structural.type', string='Plan Type', required=True)
+    extended_family_top_up = fields.Float(string='Extended Family Top-Up (USD)', default=2.0)
+    grocery_benefit = fields.Float(string='Grocery Benefit (USD)')
+    casket_allocation = fields.Selection([
+        ('standard', 'Standard Casket'),
+        ('two_tier', 'Two-Tier Casket'),
+        ('three_tier', 'Three-Tier Casket'),
+        ('dome', 'Dome-Shape Casket'),
+        ('custom', 'Custom Casket')
+    ], string='Casket Allocation')
     premium_amount = fields.Float(string='Premium Amount')
-    coverage_amount = fields.Float(string='Coverage Amount')
+    sum_assured = fields.Float(string='Sum Assured')
     active = fields.Boolean(string='Status (Active/Inactive)', default=True)
 
 class FuneralProduct(models.Model):
@@ -23,7 +34,7 @@ class FuneralProduct(models.Model):
     eligibility_criteria = fields.Text(string='Eligibility Criteria')
     effective_date = fields.Date(string='Effective Date')
     expiry_date = fields.Date(string='Expiry Date')
-    base_premium = fields.Float(string='Base Premium')
+
     active = fields.Boolean(string='Status (Active/Inactive)', default=True)
 
 

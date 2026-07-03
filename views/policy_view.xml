@@ -68,9 +68,11 @@
                                         <field name="last_name" optional="show"/>
                                         <field name="relationship" optional="show"/>
                                         <field name="dob" optional="show"/>
+                                        <field name="age" optional="show"/>
                                         <field name="national_id" optional="show"/>
                                         <field name="gender_id" optional="show"/>
                                         <field name="extended_premium_amount" optional="show"/>
+                                        <field name="has_college_proof" optional="show"/>
                                         <field name="coverage_status" optional="show"/>
                                     </list>
                                 </field>

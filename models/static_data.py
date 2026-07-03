@@ -1,5 +1,16 @@
 from odoo import models, fields, api, _
 
+class FuneralStructuralType(models.Model):
+    _name = 'funeral.structural.type'
+    _description = 'Structural Type / Plan Architecture'
+
+    name = fields.Char(string='Type Name', required=True)
+    allow_dependants = fields.Boolean(string='Allow Dependants (Spouse/Kids)', default=True)
+    max_dependants = fields.Integer(string='Max Dependants Allowed', default=0, help="0 means unlimited")
+    allow_extended_family = fields.Boolean(string='Allow Extended Family', default=True)
+    max_extended_family = fields.Integer(string='Max Extended Family Allowed', default=0, help="0 means unlimited")
+    active = fields.Boolean(default=True)
+
 class FuneralRegion(models.Model):
     _name = 'funeral.region'
     _description = 'Region'
@@ -51,6 +62,7 @@ class FuneralPolicyStatus(models.Model):
     name = fields.Char(string='Status Name', required=True)
     duration_months = fields.Integer(string='Duration (Months)', help='How many months before transition')
     description = fields.Text(string='Description')
+    is_policy_state = fields.Boolean(string='Is Live Policy?', default=False, help="Check if this status converts the proposal into a live tracking policy")
     active = fields.Boolean(string='Status (Active/Inactive)', default=True)
 
 class FuneralControlRight(models.Model):

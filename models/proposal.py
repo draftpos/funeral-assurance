@@ -39,10 +39,15 @@ class FuneralProposal(models.Model):
     
     next_of_kin = fields.Char(string='Next of Kin')
     
-    plan_type = fields.Selection([('individual', 'Individual'), ('family', 'Family'), ('group', 'Group')], string='Plan Type', required=True)
+    structural_type_id = fields.Many2one('funeral.structural.type', string='Plan Type', required=True)
+    is_policy_state = fields.Boolean(related='status_id.is_policy_state', readonly=True)
+    allow_dependants = fields.Boolean(related='structural_type_id.allow_dependants', readonly=True)
+    allow_extended_family = fields.Boolean(related='structural_type_id.allow_extended_family', readonly=True)
+    grocery_benefit = fields.Float(string='Grocery Benefit (USD)', readonly=True)
+    casket_allocation = fields.Char(string='Casket Allocation', readonly=True)
     
     product_id = fields.Many2one('funeral.product', string='Product Name')
-    premium_amount = fields.Float(string='Base Premium', tracking=True)
+    premium_amount = fields.Float(string='Premium Amount', tracking=True)
     total_premium = fields.Float(string='Total Premium', compute='_compute_total_premium', store=True)
     sum_assured = fields.Float(string='Sum Assured')
     policy_term = fields.Char(string='Policy Term')
@@ -60,32 +65,37 @@ class FuneralProposal(models.Model):
     underwriting_decision = fields.Selection([('accepted', 'Accepted Loaded / Adjusted'), ('declined', 'Declined')], string='Underwriting Decision', tracking=True)
     
     # State / Status
-    state = fields.Selection([
-        ('pending', 'Pending'),
-        ('accepted', 'Accepted'),
-        ('ntu', 'NTU'),
-        ('active', 'Active'),
-        ('lapse', 'Lapse'),
-        ('revival', 'Revival')
-    ], string='System State', default='pending', tracking=True)
-    status_id = fields.Many2one('funeral.policy.status', string='Custom Status', tracking=True)
+    status_id = fields.Many2one('funeral.policy.status', string='Status', tracking=True)
     
     # Policy Fields
     paid_up_to = fields.Date(string='Paid Up To', tracking=True)
-    is_in_arrears = fields.Boolean(string='In Arrears', compute='_compute_is_in_arrears', store=True)
-    months_paid_to_agent = fields.Integer(string='Months Paid to Agent', default=0)
+    is_in_arrears = fields.Boolean(string='In Arrears', compute='_compute_is_in_arrears')
+    months_in_arrears = fields.Integer(string='Months in Arrears', compute='_compute_is_in_arrears')
+    arrears_amount = fields.Float(string='Arrears Balance', compute='_compute_is_in_arrears')
+    months_paid_to_agent = fields.Integer(string='Months Paid to Agent', default=0, tracking=True)
+    revival_payments_count = fields.Integer(string='Revival Payments Count', default=0, tracking=True)
     commencement_date = fields.Date(string='Commencement Date')
     cancellation_reason = fields.Text(string='Reason for Cancellation', tracking=True)
     policy_document = fields.Binary(string='Policy Document', attachment=True)
     policy_document_name = fields.Char(string='Document Name')
 
-    @api.depends('paid_up_to')
+    @api.depends('paid_up_to', 'total_premium', 'premium_amount')
     def _compute_is_in_arrears(self):
         for record in self:
             if record.paid_up_to and record.paid_up_to < fields.Date.context_today(self):
                 record.is_in_arrears = True
+                today = fields.Date.context_today(self)
+                diff = relativedelta(today, record.paid_up_to)
+                months = diff.years * 12 + diff.months
+                if diff.days > 0:
+                    months += 1
+                record.months_in_arrears = months
+                base_premium = record.total_premium or record.premium_amount
+                record.arrears_amount = months * base_premium
             else:
                 record.is_in_arrears = False
+                record.months_in_arrears = 0
+                record.arrears_amount = 0.0
 
     @api.depends('premium_amount', 'extended_family_ids.extended_premium_amount', 'benefit_ids.premium_amount')
     def _compute_total_premium(self):
@@ -99,19 +109,39 @@ class FuneralProposal(models.Model):
         for record in self:
             record.full_name = f"{record.first_name} {record.last_name}" if record.first_name and record.last_name else ""
 
-    @api.onchange('product_id')
+    @api.onchange('product_id', 'structural_type_id')
     def _onchange_product_id(self):
-        if self.product_id:
-            rate = self.env['funeral.product.rate'].search([('product_id', '=', self.product_id.id)], limit=1)
-            if rate:
-                self.premium_amount = rate.premium_amount
-                self.sum_assured = rate.coverage_amount
+        if self.product_id and self.structural_type_id:
+            rates = self.env['funeral.product.rate'].search([
+                ('product_id', '=', self.product_id.id),
+                ('structural_type_id', '=', self.structural_type_id.id)
+            ])
+            if rates:
+                self.premium_amount = sum(rates.mapped('premium_amount'))
+                self.sum_assured = sum(rates.mapped('sum_assured'))
+                self.grocery_benefit = rates[0].grocery_benefit if rates else 0.0
+                self.casket_allocation = dict(rates[0]._fields['casket_allocation'].selection).get(rates[0].casket_allocation) if rates and rates[0].casket_allocation else ''
             else:
-                self.premium_amount = self.product_id.base_premium
+                self.premium_amount = 0.0
                 self.sum_assured = 0.0
-            # Auto-pull mandatory benefits
-            mandatory_benefits = self.env['funeral.benefit'].search([('benefit_type', '=', 'mandatory')])
-            self.benefit_ids = [(6, 0, mandatory_benefits.ids)]
+                self.grocery_benefit = 0.0
+                self.casket_allocation = ''
+
+    @api.constrains('dependant_ids', 'extended_family_ids', 'structural_type_id')
+    def _check_structural_limits(self):
+        for record in self:
+            if not record.structural_type_id:
+                continue
+                
+            if not record.structural_type_id.allow_dependants and len(record.dependant_ids) > 0:
+                raise ValidationError(_("This plan type does not allow dependants."))
+            if record.structural_type_id.max_dependants > 0 and len(record.dependant_ids) > record.structural_type_id.max_dependants:
+                raise ValidationError(_("You cannot exceed the maximum allowed dependants (%s) for this plan.") % record.structural_type_id.max_dependants)
+                
+            if not record.structural_type_id.allow_extended_family and len(record.extended_family_ids) > 0:
+                raise ValidationError(_("This plan type does not allow extended family members."))
+            if record.structural_type_id.max_extended_family > 0 and len(record.extended_family_ids) > record.structural_type_id.max_extended_family:
+                raise ValidationError(_("You cannot exceed the maximum allowed extended family members (%s) for this plan.") % record.structural_type_id.max_extended_family)
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -131,20 +161,22 @@ class FuneralProposal(models.Model):
         res = super(FuneralProposal, self).write(vals)
         
         # Automatically create Customer Profile when Proposal is Accepted or Active
-        if vals.get('state') in ['accepted', 'active']:
-            for record in self:
-                if not record.partner_id:
-                    partner = self.env['res.partner'].create({
-                        'name': record.full_name,
-                        'phone': record.home_phone,
-                        'email': record.email or '',
-                        'street': record.residential_address or '',
-                        'vat': record.national_id,
-                        'is_company': False,
-                        'customer_rank': 1,
-                        'comment': f'Auto-created from Funeral Proposal {record.name}'
-                    })
-                    record.partner_id = partner.id
+        if vals.get('status_id'):
+            status_record = self.env['funeral.policy.status'].browse(vals.get('status_id'))
+            if status_record.name.lower() in ['accepted', 'active']:
+                for record in self:
+                    if not record.partner_id:
+                        partner = self.env['res.partner'].create({
+                            'name': record.full_name,
+                            'phone': record.home_phone,
+                            'email': record.email or '',
+                            'street': record.residential_address or '',
+                            'vat': record.national_id,
+                            'is_company': False,
+                            'customer_rank': 1,
+                            'comment': f'Auto-created from Funeral Proposal {record.name}'
+                        })
+                        record.partner_id = partner.id
         return res
 
     @api.constrains('national_id', 'is_override_id')
@@ -173,7 +205,7 @@ class FuneralProposal(models.Model):
             'context': {
                 'default_proposal_id': self.id,
                 'default_branch_id': self.branch_id.id,
-                'default_premium_amount': self.total_premium or self.premium_amount,
+                'default_premium_amount': self.arrears_amount if self.is_in_arrears else (self.total_premium or self.premium_amount),
                 'default_payment_frequency': self.frequency,
             }
         }
@@ -182,7 +214,10 @@ class FuneralProposal(models.Model):
     def process_policy_lapses(self):
         # Lapsing logic for Proposal
         # Total arrears / monthly premium >= 4
-        active_proposals = self.search([('state', '=', 'active')])
+        active_statuses = self.env['funeral.policy.status'].search(['|', ('name', 'ilike', 'Active'), ('name', 'ilike', 'Revived')])
+        if not active_statuses:
+            return
+        active_proposals = self.search([('status_id', 'in', active_statuses.ids)])
         for proposal in active_proposals:
             if not proposal.paid_up_to:
                 continue
@@ -195,7 +230,6 @@ class FuneralProposal(models.Model):
                 
                 if months_in_arrears >= 4:
                     lapse_status = self.env['funeral.policy.status'].search([('name', 'ilike', 'Lapse')], limit=1)
-                    proposal.state = 'lapse'
                     if lapse_status:
                         proposal.status_id = lapse_status.id
 
@@ -229,6 +263,26 @@ class FuneralExtendedFamily(models.Model):
     contact_number = fields.Char(string='Contact Cell Number')
     extended_premium_amount = fields.Float(string='Extended Premium Amount')
     coverage_status = fields.Selection([('active', 'Active'), ('removed', 'Removed'), ('deceased', 'Deceased')], string='Coverage Status', default='active')
+    has_college_proof = fields.Boolean(string='Has College Proof / Enrollment')
+    age = fields.Integer(string='Age', compute='_compute_age', store=True)
+
+    @api.depends('dob')
+    def _compute_age(self):
+        for record in self:
+            if record.dob:
+                record.age = relativedelta(fields.Date.context_today(self), record.dob).years
+            else:
+                record.age = 0
+    
+    @api.constrains('dob', 'has_college_proof')
+    def _check_extended_family_age(self):
+        for record in self:
+            if record.dob:
+                age = relativedelta(fields.Date.context_today(self), record.dob).years
+                if age > 18 and age <= 23 and not record.has_college_proof:
+                    raise ValidationError(_("Extended family members over 18 require college proof for coverage up to 23 years old. (Age: %s)") % age)
+                elif age > 23:
+                    raise ValidationError(_("Extended family members over the age of 23 cannot be covered under this policy, even with college proof. (Age: %s)") % age)
     
     @api.onchange('relationship_id')
     def _onchange_relationship_id(self):
@@ -250,8 +304,7 @@ class FuneralPromoWizard(models.TransientModel):
         total_months_advanced = self.months_paid + self.months_forgiven
         self.proposal_id.paid_up_to = current_date + relativedelta(months=total_months_advanced)
         
-        if self.proposal_id.state in ['lapse', 'ntu']:
-            self.proposal_id.state = 'active'
+        if self.proposal_id.status_id and self.proposal_id.status_id.name.lower() in ['lapse', 'ntu']:
             active_status = self.env['funeral.policy.status'].search([('name', 'ilike', 'Active')], limit=1)
             if active_status:
                 self.proposal_id.status_id = active_status.id

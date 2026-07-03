@@ -1,6 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+        <!-- Structural Types -->
+        <record id="view_funeral_structural_type_form" model="ir.ui.view">
+            <field name="name">funeral.structural.type.form</field>
+            <field name="model">funeral.structural.type</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="allow_dependants"/>
+                                <field name="max_dependants"/>
+                            </group>
+                            <group>
+                                <field name="allow_extended_family"/>
+                                <field name="max_extended_family"/>
+                                <field name="active"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_funeral_structural_type_list" model="ir.ui.view">
+            <field name="name">funeral.structural.type.list</field>
+            <field name="model">funeral.structural.type</field>
+            <field name="arch" type="xml">
+                <list string="Structural Types">
+                    <field name="name" optional="show"/>
+                    <field name="allow_dependants" optional="show"/>
+                    <field name="allow_extended_family" optional="show"/>
+                    <field name="max_dependants" optional="hide"/>
+                    <field name="max_extended_family" optional="hide"/>
+                    <field name="active" optional="show" widget="boolean_toggle"/>
+                </list>
+            </field>
+        </record>
+        <record id="action_funeral_structural_type" model="ir.actions.act_window">
+            <field name="name">Structural Types</field>
+            <field name="res_model">funeral.structural.type</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem id="menu_funeral_structural_type" name="Structural Types" parent="menu_funeral_static_data" action="action_funeral_structural_type" sequence="20"/>
+
         <!-- Regions -->
         <record id="view_funeral_region_form" model="ir.ui.view">
             <field name="name">funeral.region.form</field>
@@ -137,7 +181,7 @@
                             </group>
                             <group>
                                 <field name="eligibility_criteria"/>
-                                <field name="base_premium"/>
+
                                 <field name="effective_date"/>
                                 <field name="expiry_date"/>
                                 <field name="active"/>
@@ -182,11 +226,15 @@
                             <group>
                                 <field name="capture_date"/>
                                 <field name="product_id"/>
-                                <field name="age_range"/>
-                                <field name="premium_amount"/>
+                                <field name="name"/>
+                                <field name="structural_type_id"/>
+                                <field name="casket_allocation"/>
                             </group>
                             <group>
-                                <field name="coverage_amount"/>
+                                <field name="premium_amount"/>
+                                <field name="sum_assured"/>
+                                <field name="grocery_benefit"/>
+                                <field name="extended_family_top_up"/>
                                 <field name="active"/>
                             </group>
                         </group>
@@ -200,9 +248,13 @@
             <field name="arch" type="xml">
                 <list string="Product Rates">
                     <field name="product_id" optional="show"/>
-                    <field name="age_range" optional="show"/>
+                    <field name="name" optional="show"/>
+                    <field name="structural_type_id" optional="show"/>
                     <field name="premium_amount" optional="show"/>
-                    <field name="coverage_amount" optional="show"/>
+                    <field name="sum_assured" optional="show"/>
+                    <field name="grocery_benefit" optional="show"/>
+                    <field name="extended_family_top_up" optional="hide"/>
+                    <field name="casket_allocation" optional="hide"/>
                     <field name="active" optional="show" widget="boolean_toggle"/>
                 </list>
             </field>

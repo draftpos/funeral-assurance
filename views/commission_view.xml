@@ -59,5 +59,73 @@
                   parent="menu_funeral_operations"
                   action="action_funeral_commission"
                   sequence="30"/>
+                  
+        <!-- Commission Run Batch Views -->
+        <record id="view_funeral_commission_run_form" model="ir.ui.view">
+            <field name="name">funeral.commission.run.form</field>
+            <field name="model">funeral.commission.run</field>
+            <field name="arch" type="xml">
+                <form string="Commission Run">
+                    <header>
+                        <button name="action_run_commissions" string="Run Commission Engine" type="object" class="btn-primary" invisible="state == 'done'"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,done"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="month"/>
+                                <field name="year"/>
+                            </group>
+                            <group>
+                                <field name="total_commission"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Generated Commissions">
+                                <field name="commission_ids" readonly="1">
+                                    <list>
+                                        <field name="agent_id"/>
+                                        <field name="proposal_id"/>
+                                        <field name="amount" sum="Total"/>
+                                        <field name="type"/>
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_funeral_commission_run_list" model="ir.ui.view">
+            <field name="name">funeral.commission.run.list</field>
+            <field name="model">funeral.commission.run</field>
+            <field name="arch" type="xml">
+                <list string="Commission Runs">
+                    <field name="name"/>
+                    <field name="month"/>
+                    <field name="year"/>
+                    <field name="total_commission"/>
+                    <field name="state" widget="badge" decoration-success="state == 'done'"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="action_funeral_commission_run" model="ir.actions.act_window">
+            <field name="name">Commission Runs</field>
+            <field name="res_model">funeral.commission.run</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <menuitem id="menu_funeral_commission_run"
+                  name="Commission Engine Runs"
+                  parent="menu_funeral_operations"
+                  action="action_funeral_commission_run"
+                  sequence="31"/>
     </data>
 </odoo>

@@ -21,6 +21,7 @@ class FuneralPayment(models.Model):
     ], string='Payment Frequency')
     
     payment_date = fields.Date(string='Payment Date', required=True, default=fields.Date.context_today, tracking=True)
+    payment_for_month = fields.Date(string='Payment For Month', required=True, default=fields.Date.context_today, help='The specific month this payment covers')
     payment_method = fields.Selection([
         ('cash', 'Cash'),
         ('bank', 'Bank Transfer'),
@@ -42,6 +43,7 @@ class FuneralPayment(models.Model):
     captured_by_id = fields.Many2one('res.users', string='Captured By', default=lambda self: self.env.user)
     branch_id = fields.Many2one('funeral.branch', string='Branch/Location')
     date_captured = fields.Datetime(string='Date Captured', default=fields.Datetime.now)
+    commission_month_index = fields.Integer(string='Commission Month Index', default=0, readonly=True)
 
     @api.onchange('proposal_id')
     def _onchange_proposal_id(self):
@@ -136,46 +138,35 @@ class FuneralPayment(models.Model):
                     proposal.branch_id = record.branch_id
                     
                 # 1. Update Status to Active or Revival
-                if proposal.state in ['pending', 'accepted', 'ntu']:
-                    proposal.state = 'active'
+                current_status_name = proposal.status_id.name.lower() if proposal.status_id else ''
+                
+                if current_status_name in ['underwriting', 'accepted', 'ntu']:
                     active_status = self.env['funeral.policy.status'].search([('name', 'ilike', 'Active')], limit=1)
                     if active_status:
                         proposal.status_id = active_status.id
-                elif proposal.state == 'lapse':
-                    proposal.state = 'revival'
-                    revival_status = self.env['funeral.policy.status'].search([('name', 'ilike', 'Revival')], limit=1)
+                
+                elif current_status_name == 'lapsed':
+                    # First payment after lapse shifts it to Revived
+                    revival_status = self.env['funeral.policy.status'].search([('name', 'ilike', 'Revived')], limit=1)
                     if revival_status:
                         proposal.status_id = revival_status.id
+                    proposal.revival_payments_count = 1
+                
+                elif current_status_name == 'revived':
+                    # Second payment while revived graduates them to Active
+                    proposal.revival_payments_count += 1
+                    if proposal.revival_payments_count >= 2:
+                        active_status = self.env['funeral.policy.status'].search([('name', 'ilike', 'Active')], limit=1)
+                        if active_status:
+                            proposal.status_id = active_status.id
+                        proposal.revival_payments_count = 0
                 
                 if not proposal.commencement_date:
                     proposal.commencement_date = record.payment_date or fields.Date.context_today(self)
                 
-                # 2. Commission Logic
-                agent = proposal.agent_id
-                if agent:
-                    commission_amount = 0.0
-                    months_paid = proposal.months_paid_to_agent
-                    
-                    if agent.agent_type == 'executive':
-                        if months_paid == 0:
-                            commission_amount = record.premium_amount * (agent.commission_rate / 100.0) if agent.commission_rate else record.premium_amount * 0.3333
-                    else: # general
-                        if months_paid < 3:
-                            commission_amount = record.premium_amount * (agent.commission_rate / 100.0) if agent.commission_rate else record.premium_amount * 0.3333
-                        else:
-                            commission_amount = record.premium_amount * 0.10
-                    
-                    if commission_amount > 0:
-                        self.env['funeral.commission'].create({
-                            'agent_id': agent.id,
-                            'proposal_id': proposal.id,
-                            'payment_id': record.id,
-                            'amount': commission_amount,
-                            'type': 'earned',
-                            'state': 'draft'
-                        })
-                    
-                    proposal.months_paid_to_agent += 1
+                # COMMISSION TRACKING
+                record.commission_month_index = proposal.months_paid_to_agent + 1
+                proposal.months_paid_to_agent += 1
             
             if record.premium_status == 'paid' and not record.account_payment_id and record.proposal_id.partner_id:
                 journal = self.env['account.journal'].search([('type', 'in', ['bank', 'cash']), ('company_id', '=', self.env.company.id)], limit=1)

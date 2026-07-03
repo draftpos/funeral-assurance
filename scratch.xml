@@ -1,0 +1,21 @@
+        <record id="struct_member_only" model="funeral.structural.type">
+            <field name="name">Member Only</field>
+            <field name="allow_dependants" eval="False"/>
+            <field name="allow_extended_family" eval="False"/>
+        </record>
+        <record id="struct_family_only" model="funeral.structural.type">
+            <field name="name">Family Only</field>
+            <field name="allow_dependants" eval="True"/>
+            <field name="allow_extended_family" eval="False"/>
+        </record>
+        <record id="struct_family_parents" model="funeral.structural.type">
+            <field name="name">Family + 4 Parents</field>
+            <field name="allow_dependants" eval="True"/>
+            <field name="allow_extended_family" eval="True"/>
+            <field name="max_extended_family">4</field>
+        </record>
+        <record id="struct_corporate" model="funeral.structural.type">
+            <field name="name">Corporate Group</field>
+            <field name="allow_dependants" eval="True"/>
+            <field name="allow_extended_family" eval="True"/>
+        </record>
