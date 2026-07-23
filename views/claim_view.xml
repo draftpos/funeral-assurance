@@ -27,7 +27,7 @@
                                 <field name="date_submitted"/>
                             </group>
                             <group string="Verification Status">
-                                <field name="state"/>
+                                <field name="state" readonly="1"/>
                                 <field name="verification_notes" invisible="state == 'pending'" class="text-danger"/>
                             </group>
                             <group string="Claimant Details">

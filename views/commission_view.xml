@@ -86,13 +86,15 @@
                             </group>
                         </group>
                         <notebook>
-                            <page string="Generated Commissions">
+                            <page string="Commissions">
                                 <field name="commission_ids" readonly="1">
-                                    <list>
-                                        <field name="agent_id"/>
+                                    <list decoration-danger="type == 'penalty'" decoration-success="type == 'earned'">
+                                        <field name="agent_id" widget="many2one_avatar_user"/>
                                         <field name="proposal_id"/>
-                                        <field name="amount" sum="Total"/>
-                                        <field name="type"/>
+                                        <field name="payment_id"/>
+                                        <field name="type" widget="badge" decoration-danger="type == 'penalty'" decoration-success="type == 'earned'"/>
+                                        <field name="amount" sum="Total" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                        <field name="state" widget="badge" decoration-success="state == 'paid'" decoration-info="state == 'draft'"/>
                                     </list>
                                 </field>
                             </page>

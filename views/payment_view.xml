@@ -9,6 +9,8 @@
                 <form string="Payment">
                     <header>
                         <button name="action_print_receipt" string="Print Receipt" type="object" class="btn-primary"/>
+                        <button name="action_activate_policy" string="Activate Policy" type="object" class="btn-success" invisible="proposal_state != 'Accepted'"/>
+                        <field name="proposal_state" invisible="1"/>
                         <field name="premium_status" widget="statusbar" statusbar_visible="pending,paid,overdue"/>
                     </header>
                     <sheet>
@@ -26,7 +28,10 @@
                             <group string="Payment Details">
                                 <field name="entry_type" widget="radio" options="{'horizontal': true}"/>
                                 <field name="receipt_number" placeholder="e.g. R1050"/>
-                                <field name="premium_amount"/>
+                                <field name="expected_premium" decoration-info="1"/>
+                                <field name="arrears_amount" decoration-danger="1" invisible="arrears_amount == 0"/>
+                                <field name="advance_amount" decoration-success="1" invisible="advance_amount == 0"/>
+                                <field name="premium_amount" decoration-bf="1" decoration-success="1"/>
                                 <field name="payment_method"/>
                                 <field name="payment_date"/>
                                 <field name="payment_for_month"/>

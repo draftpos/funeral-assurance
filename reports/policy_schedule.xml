@@ -32,7 +32,7 @@
                             </tr>
                             <tr>
                                 <td><strong>Plan Type:</strong></td>
-                                <td><span t-field="o.plan_type"/></td>
+                                <td><span t-field="o.structural_type_id.name"/></td>
                                 <td><strong>Commencement:</strong></td>
                                 <td><span t-field="o.commencement_date"/></td>
                             </tr>
@@ -93,6 +93,24 @@
                                 </t>
                             </tbody>
                         </table>
+
+                        <t t-if="o.proposal_id and o.proposal_id.admin_policy_id">
+                            <div class="mt-4 p-3 border rounded bg-light" style="page-break-before: auto;">
+                                <h4 class="text-primary border-bottom pb-2">Company Admin Policy &amp; Terms</h4>
+                                <div class="mb-2">
+                                    <strong>Policy Title: </strong> <span t-field="o.proposal_id.admin_policy_id.name"/><br/>
+                                    <t t-if="o.proposal_id.admin_policy_id.department_name">
+                                        <strong>Department: </strong> <span t-field="o.proposal_id.admin_policy_id.department_name"/><br/>
+                                    </t>
+                                    <t t-if="o.proposal_id.admin_policy_id.effective_date">
+                                        <strong>Effective Date: </strong> <span t-field="o.proposal_id.admin_policy_id.effective_date"/><br/>
+                                    </t>
+                                </div>
+                                <div class="mt-2 text-justify" style="font-size: 13px; line-height: 1.5;">
+                                    <span t-field="o.proposal_id.admin_policy_id.policy_description"/>
+                                </div>
+                            </div>
+                        </t>
                     </div>
                 </t>
             </t>

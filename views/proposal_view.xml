@@ -8,9 +8,18 @@
             <field name="arch" type="xml">
                 <form string="Proposal">
                     <header>
-                        <button name="action_print_proposal" string="Preview Pdf" type="object" class="btn-primary"/>
-                        <button name="action_create_payment" string="New Payment" type="object" class="btn-secondary"/>
-                        <field name="status_id" widget="statusbar" options="{'clickable': '1'}"/>
+                        <button name="action_accept_proposal" string="Accept Proposal" type="object" class="btn-success" invisible="state != 'Underwriting'"/>
+                        <button name="action_create_payment" string="Make Payment" type="object" class="btn-primary" invisible="state not in ['Accepted', 'Active', 'Arrears', 'Lapsed']"/>
+                        <button name="action_activate_policy" string="Activate Policy" type="object" class="btn-success" invisible="state != 'Accepted' or not has_payment"/>
+                        <button name="action_activate_error" string="Activate Policy" type="object" class="btn-secondary" invisible="state != 'Accepted' or has_payment"/>
+                        
+                        <button name="action_force_lapse" string="Force Lapse (Test)" type="object" class="btn-secondary"/>
+                        <button name="action_open_promo_wizard" string="Apply Promo Revive" type="object" class="btn-warning" invisible="state != 'Lapsed'"/>
+                        <button name="action_print_proposal" string="Preview Pdf" type="object" class="btn-info"/>
+                        <button name="action_download_user_policy" string="User Admin Policy Doc" type="object" class="btn-primary" invisible="state in ['Underwriting'] or not admin_policy_id"/>
+                        
+                        <field name="state" invisible="1"/>
+                        <field name="status_id" widget="statusbar"/>
                     </header>
                     <sheet>
                         <div class="oe_title">
@@ -32,7 +41,7 @@
                                     <field name="title"/>
                                     <field name="first_name"/>
                                     <field name="last_name"/>
-                                    <field name="national_id"/>
+                                    <field name="national_id" placeholder="e.g. 63-1234567A89"/>
                                     <field name="is_override_id"/>
                                     <field name="dob"/>
                                     <field name="gender_id"/>
@@ -52,7 +61,7 @@
                             <div class="col-md-4">
                                 <group string="Employment Details">
                                     <field name="employer"/>
-                                    <field name="occupation"/>
+                                    <field name="occupation_id"/>
                                     <field name="ec_number"/>
                                     <field name="gross_salary"/>
                                     <field name="net_salary"/>
@@ -65,6 +74,8 @@
                                 <group>
                                     <group string="Policy Cover Details">
                                         <field name="product_id"/>
+                                        <field name="has_sub_plans" invisible="1"/>
+                                        <field name="product_rate_id" domain="[('product_id', '=', product_id)]" options="{'no_create': True}" invisible="not has_sub_plans"/>
                                         <field name="structural_type_id"/>
                                         <field name="is_policy_state" invisible="1"/>
                                         <field name="allow_dependants" invisible="1"/>
@@ -72,17 +83,18 @@
                                         <field name="premium_amount"/>
                                         <field name="total_premium" readonly="1"/>
                                         <field name="sum_assured"/>
-                                        <field name="grocery_benefit"/>
-                                        <field name="casket_allocation"/>
+                                        <field name="grocery_benefit" readonly="1" force_save="1"/>
+                                        <field name="casket_allocation" readonly="1" force_save="1"/>
                                         <field name="policy_term"/>
                                         <field name="waiting_period"/>
                                     </group>
-                                    <group string="Agent &amp; Payment Setup">
+                                     <group string="Agent &amp; Payment Setup">
                                         <field name="agent_id"/>
-                                        <field name="branch_id"/>
+                                        <field name="branch_id" readonly="1" force_save="1"/>
                                         <field name="mode_of_payment"/>
                                         <field name="frequency"/>
                                         <field name="first_payment_date"/>
+                                        <field name="admin_policy_id" options="{'no_create': True}"/>
                                     </group>
                                 </group>
 
@@ -94,10 +106,22 @@
                                     <field name="is_in_arrears"/>
                                     <field name="months_in_arrears" invisible="is_in_arrears == False" style="color: red; font-weight: bold;"/>
                                     <field name="arrears_amount" invisible="is_in_arrears == False" style="color: red; font-weight: bold;"/>
-                                    <field name="months_paid_to_agent"/>
-                                    <field name="commencement_date"/>
+                                    <field name="months_paid_to_agent" readonly="1"/>
+                                    <field name="commencement_date" readonly="1"/>
                                     <field name="policy_document"/>
                                     <field name="cancellation_reason"/>
+                                </group>
+                            </page>
+                            <page string="User Admin Policy" invisible="state in ['Underwriting']">
+                                <group>
+                                    <group string="Company Policy Document">
+                                        <field name="admin_policy_id" readonly="state not in ['Underwriting', 'Accepted']"/>
+                                        <field name="admin_policy_filename" invisible="1"/>
+                                        <field name="admin_policy_description" invisible="1"/>
+                                    </group>
+                                </group>
+                                <group string="Policy Terms &amp; Summary">
+                                    <field name="admin_policy_description" readonly="1" placeholder="Selected policy summary will appear here..."/>
                                 </group>
                             </page>
                             <page string="Beneficiaries / Dependants" invisible="not allow_dependants">
@@ -181,6 +205,24 @@
                     <field name="status_id"/>
                     <field name="agent_id"/>
                     <field name="branch_id"/>
+                    
+                    <separator/>
+                    <filter string="Active Policies" name="filter_active" domain="[('state', 'ilike', 'Active')]"/>
+                    <filter string="Lapsed Policies" name="filter_lapsed" domain="[('state', 'ilike', 'Lapse')]"/>
+                    <filter string="In Arrears" name="filter_arrears" domain="[('state', 'ilike', 'Arrears')]"/>
+                    <filter string="Underwriting" name="filter_underwriting" domain="[('state', 'ilike', 'Underwriting')]"/>
+                    <filter string="Accepted" name="filter_accepted" domain="[('state', 'ilike', 'Accepted')]"/>
+                    
+                    <separator/>
+                    <filter string="Proposal Date" name="filter_proposal_date" date="proposal_date"/>
+                    <filter string="Commencement Date" name="filter_commencement_date" date="commencement_date"/>
+                    <filter string="Creation Date" name="filter_create_date" date="create_date"/>
+                    
+                    <separator/>
+                    <filter string="Group By Status" name="group_status" context="{'group_by': 'status_id'}"/>
+                    <filter string="Group By Agent" name="group_agent" context="{'group_by': 'agent_id'}"/>
+                    <filter string="Group By Branch" name="group_branch" context="{'group_by': 'branch_id'}"/>
+                    <filter string="Group By Proposal Month" name="group_proposal_month" context="{'group_by': 'proposal_date:month'}"/>
                 </search>
             </field>
         </record>
@@ -207,11 +249,11 @@
                   
         <!-- Action for Active Policies -->
         <record id="action_funeral_active_policies" model="ir.actions.act_window">
-            <field name="name">Active Policies</field>
+            <field name="name">All Policies</field>
             <field name="res_model">funeral.proposal</field>
             <field name="view_mode">list,form</field>
-            <field name="domain">[('state', '=', 'active')]</field>
-            <field name="context">{'default_state': 'active'}</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
         </record>
 
         <!-- Menu Item for Active Policies -->

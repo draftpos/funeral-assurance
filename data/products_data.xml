@@ -1,19 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data noupdate="1">
-        <!-- Delete existing dummy data to clean slate -->
-        <function model="funeral.product" name="search" eval="[[]]">
-            <function name="unlink"/>
-        </function>
-        <function model="funeral.product.rate" name="search" eval="[[]]">
-            <function name="unlink"/>
-        </function>
-        <function model="funeral.structural.type" name="search" eval="[[]]">
-            <function name="unlink"/>
-        </function>
-        <function model="funeral.policy.status" name="search" eval="[[]]">
-            <function name="unlink"/>
-        </function>
+        <!-- Odoo automatically manages XML record updates, no need to manually delete -->
 
         <!-- Policy Statuses -->
         <record id="status_underwriting" model="funeral.policy.status">

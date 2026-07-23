@@ -45,7 +45,7 @@
                             
                             <!-- Receipt Info -->
                             <div class="col-6 text-right">
-                                <h3 style="color: red; font-weight: bold;">Receipt No. R <span t-field="o.receipt_number"/></h3>
+                                <h3 style="color: red; font-weight: bold;">Receipt No. <span t-field="o.receipt_number"/></h3>
                                 <p style="margin-bottom: 0; font-size: 12px;">Cell: +263 777 887 549 / +263 777 887 540</p>
                                 <div style="margin-top: 15px;">
                                     <strong>Date:</strong> <span t-field="o.payment_date" style="border-bottom: 1px dotted black; display: inline-block; width: 150px; text-align: left; padding-left: 10px;"/>
@@ -66,13 +66,13 @@
                             
                             <div class="row">
                                 <div class="col-12">
-                                    <strong>The sum of:</strong> <span style="border-bottom: 1px dotted black; display: inline-block; width: 85%; padding-left: 10px;"></span>
+                                    <strong>The sum of:</strong> <span style="border-bottom: 1px dotted black; display: inline-block; width: 85%; padding-left: 10px;"><span t-field="o.amount_in_words"/></span>
                                 </div>
                             </div>
                             
                             <div class="row">
                                 <div class="col-7">
-                                    <strong>In Payment of:</strong> <span style="border-bottom: 1px dotted black; display: inline-block; width: 260px; padding-left: 10px;"><span t-field="o.policy_id.name"/></span>
+                                    <strong>In Payment of:</strong> <span style="border-bottom: 1px dotted black; display: inline-block; width: 260px; padding-left: 10px;"><span t-field="o.proposal_id.product_id.name"/></span>
                                 </div>
                                 <div class="col-5">
                                     <strong>Receipted by:</strong> <span style="border-bottom: 1px dotted black; display: inline-block; width: 140px; padding-left: 10px;"><span t-field="o.captured_by_id.name"/></span>
@@ -90,7 +90,7 @@
                                     <strong>Company:</strong> <span style="border-bottom: 1px dotted black; display: inline-block; width: 300px; padding-left: 10px;">Ruvimbo Funeral Assurance</span>
                                 </div>
                                 <div class="col-5">
-                                    <strong>Membership No:</strong> <span style="border-bottom: 1px dotted black; display: inline-block; width: 150px; padding-left: 10px; white-space: nowrap;"><span t-field="o.policy_id.proposal_id.name"/></span>
+                                    <strong>Membership No:</strong> <span style="border-bottom: 1px dotted black; display: inline-block; width: 150px; padding-left: 10px; white-space: nowrap;"><span t-field="o.proposal_id.name"/></span>
                                 </div>
                             </div>
                             

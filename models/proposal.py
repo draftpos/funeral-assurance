@@ -1,3 +1,4 @@
+import re
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 from dateutil.relativedelta import relativedelta
@@ -17,7 +18,7 @@ class FuneralProposal(models.Model):
     full_name = fields.Char(string='Full Name', compute='_compute_full_name', store=True)
     
     dob = fields.Date(string='Date of Birth', required=True)
-    residential_address = fields.Text(string='Residential Address')
+    residential_address = fields.Text(string='Residential Address', required=True)
     business_address = fields.Text(string='Business Address')
     
     home_phone = fields.Char(string='Home/Cell Number', required=True)
@@ -25,38 +26,41 @@ class FuneralProposal(models.Model):
     email = fields.Char(string='Email Address')
     
     employer = fields.Char(string='Employer')
-    occupation = fields.Char(string='Occupation')
+    occupation_id = fields.Many2one('funeral.occupation', string='Occupation')
     ec_number = fields.Char(string='EC/Acc Number')
     gross_salary = fields.Float(string='Gross Salary')
     net_salary = fields.Float(string='Net Salary')
     
     national_id = fields.Char(string='National ID', required=True, tracking=True)
-    first_payment_date = fields.Date(string='1st Date of Payment')
+    first_payment_date = fields.Date(string='1st Date of Payment', default=fields.Date.context_today)
     is_override_id = fields.Boolean(string='Override National ID Format', tracking=True)
     
     gender_id = fields.Many2one('funeral.gender', string='Gender', required=True)
-    marital_status = fields.Selection([('single', 'Single'), ('married', 'Married'), ('divorced', 'Divorced'), ('widowed', 'Widowed')], string='Marital Status')
+    marital_status = fields.Selection([('single', 'Single'), ('married', 'Married'), ('divorced', 'Divorced'), ('widowed', 'Widowed')], string='Marital Status', required=True)
     
-    next_of_kin = fields.Char(string='Next of Kin')
+    next_of_kin = fields.Char(string='Next of Kin', required=True)
     
     structural_type_id = fields.Many2one('funeral.structural.type', string='Plan Type', required=True)
     is_policy_state = fields.Boolean(related='status_id.is_policy_state', readonly=True)
     allow_dependants = fields.Boolean(related='structural_type_id.allow_dependants', readonly=True)
     allow_extended_family = fields.Boolean(related='structural_type_id.allow_extended_family', readonly=True)
-    grocery_benefit = fields.Float(string='Grocery Benefit (USD)', readonly=True)
-    casket_allocation = fields.Char(string='Casket Allocation', readonly=True)
+    grocery_benefit = fields.Float(string='Grocery Benefit (USD)')
+    casket_allocation = fields.Char(string='Casket Allocation')
     
-    product_id = fields.Many2one('funeral.product', string='Product Name')
+    product_id = fields.Many2one('funeral.product', string='Product Name', required=True)
+    has_sub_plans = fields.Boolean(compute='_compute_has_sub_plans')
+    structural_type_id = fields.Many2one('funeral.structural.type', string='Plan Type', required=True)
+    product_rate_id = fields.Many2one('funeral.product.rate', string='Sub-Plan')
     premium_amount = fields.Float(string='Premium Amount', tracking=True)
     total_premium = fields.Float(string='Total Premium', compute='_compute_total_premium', store=True)
     sum_assured = fields.Float(string='Sum Assured')
     policy_term = fields.Char(string='Policy Term')
     waiting_period = fields.Boolean(string='Waiting Period (Y/N)')
     
-    agent_id = fields.Many2one('funeral.agent', string='Agent')
-    branch_id = fields.Many2one('funeral.branch', string='Branch')
+    agent_id = fields.Many2one('funeral.agent', string='Agent', required=True)
+    branch_id = fields.Many2one('funeral.branch', string='Branch', required=True)
     mode_of_payment = fields.Selection([('cash', 'Cash (1)'), ('stop_order', 'S/O (2)')], string='Mode of Payment')
-    frequency = fields.Selection([('monthly', 'Monthly'), ('quarterly', 'Quarterly'), ('yearly', 'Yearly')], string='Frequency')
+    frequency = fields.Selection([('monthly', 'Monthly'), ('quarterly', 'Quarterly'), ('yearly', 'Yearly')], string='Frequency', default='monthly', required=True)
     
     dependant_ids = fields.One2many('funeral.dependant', 'proposal_id', string='Beneficiaries / Dependants')
     extended_family_ids = fields.One2many('funeral.extended.family', 'proposal_id', string='Extended Families')
@@ -66,6 +70,8 @@ class FuneralProposal(models.Model):
     
     # State / Status
     status_id = fields.Many2one('funeral.policy.status', string='Status', tracking=True)
+    state = fields.Char(related='status_id.name', string='State Name')
+    has_payment = fields.Boolean(compute='_compute_has_payment')
     
     # Policy Fields
     paid_up_to = fields.Date(string='Paid Up To', tracking=True)
@@ -76,8 +82,34 @@ class FuneralProposal(models.Model):
     revival_payments_count = fields.Integer(string='Revival Payments Count', default=0, tracking=True)
     commencement_date = fields.Date(string='Commencement Date')
     cancellation_reason = fields.Text(string='Reason for Cancellation', tracking=True)
+    # Admin Policy Attachment
+    admin_policy_id = fields.Many2one('funeral.admin.policy', string='Select User Admin Policy', tracking=True)
+    admin_policy_filename = fields.Char(string='Admin Policy Filename', compute='_compute_admin_policy_filename')
+    admin_policy_description = fields.Text(related='admin_policy_id.policy_description', string='Admin Policy Terms & Summary', readonly=True)
+
+    @api.depends('admin_policy_id', 'admin_policy_id.name')
+    def _compute_admin_policy_filename(self):
+        for record in self:
+            if record.admin_policy_id and record.admin_policy_id.name:
+                record.admin_policy_filename = f"{record.admin_policy_id.name}.pdf"
+            else:
+                record.admin_policy_filename = "Admin_Policy_Document.pdf"
+
     policy_document = fields.Binary(string='Policy Document', attachment=True)
     policy_document_name = fields.Char(string='Document Name')
+
+    @api.onchange('agent_id')
+    def _onchange_agent_id(self):
+        if self.agent_id and self.agent_id.branch_id:
+            self.branch_id = self.agent_id.branch_id.id
+
+    @api.constrains('email')
+    def _check_email_format(self):
+        for record in self:
+            if record.email:
+                match = re.match(r'^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$', record.email.lower())
+                if match == None:
+                    raise ValidationError(_('Please enter a valid email address!'))
 
     @api.depends('paid_up_to', 'total_premium', 'premium_amount')
     def _compute_is_in_arrears(self):
@@ -109,23 +141,121 @@ class FuneralProposal(models.Model):
         for record in self:
             record.full_name = f"{record.first_name} {record.last_name}" if record.first_name and record.last_name else ""
 
-    @api.onchange('product_id', 'structural_type_id')
-    def _onchange_product_id(self):
+    @api.depends('product_id')
+    def _compute_has_sub_plans(self):
+        for record in self:
+            if record.product_id:
+                rates = self.env['funeral.product.rate'].search([('product_id', '=', record.product_id.id)])
+                type_counts = {}
+                for r in rates:
+                    if r.structural_type_id:
+                        tid = r.structural_type_id.id
+                        type_counts[tid] = type_counts.get(tid, 0) + 1
+                
+                # If ANY plan type has more than 1 rate, it means this product uses sub-plans.
+                record.has_sub_plans = any(count > 1 for count in type_counts.values())
+            else:
+                record.has_sub_plans = False
+
+    @api.onchange('product_id')
+    def _onchange_product_domain(self):
+        # Clear child fields when parent changes
+        self.structural_type_id = False
+        self.product_rate_id = False
+
+    @api.onchange('product_id', 'product_rate_id', 'structural_type_id')
+    def _onchange_calculate_price(self):
+        # NEVER auto-fill Plan Type or Product.
+        # ONLY calculate money if Product and Plan Type are selected.
         if self.product_id and self.structural_type_id:
-            rates = self.env['funeral.product.rate'].search([
+            domain = [
                 ('product_id', '=', self.product_id.id),
                 ('structural_type_id', '=', self.structural_type_id.id)
-            ])
+            ]
+            
+            # If the product has sub-plans, ensure one is selected before pricing
+            if self.has_sub_plans:
+                if not self.product_rate_id:
+                    self._clear_money()
+                    return
+                # Use the selected sub-plan name to find the exact rate for this plan type
+                domain.append(('name', '=', self.product_rate_id.name))
+                
+            rates = self.env['funeral.product.rate'].search(domain, limit=1)
             if rates:
-                self.premium_amount = sum(rates.mapped('premium_amount'))
-                self.sum_assured = sum(rates.mapped('sum_assured'))
-                self.grocery_benefit = rates[0].grocery_benefit if rates else 0.0
-                self.casket_allocation = dict(rates[0]._fields['casket_allocation'].selection).get(rates[0].casket_allocation) if rates and rates[0].casket_allocation else ''
+                rate = rates[0]
+                self.premium_amount = rate.premium_amount
+                self.sum_assured = rate.sum_assured
+                self.grocery_benefit = rate.grocery_benefit
+                if rate.casket_allocation:
+                    self.casket_allocation = dict(rate._fields['casket_allocation'].selection).get(rate.casket_allocation)
+                else:
+                    self.casket_allocation = ''
             else:
-                self.premium_amount = 0.0
-                self.sum_assured = 0.0
-                self.grocery_benefit = 0.0
-                self.casket_allocation = ''
+                self._clear_money()
+        else:
+            self._clear_money()
+
+    def _clear_money(self):
+        self.premium_amount = 0.0
+        self.sum_assured = 0.0
+        self.grocery_benefit = 0.0
+        self.casket_allocation = ''
+        
+    def action_accept_proposal(self):
+        for record in self:
+            status = self.env['funeral.policy.status'].search([('name', '=', 'Accepted')], limit=1)
+            if status:
+                record.status_id = status.id
+            if not record.admin_policy_id:
+                default_admin_policy = self.env['funeral.admin.policy'].search([('active', '=', True)], limit=1)
+                if default_admin_policy:
+                    record.admin_policy_id = default_admin_policy.id
+                
+    def action_print_proposal(self):
+        return self.env.ref('funeral_assurance.action_report_proposal_form').report_action(self)
+
+    def action_download_user_policy(self):
+        self.ensure_one()
+        if not self.admin_policy_id or not self.admin_policy_id.document_upload:
+            return {
+                'type': 'ir.actions.client',
+                'tag': 'display_notification',
+                'params': {
+                    'title': 'No Document Found',
+                    'message': 'No User Policy document has been uploaded under Static Data -> Company Admin Policies.',
+                    'type': 'warning',
+                    'sticky': False,
+                }
+            }
+        return {
+            'type': 'ir.actions.act_url',
+            'url': f'/web/content?model=funeral.admin.policy&id={self.admin_policy_id.id}&field=document_upload&filename_field=name',
+            'target': 'new',
+        }
+
+    def action_activate_policy(self):
+        for record in self:
+            status = self.env['funeral.policy.status'].search([('name', '=', 'Active')], limit=1)
+            if status:
+                record.status_id = status.id
+
+    def action_activate_error(self):
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': 'Initial Payment Required',
+                'message': "Please use the 'Make Payment' button to capture the first premium. You can activate the policy immediately after the payment is saved!",
+                'type': 'info',
+                'sticky': False,
+            }
+        }
+
+    def _compute_has_payment(self):
+        for record in self:
+            count = self.env['funeral.payment'].search_count([('proposal_id', '=', record.id)])
+            record.has_payment = count > 0
 
     @api.constrains('dependant_ids', 'extended_family_ids', 'structural_type_id')
     def _check_structural_limits(self):
@@ -189,10 +319,27 @@ class FuneralProposal(models.Model):
             if not record.is_override_id:
                 pattern = r'^\d{2}-\d{6,7}[a-zA-Z]\d{2}$'
                 if not re.match(pattern, record.national_id.replace(" ", "")):
-                    raise ValidationError(_("The National ID format is invalid."))
+                    raise ValidationError(_("The National ID format is invalid. Please use the correct format (e.g. 63-1234567A89)."))
 
     def action_print_proposal(self):
         return self.env.ref('funeral_assurance.action_report_proposal_form').report_action(self)
+
+    def action_open_promo_wizard(self):
+        self.ensure_one()
+        return {
+            'name': _('Apply Promotion'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'funeral.promo.wizard',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {'default_proposal_id': self.id}
+        }
+
+    def action_force_lapse(self):
+        for record in self:
+            lapse_status = self.env['funeral.policy.status'].search([('name', 'ilike', 'Lapse')], limit=1)
+            if lapse_status:
+                record.status_id = lapse_status.id
 
     def action_create_payment(self):
         self.ensure_one()
@@ -205,7 +352,6 @@ class FuneralProposal(models.Model):
             'context': {
                 'default_proposal_id': self.id,
                 'default_branch_id': self.branch_id.id,
-                'default_premium_amount': self.arrears_amount if self.is_in_arrears else (self.total_premium or self.premium_amount),
                 'default_payment_frequency': self.frequency,
             }
         }
@@ -228,7 +374,9 @@ class FuneralProposal(models.Model):
                 diff = relativedelta(today, proposal.paid_up_to)
                 months_in_arrears = diff.years * 12 + diff.months
                 
-                if months_in_arrears >= 4:
+                lapse_threshold = int(self.env['ir.config_parameter'].sudo().get_param('funeral.lapse_months', default=4))
+                
+                if months_in_arrears >= lapse_threshold:
                     lapse_status = self.env['funeral.policy.status'].search([('name', 'ilike', 'Lapse')], limit=1)
                     if lapse_status:
                         proposal.status_id = lapse_status.id
@@ -294,8 +442,22 @@ class FuneralPromoWizard(models.TransientModel):
     _description = 'Promo Wizard'
 
     proposal_id = fields.Many2one('funeral.proposal', string='Proposal', required=True)
-    months_paid = fields.Integer(string='Months to Pay', required=True)
-    months_forgiven = fields.Integer(string='Months to Forgive', required=True)
+    months_paid = fields.Integer(string='Months to Pay', required=True, default=1)
+    months_forgiven = fields.Integer(string='Months to Forgive', required=True, default=0)
+    
+    payment_method = fields.Selection([
+        ('cash', 'Cash'),
+        ('bank', 'Bank Transfer'),
+        ('mobile', 'Mobile Money'),
+        ('debit', 'Debit Order')
+    ], string='Payment Method', required=True, default='cash')
+    receipt_number = fields.Char(string='Receipt Number', required=True)
+    
+    @api.constrains('months_paid')
+    def _check_months_paid(self):
+        for record in self:
+            if record.months_paid <= 0:
+                raise ValidationError("To revive a policy, the client MUST pay for at least 1 month. You can forgive the rest.")
     
     def action_apply_promo(self):
         self.ensure_one()
@@ -314,6 +476,7 @@ class FuneralPromoWizard(models.TransientModel):
                 'proposal_id': self.proposal_id.id,
                 'premium_amount': self.proposal_id.total_premium * self.months_paid,
                 'payment_frequency': 'monthly',
-                'payment_method': 'cash',
+                'payment_method': self.payment_method,
+                'receipt_number': self.receipt_number,
                 'premium_status': 'paid'
             })

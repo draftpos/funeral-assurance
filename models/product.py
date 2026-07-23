@@ -44,7 +44,6 @@ class FuneralCommissionRate(models.Model):
 
     capture_date = fields.Date(string='Date Captured', default=fields.Date.context_today)
     agent_category_id = fields.Many2one('funeral.agent.category', string='Agent Category ID')
-    product_id = fields.Many2one('funeral.product', string='Product ID')
     commission_percentage = fields.Float(string='Commission Percentage')
     effective_date = fields.Date(string='Effective Date')
     expiry_date = fields.Date(string='Expiry Date')

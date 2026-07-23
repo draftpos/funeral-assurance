@@ -14,6 +14,11 @@
                                 <field name="funeral_lapse_months"/>
                             </setting>
                         </block>
+                        <block title="Commission Settings">
+                            <setting string="Executive Allowance Baseline" help="Threshold amount. Commission runs at 33.33% ONLY on the excess above this value.">
+                                <field name="funeral_executive_allowance"/>
+                            </setting>
+                        </block>
                     </app>
                 </xpath>
             </field>

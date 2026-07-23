@@ -63,7 +63,7 @@
                                         <div class="col-6"><strong>NET SALARY:</strong> <span t-field="o.net_salary"/></div>
                                     </div>
                                 </td>
-                                <td colspan="3" style="border: 1px solid #0077b6; padding: 4px;"><strong>OCCUPATION:</strong> <span t-field="o.occupation"/></td>
+                                <td colspan="3" style="border: 1px solid #0077b6; padding: 4px;"><strong>OCCUPATION:</strong> <span t-field="o.occupation_id.name"/></td>
                             </tr>
                             <!-- Row 5 -->
                             <tr>
@@ -83,7 +83,7 @@
                                     <strong>PRODUCT NAME:</strong> <br/><span t-field="o.product_id.name"/>
                                 </td>
                                 <td rowspan="2" style="border: 1px solid #0077b6; padding: 4px; vertical-align: top;">
-                                    <strong>PLAN TYPE:</strong> <br/><span t-field="o.plan_type"/>
+                                    <strong>PLAN TYPE:</strong> <br/><span t-field="o.structural_type_id.name"/>
                                 </td>
                                 <td rowspan="2" style="border: 1px solid #0077b6; padding: 4px; vertical-align: top;">
                                     <strong>FREQUENCY</strong><br/>
@@ -253,6 +253,26 @@
                                 </td>
                             </tr>
                         </table>
+
+                        <!-- Company Admin Policy & Terms Section appended at the bottom -->
+                        <t t-if="o.admin_policy_id">
+                            <div class="mt-4 p-3 style=border: 2px solid #0077b6; border-radius: 4px; background-color: #f9fbfd;">
+                                <h5 style="color: #0077b6; font-weight: bold; border-bottom: 1px solid #0077b6; padding-bottom: 5px; margin-top: 0;">
+                                    COMPANY ADMIN POLICY &amp; TERMS: <span t-field="o.admin_policy_id.name"/>
+                                </h5>
+                                <div style="font-size: 10px; margin-bottom: 6px;">
+                                    <t t-if="o.admin_policy_id.department_name">
+                                        <strong>Department: </strong> <span t-field="o.admin_policy_id.department_name"/> &amp;nbsp;&amp;nbsp;|&amp;nbsp;&amp;nbsp;
+                                    </t>
+                                    <t t-if="o.admin_policy_id.effective_date">
+                                        <strong>Effective Date: </strong> <span t-field="o.admin_policy_id.effective_date"/>
+                                    </t>
+                                </div>
+                                <div style="font-size: 10px; line-height: 1.4; text-align: justify; white-space: pre-line;">
+                                    <span t-field="o.admin_policy_id.policy_description"/>
+                                </div>
+                            </div>
+                        </t>
 
                     </div>
                 </t>

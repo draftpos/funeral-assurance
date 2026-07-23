@@ -115,3 +115,11 @@ class FuneralReceiptBook(models.Model):
         for record in self:
             if record.start_number >= record.end_number:
                 raise ValidationError("End Number must be greater than Start Number.")
+
+class FuneralOccupation(models.Model):
+    _name = 'funeral.occupation'
+    _description = 'Occupation'
+    _order = 'name'
+
+    name = fields.Char(string='Occupation Name', required=True)
+    active = fields.Boolean(default=True)

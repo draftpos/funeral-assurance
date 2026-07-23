@@ -35,6 +35,7 @@
 * **Vehicles Management:** Further refine the existing vehicle models to support specific fields (Licence Expiry, Mileage, Services) required by the Vehicle Reports section.
 * **Tombstone Management:** Expand the existing Tombstone forms to track supplier info, specific prices, and installation steps required for the Tombstone Reports.
 * **Commissioner Module:** Flesh out the Actuaries and Auditors data processing forms.
+* **Company Admin Policies Attachment:** Added static data configuration for uploading company policies (`funeral.admin.policy`) and integrated policy selection (`admin_policy_id`) on proposals. Added a dedicated `User Admin Policy` tab in proposal forms which automatically displays the attached policy document and terms once a policy reaches `Accepted` state and onwards.
 
 ## Note on Deployment
 For every major block of reports added, the module should be upgraded via the command line (`python odoo-bin -c odoo.conf -u funeral_assurance`) while the server is stopped to avoid database locking (`SerializationFailure`).

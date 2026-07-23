@@ -42,3 +42,5 @@ access_funeral_receipt_book,funeral.receipt.book,funeral_assurance.model_funeral
 access_funeral_benefit,funeral.benefit,funeral_assurance.model_funeral_benefit,base.group_user,1,1,1,1
 access_funeral_structural_type,funeral.structural.type,funeral_assurance.model_funeral_structural_type,base.group_user,1,1,1,1
 access_funeral_commission_run,funeral.commission.run,funeral_assurance.model_funeral_commission_run,base.group_user,1,1,1,1
+access_funeral_plan_import_wizard,funeral.plan.import.wizard,model_funeral_plan_import_wizard,base.group_user,1,1,1,1
+access_funeral_occupation,funeral.occupation,model_funeral_occupation,base.group_user,1,1,1,1

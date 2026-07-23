@@ -158,6 +158,18 @@ class FuneralClaim(models.Model):
                 from odoo.exceptions import UserError
                 raise UserError("Claim must be verified by the Verification Matrix before approval.")
             claim.state = 'approved'
+            
+            # Automatically mark the individual as Deceased
+            if claim.claim_for == 'dependant' and claim.deceased_dependant_id:
+                claim.deceased_dependant_id.coverage_status = 'deceased'
+            elif claim.claim_for == 'extended' and claim.deceased_extended_id:
+                claim.deceased_extended_id.coverage_status = 'deceased'
+            elif claim.claim_for == 'main' and claim.proposal_id:
+                deceased_status = self.env['funeral.policy.status'].search([('name', 'ilike', 'Deceased')], limit=1)
+                if deceased_status:
+                    claim.proposal_id.status_id = deceased_status.id
+                else:
+                    claim.proposal_id.active = False
 
     def action_print_sum_assured(self):
         return self.env.ref('funeral_assurance.action_report_sum_assured_claim').report_action(self)

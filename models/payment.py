@@ -13,7 +13,14 @@ class FuneralPayment(models.Model):
     national_id = fields.Char(related='proposal_id.national_id', string='National ID', readonly=True)
     account_payment_id = fields.Many2one('account.payment', string='Linked Accounting Payment', readonly=True, tracking=True)
     
-    premium_amount = fields.Float(string='Premium Amount', required=True, tracking=True)
+    expected_premium = fields.Float(related='proposal_id.total_premium', string='Expected Premium', readonly=True)
+    arrears_amount = fields.Float(string='Current Arrears', compute='_compute_arrears', readonly=True)
+    advance_amount = fields.Float(string='Paid in Advance', compute='_compute_arrears', readonly=True)
+    premium_amount = fields.Float(string='Amount Paid', required=True, tracking=True)
+    amount_in_words = fields.Char(string='Amount in Words', compute='_compute_amount_in_words')
+    
+    proposal_state = fields.Char(related='proposal_id.state', string='Proposal State')
+    
     payment_frequency = fields.Selection([
         ('monthly', 'Monthly'),
         ('quarterly', 'Quarterly'),
@@ -38,7 +45,42 @@ class FuneralPayment(models.Model):
         ('pending', 'Pending'),
         ('paid', 'Paid'),
         ('overdue', 'Overdue')
-    ], string='Premium Status', default='pending')
+    ], string='Status', default='pending', tracking=True)
+
+    def _compute_amount_in_words(self):
+        currency = self.env['res.currency'].search([('name', '=', 'USD')], limit=1)
+        for record in self:
+            if currency:
+                record.amount_in_words = currency.amount_to_text(record.premium_amount)
+            else:
+                record.amount_in_words = f"USD {record.premium_amount:.2f}"
+                
+    @api.depends('proposal_id', 'proposal_id.paid_up_to', 'proposal_id.commencement_date', 'payment_date')
+    def _compute_arrears(self):
+        for record in self:
+            record.arrears_amount = 0.0
+            record.advance_amount = 0.0
+            if record.proposal_id:
+                today = record.payment_date or fields.Date.context_today(self)
+                paid_up = record.proposal_id.paid_up_to or record.proposal_id.commencement_date
+                if paid_up:
+                    if paid_up < today:
+                        months_diff = (today.year - paid_up.year) * 12 + today.month - paid_up.month
+                        if today.day < paid_up.day:
+                            months_diff -= 1
+                        if months_diff > 0:
+                            record.arrears_amount = months_diff * record.proposal_id.total_premium
+                    elif paid_up > today:
+                        months_diff = (paid_up.year - today.year) * 12 + paid_up.month - today.month
+                        if paid_up.day < today.day:
+                            months_diff -= 1
+                        if months_diff > 0:
+                            record.advance_amount = months_diff * record.proposal_id.total_premium
+    
+    def action_activate_policy(self):
+        for record in self:
+            if record.proposal_id:
+                record.proposal_id.action_activate_policy()
     
     captured_by_id = fields.Many2one('res.users', string='Captured By', default=lambda self: self.env.user)
     branch_id = fields.Many2one('funeral.branch', string='Branch/Location')
@@ -165,8 +207,13 @@ class FuneralPayment(models.Model):
                     proposal.commencement_date = record.payment_date or fields.Date.context_today(self)
                 
                 # COMMISSION TRACKING
+                base_prem = proposal.total_premium or proposal.premium_amount
+                months_covered = 1
+                if record.payment_frequency == 'monthly' and base_prem > 0:
+                    months_covered = max(1, int(record.premium_amount / base_prem))
+                
                 record.commission_month_index = proposal.months_paid_to_agent + 1
-                proposal.months_paid_to_agent += 1
+                proposal.months_paid_to_agent += months_covered
             
             if record.premium_status == 'paid' and not record.account_payment_id and record.proposal_id.partner_id:
                 journal = self.env['account.journal'].search([('type', 'in', ['bank', 'cash']), ('company_id', '=', self.env.company.id)], limit=1)

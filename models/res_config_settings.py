@@ -6,6 +6,13 @@ class ResConfigSettings(models.TransientModel):
     funeral_lapse_months = fields.Integer(
         string='Months before Policy Lapses',
         config_parameter='funeral.lapse_months',
-        default=3,
+        default=4,
         help="Number of months of non-payment before a policy is considered lapsed or NTU."
+    )
+
+    funeral_executive_allowance = fields.Float(
+        string='Executive Agent Allowance Threshold',
+        config_parameter='funeral.executive_allowance',
+        default=200.0,
+        help="The baseline allowance for Executive Agents. Commissions apply only on amounts above this threshold."
     )
