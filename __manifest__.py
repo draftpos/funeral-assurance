@@ -10,7 +10,6 @@
         'data/sequence.xml',
         'data/cron_jobs.xml',
         'data/products_data.xml',
-        'data/demo_data.xml',
         'reports/payment_receipt.xml',
         'reports/policy_schedule.xml',
         'reports/sum_assured_claim.xml',
